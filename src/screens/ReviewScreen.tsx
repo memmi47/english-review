@@ -20,6 +20,21 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+// 짧은 단어/숙어보다 "문장 단위" 표현(교정·rewrite·긴 phrase)을 먼저 복습하도록 정렬한다.
+// 실수했던 문장 자체를 계속 보는 게 아니라, 그 자리를 대체할 좋은 문장을 더 많이 연습하는 게 목적.
+function targetText(item: CardItem): string {
+  if (item.kind === 'phrase') return item.row.phrase
+  if (item.kind === 'vocab') return item.row.word
+  if (item.kind === 'correction') return item.row.corrected
+  return item.row.native_version
+}
+
+function sentencePriority(item: CardItem): number {
+  const wordCount = targetText(item).trim().split(/\s+/).filter(Boolean).length
+  if (item.kind === 'correction' || item.kind === 'rewrite') return 100 + wordCount
+  return wordCount
+}
+
 export default function ReviewScreen() {
   const [queue, setQueue] = useState<CardItem[] | null>(null)
   const [index, setIndex] = useState(0)
@@ -37,7 +52,9 @@ export default function ReviewScreen() {
         ...vocab.map(row => ({ kind: 'vocab' as const, row })),
         ...studyItems,
       ]
-      setQueue(shuffle(items))
+      // 무작위로 섞은 뒤, 문장 단위 표현(긴 문장/교정/rewrite)이 앞쪽에 오도록 정렬
+      const sorted = shuffle(items).sort((a, b) => sentencePriority(b) - sentencePriority(a))
+      setQueue(sorted)
     })()
   }, [])
 
@@ -84,30 +101,31 @@ export default function ReviewScreen() {
     phrase: 'Phrase', vocab: '어휘', correction: '교정', rewrite: 'Rewrite',
   }[current.kind]
 
+  // 앞면 = 내가 말해야 할 정답/추천 문장(좋은 표현). 오답(예전에 잘못 썼던 문장)은
+  // 크게 보여주지 않고, 뒷면에 참고용으로만 작게 덧붙인다 — 나쁜 습관을 계속 보는 게 아니라
+  // 좋은 문장으로 덮어쓰는 게 목적이기 때문.
   let front: string
-  let back: string
-  let backSpeakable = false
-  let backNote: string | null = null // 피드백/뉘앙스 (실제 뜻과는 별개로 보여줌)
-  let backSub: string | null = null  // 예문 등 추가 텍스트
+  let meaning: string | null = null  // 한국어 뜻 (phrase/vocab)
+  let backNote: string | null // 피드백/뉘앙스/문법 설명
+  let example: string | null = null  // 예문 (phrase)
+  let mistakeRef: string | null = null // 예전에 썼던 문장(참고용, 작게만)
   if (current.kind === 'phrase') {
     front = current.row.phrase
-    back = current.row.meaning
+    meaning = current.row.meaning
     backNote = current.row.note || null
-    backSub = current.row.example
+    example = current.row.example
   } else if (current.kind === 'vocab') {
     front = current.row.word
-    back = current.row.meaning
+    meaning = current.row.meaning
     backNote = current.row.note || null
   } else if (current.kind === 'correction') {
-    front = current.row.original
-    back = current.row.corrected
-    backSpeakable = true
-    backSub = current.row.rule || null
+    front = current.row.corrected
+    backNote = current.row.rule || null
+    mistakeRef = current.row.original
   } else {
-    front = current.row.user_expr
-    back = current.row.native_version
-    backSpeakable = true
-    backSub = current.row.nuance || null
+    front = current.row.native_version
+    backNote = current.row.nuance || null
+    mistakeRef = current.row.user_expr
   }
 
   return (
@@ -125,22 +143,22 @@ export default function ReviewScreen() {
 
         {!flipped ? (
           <button style={styles.secondaryButton} onClick={() => setFlipped(true)}>
-            정답 보기
+            설명 보기
           </button>
         ) : (
           <div style={localStyles.back}>
-            <div style={localStyles.frontRow}>
-              <p style={localStyles.meaning}>{back}</p>
-              {backSpeakable && <SpeakerButton text={back} size="small" />}
-            </div>
+            {meaning && <p style={localStyles.meaning}>{meaning}</p>}
             {backNote && (
               <p style={localStyles.note}>💡 {backNote}</p>
             )}
-            {backSub && (
+            {example && (
               <div style={localStyles.frontRow}>
-                <p style={localStyles.example}>"{backSub}"</p>
-                {!backSpeakable && current.kind === 'phrase' && <SpeakerButton text={backSub} size="small" />}
+                <p style={localStyles.example}>"{example}"</p>
+                <SpeakerButton text={example} size="small" />
               </div>
+            )}
+            {mistakeRef && (
+              <p style={localStyles.mistakeRef}>예전엔 이렇게 썼었어요: "{mistakeRef}"</p>
             )}
           </div>
         )}
@@ -149,10 +167,10 @@ export default function ReviewScreen() {
       {flipped && (
         <div style={localStyles.gradeRow}>
           <button style={localStyles.againButton} onClick={() => handleGrade('again')}>
-            😵 모름
+            🔁 더 연습할게요
           </button>
           <button style={localStyles.goodButton} onClick={() => handleGrade('good')}>
-            😎 앎
+            😎 입에 붙었어요
           </button>
         </div>
       )}
@@ -222,6 +240,12 @@ const localStyles = {
     background: '#fff8e1',
     borderRadius: '0.5rem',
     padding: '0.4rem 0.6rem',
+    margin: 0,
+  },
+  mistakeRef: {
+    fontSize: '0.75rem',
+    color: '#aaa',
+    fontStyle: 'italic' as const,
     margin: 0,
   },
   gradeRow: {
