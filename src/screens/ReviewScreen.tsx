@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { dueForReview, reviewPhrase } from '../db'
 import type { PhraseRow, Grade } from '../db'
 import { styles, colors } from '../shared/styles'
+import { speakEnglish } from '../shared/tts'
 
 export default function ReviewScreen() {
   const [queue, setQueue] = useState<PhraseRow[] | null>(null)
@@ -15,14 +16,6 @@ export default function ReviewScreen() {
       setQueue(phrases)
     })()
   }, [])
-
-  function speak(text: string) {
-    if (!('speechSynthesis' in window)) return
-    window.speechSynthesis.cancel()
-    const utter = new SpeechSynthesisUtterance(text)
-    utter.lang = 'en-US'
-    window.speechSynthesis.speak(utter)
-  }
 
   async function handleGrade(grade: Grade) {
     if (!queue) return
@@ -78,7 +71,7 @@ export default function ReviewScreen() {
             {current.example && (
               <p style={localStyles.example}>"{current.example}"</p>
             )}
-            <button style={styles.secondaryButton} onClick={() => speak(current.phrase)}>
+            <button style={styles.secondaryButton} onClick={() => speakEnglish(current.phrase)}>
               🔊 발음 듣기
             </button>
           </div>
