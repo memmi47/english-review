@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { tagRecurrence, phraseAdoption, missionCompletion, dueForReview } from '../db'
 import type { TagStat } from '../db'
+import { dueStudyItems } from '../db/study'
 import { styles, colors } from '../shared/styles'
 
 interface Data {
   tags: TagStat[]
   adoption: { total: number; adopted: number; rate: number }
   mission: { total: number; completed: number; rate: number }
-  due: { count: number; phrases: number; vocab: number }
+  due: { count: number; phrases: number; vocab: number; corrections: number; rewrites: number }
 }
 
 export default function DashboardScreen({ onGoReview }: { onGoReview: () => void }) {
@@ -15,14 +16,22 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
 
   useEffect(() => {
     (async () => {
-      const [tags, adoption, mission, due] = await Promise.all([
-        tagRecurrence(), phraseAdoption(), missionCompletion(), dueForReview(),
+      const [tags, adoption, mission, due, studyItems] = await Promise.all([
+        tagRecurrence(), phraseAdoption(), missionCompletion(), dueForReview(), dueStudyItems(),
       ])
+      const corrections = studyItems.filter(i => i.kind === 'correction').length
+      const rewrites = studyItems.filter(i => i.kind === 'rewrite').length
       setData({
         tags,
         adoption: { total: adoption.total, adopted: adoption.adopted, rate: adoption.rate },
         mission,
-        due: { count: due.count, phrases: due.phrases.length, vocab: due.vocab.length },
+        due: {
+          count: due.count + corrections + rewrites,
+          phrases: due.phrases.length,
+          vocab: due.vocab.length,
+          corrections,
+          rewrites,
+        },
       })
     })()
   }, [])
@@ -39,7 +48,9 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
     <>
       <div style={styles.card}>
         <h2 style={styles.sectionTitle}>📅 오늘 복습</h2>
-        <p style={styles.subtitle}>Phrase {data.due.phrases}개 · 어휘 {data.due.vocab}개</p>
+        <p style={styles.subtitle}>
+          Phrase {data.due.phrases}개 · 어휘 {data.due.vocab}개 · 교정 {data.due.corrections}개 · Rewrite {data.due.rewrites}개
+        </p>
         <div style={localStyles.bigNumber}>{data.due.count}</div>
         <button style={styles.button} onClick={onGoReview} disabled={data.due.count === 0}>
           {data.due.count === 0 ? '오늘 복습할 항목이 없어요' : '복습하러 가기 →'}

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { dueForReview, reviewPhrase, reviewVocab } from '../db'
 import type { PhraseRow, VocabRow, Grade } from '../db'
+import { dueStudyItems, reviewStudyItem } from '../db/study'
+import type { DueStudyItem } from '../db/study'
 import { styles, colors } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
 type CardItem =
   | { kind: 'phrase'; row: PhraseRow }
   | { kind: 'vocab'; row: VocabRow }
+  | DueStudyItem
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -25,10 +28,14 @@ export default function ReviewScreen() {
 
   useEffect(() => {
     (async () => {
-      const { phrases, vocab } = await dueForReview()
+      const [{ phrases, vocab }, studyItems] = await Promise.all([
+        dueForReview(),
+        dueStudyItems(),
+      ])
       const items: CardItem[] = [
         ...phrases.map(row => ({ kind: 'phrase' as const, row })),
         ...vocab.map(row => ({ kind: 'vocab' as const, row })),
+        ...studyItems,
       ]
       setQueue(shuffle(items))
     })()
@@ -38,7 +45,8 @@ export default function ReviewScreen() {
     if (!queue) return
     const current = queue[index]
     if (current.kind === 'phrase') await reviewPhrase(current.row.id, grade)
-    else await reviewVocab(current.row.id, grade)
+    else if (current.kind === 'vocab') await reviewVocab(current.row.id, grade)
+    else await reviewStudyItem(current.kind, current.row.id, grade)
     setGradedCount(c => c + 1)
     setFlipped(false)
     setIndex(i => i + 1)
@@ -71,15 +79,39 @@ export default function ReviewScreen() {
   }
 
   const current = queue[index]
-  const front = current.kind === 'phrase' ? current.row.phrase : current.row.word
-  const meaning = current.row.meaning
-  const example = current.kind === 'phrase' ? current.row.example : null
+
+  const typeBadgeLabel = {
+    phrase: 'Phrase', vocab: '어휘', correction: '교정', rewrite: 'Rewrite',
+  }[current.kind]
+
+  let front: string
+  let back: string
+  let backSpeakable = false
+  let backSub: string | null = null
+  if (current.kind === 'phrase') {
+    front = current.row.phrase
+    back = current.row.meaning
+    backSub = current.row.example
+  } else if (current.kind === 'vocab') {
+    front = current.row.word
+    back = current.row.meaning
+  } else if (current.kind === 'correction') {
+    front = current.row.original
+    back = current.row.corrected
+    backSpeakable = true
+    backSub = current.row.rule || null
+  } else {
+    front = current.row.user_expr
+    back = current.row.native_version
+    backSpeakable = true
+    backSub = current.row.nuance || null
+  }
 
   return (
     <div style={styles.card}>
       <div style={localStyles.headerRow}>
         <p style={styles.subtitle}>{index + 1} / {queue.length}</p>
-        <span style={localStyles.typeBadge}>{current.kind === 'phrase' ? 'Phrase' : '어휘'}</span>
+        <span style={localStyles.typeBadge}>{typeBadgeLabel}</span>
       </div>
 
       <div style={localStyles.flashcard}>
@@ -94,11 +126,14 @@ export default function ReviewScreen() {
           </button>
         ) : (
           <div style={localStyles.back}>
-            <p style={localStyles.meaning}>{meaning}</p>
-            {example && (
+            <div style={localStyles.frontRow}>
+              <p style={localStyles.meaning}>{back}</p>
+              {backSpeakable && <SpeakerButton text={back} size="small" />}
+            </div>
+            {backSub && (
               <div style={localStyles.frontRow}>
-                <p style={localStyles.example}>"{example}"</p>
-                <SpeakerButton text={example} size="small" />
+                <p style={localStyles.example}>"{backSub}"</p>
+                {!backSpeakable && current.kind === 'phrase' && <SpeakerButton text={backSub} size="small" />}
               </div>
             )}
           </div>

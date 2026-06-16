@@ -7,14 +7,14 @@ import { colors } from './shared/styles'
 type Tab = 'import' | 'dashboard' | 'review'
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('import')
+  const [tab, setTab] = useState<Tab>('review')
 
   return (
     <div style={styles.page}>
       <div style={styles.nav}>
-        <NavButton label="📋 가져오기" active={tab === 'import'} onClick={() => setTab('import')} />
-        <NavButton label="📊 대시보드" active={tab === 'dashboard'} onClick={() => setTab('dashboard')} />
         <NavButton label="🎯 복습" active={tab === 'review'} onClick={() => setTab('review')} />
+        <NavButton label="📊 대시보드" active={tab === 'dashboard'} onClick={() => setTab('dashboard')} />
+        <NavButton label="📋 가져오기" active={tab === 'import'} onClick={() => setTab('import')} />
       </div>
 
       <div style={styles.content}>
