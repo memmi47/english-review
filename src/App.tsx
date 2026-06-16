@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { parseReport, ingestReport } from './db'
+import { useEffect, useRef, useState } from 'react'
+import { parseReport, ingestReport, downloadBackup, importAll, db } from './db'
 import type { IngestResult } from './db'
 
 type Status =
@@ -8,9 +8,36 @@ type Status =
   | { kind: 'error'; messages: string[] }
   | { kind: 'done'; result: IngestResult; warnings: string[] }
 
+type BackupStatus =
+  | { kind: 'idle' }
+  | { kind: 'exporting' }
+  | { kind: 'importing' }
+  | { kind: 'error'; message: string }
+  | { kind: 'imported'; counts: Record<string, number> }
+
+interface Counts {
+  sessions: number
+  phrases: number
+  vocab: number
+  corrections: number
+}
+
 export default function App() {
   const [text, setText] = useState('')
   const [status, setStatus] = useState<Status>({ kind: 'idle' })
+  const [backupStatus, setBackupStatus] = useState<BackupStatus>({ kind: 'idle' })
+  const [importMode, setImportMode] = useState<'merge' | 'replace'>('merge')
+  const [counts, setCounts] = useState<Counts | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  async function refreshCounts() {
+    const [sessions, phrases, vocab, corrections] = await Promise.all([
+      db.sessions.count(), db.phrases.count(), db.vocab.count(), db.corrections.count(),
+    ])
+    setCounts({ sessions, phrases, vocab, corrections })
+  }
+
+  useEffect(() => { refreshCounts() }, [])
 
   async function handleSave() {
     const trimmed = text.trim()
@@ -25,8 +52,33 @@ export default function App() {
       }
       const result = await ingestReport(parsed.data)
       setStatus({ kind: 'done', result, warnings: parsed.warnings })
+      await refreshCounts()
     } catch (e) {
       setStatus({ kind: 'error', messages: [String(e)] })
+    }
+  }
+
+  async function handleExport() {
+    setBackupStatus({ kind: 'exporting' })
+    try {
+      await downloadBackup()
+      setBackupStatus({ kind: 'idle' })
+    } catch (e) {
+      setBackupStatus({ kind: 'error', message: String(e) })
+    }
+  }
+
+  async function handleImportFile(file: File) {
+    setBackupStatus({ kind: 'importing' })
+    try {
+      const text = await file.text()
+      const { imported } = await importAll(text, importMode)
+      setBackupStatus({ kind: 'imported', counts: imported })
+      await refreshCounts()
+    } catch (e) {
+      setBackupStatus({ kind: 'error', message: String(e) })
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = ''
     }
   }
 
@@ -89,6 +141,95 @@ export default function App() {
           </div>
         )}
       </div>
+
+      <div style={{ ...styles.card, marginTop: '1rem' }}>
+        <h2 style={styles.sectionTitle}>📊 저장된 데이터 현황</h2>
+        <p style={styles.subtitle}>새로고침해도 이 숫자가 유지되면 정상 저장된 거예요.</p>
+        {counts ? (
+          <div style={styles.counts}>
+            <CountBadge label="세션" value={counts.sessions} />
+            <CountBadge label="Phrase" value={counts.phrases} />
+            <CountBadge label="어휘" value={counts.vocab} />
+            <CountBadge label="교정" value={counts.corrections} />
+          </div>
+        ) : (
+          <p style={styles.subtitle}>불러오는 중...</p>
+        )}
+      </div>
+
+      <div style={{ ...styles.card, marginTop: '1rem' }}>
+        <h2 style={styles.sectionTitle}>💾 백업</h2>
+        <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요.</p>
+
+        <button
+          style={{ ...styles.button, opacity: backupStatus.kind === 'exporting' ? 0.6 : 1 }}
+          onClick={handleExport}
+          disabled={backupStatus.kind === 'exporting'}
+        >
+          {backupStatus.kind === 'exporting' ? '내보내는 중...' : '⬇️ 백업 내보내기'}
+        </button>
+
+        <div style={styles.divider} />
+
+        <p style={styles.modeLabel}>가져오기 방식</p>
+        <div style={styles.radioRow}>
+          <label style={styles.radioLabel}>
+            <input
+              type="radio"
+              checked={importMode === 'merge'}
+              onChange={() => setImportMode('merge')}
+            />
+            병합(merge) — 기존 유지, 신규만 추가
+          </label>
+          <label style={styles.radioLabel}>
+            <input
+              type="radio"
+              checked={importMode === 'replace'}
+              onChange={() => setImportMode('replace')}
+            />
+            전체 교체(replace) — 기존 삭제 후 덮어쓰기
+          </label>
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/json"
+          style={{ display: 'none' }}
+          onChange={e => { const f = e.target.files?.[0]; if (f) handleImportFile(f) }}
+        />
+        <button
+          style={{
+            ...styles.button,
+            background: 'white',
+            color: '#4f46e5',
+            border: '1.5px solid #4f46e5',
+            opacity: backupStatus.kind === 'importing' ? 0.6 : 1,
+          }}
+          onClick={() => fileInputRef.current?.click()}
+          disabled={backupStatus.kind === 'importing'}
+        >
+          {backupStatus.kind === 'importing' ? '가져오는 중...' : '⬆️ 백업 가져오기'}
+        </button>
+
+        {backupStatus.kind === 'error' && (
+          <div style={styles.errorBox}>
+            <p style={styles.errorTitle}>⛔ 실패</p>
+            <p style={styles.errorMsg}>{backupStatus.message}</p>
+          </div>
+        )}
+
+        {backupStatus.kind === 'imported' && (
+          <div style={styles.resultBox}>
+            <p style={styles.resultTitle}>✅ 가져오기 완료</p>
+            <div style={styles.counts}>
+              {Object.entries(backupStatus.counts).map(([table, n]) => (
+                <CountBadge key={table} label={table} value={n} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -107,7 +248,8 @@ const styles = {
     minHeight: '100vh',
     background: '#f5f5ff',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
     padding: '1.5rem 1rem',
     boxSizing: 'border-box' as const,
   },
@@ -122,6 +264,12 @@ const styles = {
   },
   title: {
     fontSize: '1.25rem',
+    fontWeight: 700,
+    color: '#4f46e5',
+    margin: '0 0 0.25rem',
+  },
+  sectionTitle: {
+    fontSize: '1.1rem',
     fontWeight: 700,
     color: '#4f46e5',
     margin: '0 0 0.25rem',
@@ -239,5 +387,29 @@ const styles = {
     fontSize: '0.8rem',
     margin: '0.2rem 0 0',
     lineHeight: 1.5,
+  },
+  divider: {
+    height: '1px',
+    background: '#eee',
+    margin: '1rem 0',
+  },
+  modeLabel: {
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    color: '#444',
+    margin: '0 0 0.5rem',
+  },
+  radioRow: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '0.5rem',
+    marginBottom: '0.25rem',
+  },
+  radioLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    fontSize: '0.825rem',
+    color: '#555',
   },
 } as const
