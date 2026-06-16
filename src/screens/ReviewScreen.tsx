@@ -35,6 +35,11 @@ function sentencePriority(item: CardItem): number {
   return wordCount
 }
 
+// "A / B" 처럼 슬래시로 묶인 대체 표현들을 한 줄에 뭉쳐 보여주지 않고 각각 줄바꿈으로 분리한다.
+function splitVariants(text: string): string[] {
+  return text.split('/').map(s => s.trim()).filter(s => s.length > 0)
+}
+
 export default function ReviewScreen() {
   const [queue, setQueue] = useState<CardItem[] | null>(null)
   const [index, setIndex] = useState(0)
@@ -136,9 +141,13 @@ export default function ReviewScreen() {
       </div>
 
       <div style={localStyles.flashcard}>
-        <div style={localStyles.frontRow}>
-          <p style={localStyles.phraseText}>{front}</p>
-          <SpeakerButton text={front} />
+        <div style={localStyles.frontStack}>
+          {splitVariants(front).map((part, i) => (
+            <div key={i} style={localStyles.frontRow}>
+              <p style={localStyles.phraseText}>{part}</p>
+              <SpeakerButton text={part} />
+            </div>
+          ))}
         </div>
 
         {!flipped ? (
@@ -152,13 +161,21 @@ export default function ReviewScreen() {
               <p style={localStyles.note}>💡 {backNote}</p>
             )}
             {example && (
-              <div style={localStyles.frontRow}>
-                <p style={localStyles.example}>"{example}"</p>
-                <SpeakerButton text={example} size="small" />
+              <div style={localStyles.frontStack}>
+                {splitVariants(example).map((part, i) => (
+                  <div key={i} style={localStyles.frontRow}>
+                    <p style={localStyles.example}>"{part}"</p>
+                    <SpeakerButton text={part} size="small" />
+                  </div>
+                ))}
               </div>
             )}
             {mistakeRef && (
-              <p style={localStyles.mistakeRef}>예전엔 이렇게 썼었어요: "{mistakeRef}"</p>
+              <div style={localStyles.frontStack}>
+                {splitVariants(mistakeRef).map((part, i) => (
+                  <p key={i} style={localStyles.mistakeRef}>예전엔 이렇게 썼었어요: "{part}"</p>
+                ))}
+              </div>
             )}
           </div>
         )}
@@ -209,6 +226,11 @@ const localStyles = {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '0.4rem',
+  },
+  frontStack: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '0.5rem',
   },
   phraseText: {
     fontSize: '1.5rem',
