@@ -32,7 +32,13 @@ export async function downloadBackup(): Promise<void> {
   const navAny = navigator as any;
   if (navAny.canShare && typeof File !== 'undefined') {
     const file = new File([blob], fileName, { type: 'application/json' });
-    if (navAny.canShare({ files: [file] })) { await navAny.share({ files: [file], title: fileName }); return; }
+    if (navAny.canShare({ files: [file] })) {
+      try { await navAny.share({ files: [file], title: fileName }); return; }
+      catch (e) {
+        if ((e as any)?.name === 'AbortError') return; // 사용자가 공유 시트를 직접 취소한 경우
+        // iOS Safari: DB 조회 대기 후 호출되면 사용자 활성화가 풀려 NotAllowedError 발생 가능 → 다운로드로 대체
+      }
+    }
   }
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
