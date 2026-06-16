@@ -32,6 +32,7 @@ export interface PhraseRow {
   norm: string;            // 정규화 키(중복 판정)
   phrase: string;
   meaning: string;
+  note: string;            // 피드백/뉘앙스(이 표현을 추천한 이유) — meaning(실제 뜻)과는 별개
   example: string;
   tags: (CanonicalTag | 'unmapped')[];
   first_seen_session_id: string;
@@ -47,6 +48,7 @@ export interface VocabRow {
   norm: string;
   word: string;
   meaning: string;
+  note: string;            // 피드백/뉘앙스 — meaning(실제 뜻)과는 별개
   tags: (CanonicalTag | 'unmapped')[];
   first_seen_session_id: string;
   srs_box: number;

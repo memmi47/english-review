@@ -87,14 +87,17 @@ export default function ReviewScreen() {
   let front: string
   let back: string
   let backSpeakable = false
-  let backSub: string | null = null
+  let backNote: string | null = null // 피드백/뉘앙스 (실제 뜻과는 별개로 보여줌)
+  let backSub: string | null = null  // 예문 등 추가 텍스트
   if (current.kind === 'phrase') {
     front = current.row.phrase
     back = current.row.meaning
+    backNote = current.row.note || null
     backSub = current.row.example
   } else if (current.kind === 'vocab') {
     front = current.row.word
     back = current.row.meaning
+    backNote = current.row.note || null
   } else if (current.kind === 'correction') {
     front = current.row.original
     back = current.row.corrected
@@ -130,6 +133,9 @@ export default function ReviewScreen() {
               <p style={localStyles.meaning}>{back}</p>
               {backSpeakable && <SpeakerButton text={back} size="small" />}
             </div>
+            {backNote && (
+              <p style={localStyles.note}>💡 {backNote}</p>
+            )}
             {backSub && (
               <div style={localStyles.frontRow}>
                 <p style={localStyles.example}>"{backSub}"</p>
@@ -208,6 +214,14 @@ const localStyles = {
     fontSize: '0.9rem',
     color: '#666',
     fontStyle: 'italic' as const,
+    margin: 0,
+  },
+  note: {
+    fontSize: '0.8rem',
+    color: '#7a6a00',
+    background: '#fff8e1',
+    borderRadius: '0.5rem',
+    padding: '0.4rem 0.6rem',
     margin: 0,
   },
   gradeRow: {

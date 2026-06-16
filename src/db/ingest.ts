@@ -59,7 +59,7 @@ export async function ingestReport(parsed: ParsedReport): Promise<IngestResult> 
       const dup = await db.phrases.where('norm').equals(n).first();
       if (dup) continue;
       await db.phrases.add({
-        id: newId(), norm: n, phrase: ph.phrase, meaning: ph.meaning, example: ph.example, tags: ph.tags,
+        id: newId(), norm: n, phrase: ph.phrase, meaning: ph.meaning, note: ph.note, example: ph.example, tags: ph.tags,
         first_seen_session_id: sessionId, srs_box: 1, reps: 0, used_later_count: 0, due_date: today(), created_at: nowIso,
       });
       addedPhrases++;
@@ -73,7 +73,7 @@ export async function ingestReport(parsed: ParsedReport): Promise<IngestResult> 
       const dup = await db.vocab.where('norm').equals(n).first();
       if (dup) continue;
       await db.vocab.add({
-        id: newId(), norm: n, word: v.word, meaning: v.meaning, tags: v.tags,
+        id: newId(), norm: n, word: v.word, meaning: v.meaning, note: v.note, tags: v.tags,
         first_seen_session_id: sessionId, srs_box: 1, due_date: today(), created_at: nowIso,
       });
       addedVocab++;

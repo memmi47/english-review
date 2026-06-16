@@ -8,8 +8,8 @@ export interface ParsedCorrection { original: string; corrected: string; rule: s
 export interface ParsedSuspect { heard: string; intended: string; }
 export interface ParsedRewrite { user_expr: string; native_version: string; nuance: string; tag: TagValue; }
 export interface ParsedPattern { type: 'strength' | 'weakness'; description: string; canonical_tag: TagValue; severity: Severity | null; }
-export interface ParsedPhrase { phrase: string; meaning: string; example: string; tags: (CanonicalTag | 'unmapped')[]; }
-export interface ParsedVocab { word: string; meaning: string; tags: (CanonicalTag | 'unmapped')[]; }
+export interface ParsedPhrase { phrase: string; meaning: string; note: string; example: string; tags: (CanonicalTag | 'unmapped')[]; }
+export interface ParsedVocab { word: string; meaning: string; note: string; tags: (CanonicalTag | 'unmapped')[]; }
 export interface ParsedAction { suggestion: string; target_tag: TagValue; }
 export interface ParsedMission { mission: string; status: string; }
 
@@ -189,22 +189,39 @@ export function parseReport(raw: string): ParseResult {
   }
 
   // 5. 추천 Phrase
+  // 표 형식: phrase | meaning | example | tags (4칸, 기존) 또는
+  //          phrase | meaning | note | example | tags (5칸, note=피드백/뉘앙스 포함)
   const phrases: ParsedPhrase[] = [];
   if (sections['5']) {
     for (const r of parseTable(sections['5'])) {
-      const { tags, warns } = extractTags(r[3] ?? '');
+      const hasNote = r.length >= 5;
+      const tagCell = hasNote ? r[4] : r[3];
+      const { tags, warns } = extractTags(tagCell ?? '');
       warns.forEach(w => warnings.push(`[5.phrase] ${w}`));
-      phrases.push({ phrase: r[0] ?? '', meaning: r[1] ?? '', example: r[2] ?? '', tags });
+      phrases.push({
+        phrase: r[0] ?? '', meaning: r[1] ?? '',
+        note: hasNote ? r[2] ?? '' : '',
+        example: hasNote ? r[3] ?? '' : r[2] ?? '',
+        tags,
+      });
     }
   }
 
   // 6. 능동 어휘
+  // 표 형식: word | meaning | tags (3칸, 기존) 또는
+  //          word | meaning | note | tags (4칸, note=피드백/뉘앙스 포함)
   const vocab: ParsedVocab[] = [];
   if (sections['6']) {
     for (const r of parseTable(sections['6'])) {
-      const { tags, warns } = extractTags(r[2] ?? '');
+      const hasNote = r.length >= 4;
+      const tagCell = hasNote ? r[3] : r[2];
+      const { tags, warns } = extractTags(tagCell ?? '');
       warns.forEach(w => warnings.push(`[6.vocab] ${w}`));
-      vocab.push({ word: r[0] ?? '', meaning: r[1] ?? '', tags });
+      vocab.push({
+        word: r[0] ?? '', meaning: r[1] ?? '',
+        note: hasNote ? r[2] ?? '' : '',
+        tags,
+      });
     }
   }
 
