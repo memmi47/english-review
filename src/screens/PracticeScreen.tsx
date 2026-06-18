@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CorrectionRow, RewriteRow, Grade } from '../db'
 import { dueStudyItems, reviewStudyItem } from '../db/study'
 import type { StudyKind } from '../db/study'
-import { styles, colors } from '../shared/styles'
+import { styles, colors, radius } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 import { wordDiff, generateCloze, clozeMatch } from '../shared/wordDiff'
 import type { DiffToken } from '../shared/wordDiff'
@@ -16,6 +16,7 @@ interface PracticeItem {
   kind: StudyKind
   row: CorrectionRow | RewriteRow
   mode: PracticeMode
+  intended_meaning?: string
   source: string      // 내가 썼던 어색한 문장
   target: string      // 정답 (corrected / native_version)
   context: string     // 문법 설명 or 뉘앙스
@@ -99,6 +100,7 @@ export default function PracticeScreen() {
         const source = si.kind === 'correction' ? row.original : row.user_expr
         const target = si.kind === 'correction' ? row.corrected : row.native_version
         const context = si.kind === 'correction' ? (row.rule ?? '') : (row.nuance ?? '')
+        const intended_meaning = row.intended_meaning
 
         const clozeResult = generateCloze(source, target)
         // cloze 가능한 항목은 40% 확률로 cloze 모드, 나머지는 diff 재작성 모드
@@ -109,6 +111,7 @@ export default function PracticeScreen() {
           kind: si.kind,
           row: si.row,
           mode,
+          intended_meaning,
           source,
           target,
           context,
@@ -148,19 +151,49 @@ export default function PracticeScreen() {
   // ── 오늘 연습 항목 없음 ──
   if (items.length === 0) {
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>🎉 오늘 연습할 항목이 없어요</h2>
-        <p style={styles.subtitle}>교정·Rewrite 카드가 아직 없거나 모두 완료됐어요.</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎉</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.4rem' }}>오늘 연습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: 0 }}>교정·Rewrite 카드가 아직 없거나 모두 완료되었어요.</p>
+        </div>
       </div>
     )
   }
 
   // ── 모두 완료 ──
   if (index >= items.length) {
+    const corrDone = items.filter(i => i.kind === 'correction').length
+    const rewDone = items.filter(i => i.kind === 'rewrite').length
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>✅ 오늘 연습 완료!</h2>
-        <p style={styles.subtitle}>{gradedCount}개 문장을 연습했어요. 잘했어요!</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '0.5rem 0 1rem' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎊</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.5rem' }}>연습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: '0 0 1.25rem' }}>
+            총 {gradedCount}개 문장을 연습했어요. 잘했어요!
+          </p>
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+            {corrDone > 0 && (
+              <div style={{
+                background: colors.redBg, border: `1px solid ${colors.redBorder}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.red }}>{corrDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>교정</div>
+              </div>
+            )}
+            {rewDone > 0 && (
+              <div style={{
+                background: colors.primaryLight, border: `1px solid ${colors.primary}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.primary }}>{rewDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>Rewrite</div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     )
   }
@@ -250,16 +283,36 @@ function DiffMode({
   const variants = item.source.split('/').map(s => s.trim()).filter(Boolean)
   return (
     <div style={localStyles.body}>
-      {/* 내가 썼던 어색한 표현 (학습 출발점) */}
+      {/* 한국어 의도가 있으면 메인 프롬프트로 표시 */}
       <div style={localStyles.sourceBox}>
-        <p style={localStyles.sourceLabel}>내가 썼던 표현</p>
-        {variants.map((v, i) => (
-          <div key={i} style={localStyles.sourceRow}>
-            <p style={localStyles.sourceText}>{v}</p>
-            <SpeakerButton text={v} size="small" />
-          </div>
-        ))}
+        {item.intended_meaning ? (
+          <>
+            <p style={localStyles.sourceLabel}>한국어 의도 (이 말을 영어로 어떻게 할까요?)</p>
+            <p style={{ ...localStyles.sourceText, color: colors.primary, fontWeight: 700, fontSize: '1.05rem', fontStyle: 'normal' }}>
+              {item.intended_meaning}
+            </p>
+          </>
+        ) : (
+          <>
+            <p style={localStyles.sourceLabel}>내가 썼던 표현</p>
+            {variants.map((v, i) => (
+              <div key={i} style={localStyles.sourceRow}>
+                <p style={localStyles.sourceText}>{v}</p>
+                <SpeakerButton text={v} size="small" />
+              </div>
+            ))}
+          </>
+        )}
       </div>
+
+      {item.intended_meaning && isSubmitted && (
+        <div style={localStyles.sourceBoxSmall}>
+          <p style={localStyles.sourceLabel}>당시 내가 말했던 틀린 표현</p>
+          {variants.map((v, i) => (
+            <p key={i} style={{...localStyles.sourceTextSmall, color: colors.red, textDecoration: 'line-through'}}>{v}</p>
+          ))}
+        </div>
+      )}
 
       <p style={localStyles.instruction}>
         위 문장을 더 자연스럽게 고쳐 써보세요 👇
@@ -332,6 +385,15 @@ function ClozeMode({
       <p style={localStyles.instruction}>
         빈칸에 들어갈 표현을 입력해보세요 👇
       </p>
+
+      {item.intended_meaning && (
+        <div style={{...localStyles.sourceBox, background: colors.primaryLight, borderColor: colors.primary}}>
+          <p style={{...localStyles.sourceLabel, color: colors.primary}}>한국어 의도</p>
+          <p style={{ ...localStyles.sourceText, color: colors.primary, fontWeight: 700, fontSize: '1.05rem', fontStyle: 'normal' }}>
+            {item.intended_meaning}
+          </p>
+        </div>
+      )}
 
       {/* 빈칸 문장 */}
       <div style={localStyles.clozeBox}>

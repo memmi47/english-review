@@ -50,9 +50,8 @@ export async function downloadBackup(): Promise<void> {
 export async function importAll(json: string, mode: 'merge' | 'replace'): Promise<{ imported: Record<string, number> }> {
   const parsed = JSON.parse(json) as BackupFile;
   if (typeof parsed.schema_version !== 'number') throw new Error('백업 파일 형식이 아닙니다.');
-  if (parsed.schema_version !== SCHEMA_VERSION) {
-    // 향후 스키마 변경 시 여기서 마이그레이션. 현재는 동일 버전만 허용.
-    throw new Error(`스키마 버전 불일치(파일 v${parsed.schema_version} / 앱 v${SCHEMA_VERSION}).`);
+  if (parsed.schema_version > SCHEMA_VERSION) {
+    throw new Error(`백업 파일의 버전(v${parsed.schema_version})이 현재 앱(v${SCHEMA_VERSION})보다 높습니다. 앱을 업데이트해주세요.`);
   }
   const imported: Record<string, number> = {};
   await db.transaction('rw', db.tables, async () => {

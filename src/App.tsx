@@ -1,80 +1,187 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import HomeScreen from './screens/HomeScreen'
 import ImportScreen from './screens/ImportScreen'
 import DashboardScreen from './screens/DashboardScreen'
 import ReviewScreen from './screens/ReviewScreen'
 import PracticeScreen from './screens/PracticeScreen'
 import { colors, radius } from './shared/styles'
 
-type Tab = 'import' | 'dashboard' | 'review' | 'practice'
+type Tab = 'home' | 'review' | 'practice' | 'dashboard' | 'import'
+
+// 다크모드: localStorage 기반 영속성
+function useDarkMode(): [boolean, () => void] {
+  const [dark, setDark] = useState<boolean>(() => {
+    try { return localStorage.getItem('theme') === 'dark' } catch { return false }
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light') } catch { /* noop */ }
+  }, [dark])
+
+  return [dark, () => setDark(d => !d)]
+}
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('review')
+  const [tab, setTab] = useState<Tab>('home')
+  const [dark, toggleDark] = useDarkMode()
 
   return (
-    <div style={styles.page}>
-      <div style={styles.nav}>
-        <NavButton label="🎯 복습" active={tab === 'review'} onClick={() => setTab('review')} />
-        <NavButton label="✍️ 연습" active={tab === 'practice'} onClick={() => setTab('practice')} />
-        <NavButton label="📊 분석" active={tab === 'dashboard'} onClick={() => setTab('dashboard')} />
-        <NavButton label="📋 입력" active={tab === 'import'} onClick={() => setTab('import')} />
-      </div>
+    <div style={{ minHeight: '100dvh', background: colors.bg, display: 'flex', flexDirection: 'column' }}>
+      {/* ── 상단 헤더 ── */}
+      <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: colors.surface,
+        borderBottom: `1px solid ${colors.border}`,
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+      }}>
+        <div style={{
+          maxWidth: '480px',
+          margin: '0 auto',
+          padding: '0.6rem 1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{ fontSize: '1.1rem' }}>🗣️</span>
+            <span style={{
+              fontSize: '0.95rem',
+              fontWeight: 700,
+              color: colors.text,
+              letterSpacing: '-0.02em',
+            }}>
+              English Review
+            </span>
+          </div>
+          {/* 다크모드 토글 */}
+          <button
+            onClick={toggleDark}
+            aria-label="다크모드 전환"
+            style={{
+              background: colors.surfaceAlt,
+              border: `1px solid ${colors.border}`,
+              borderRadius: radius.pill,
+              padding: '0.3rem 0.6rem',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              lineHeight: 1,
+              fontFamily: 'inherit',
+            }}
+          >
+            {dark ? '☀️' : '🌙'}
+          </button>
+        </div>
+      </header>
 
-      <div style={styles.content}>
-        {tab === 'review' && <ReviewScreen />}
-        {tab === 'practice' && <PracticeScreen />}
+      {/* ── 메인 콘텐츠 ── */}
+      <main style={{
+        flex: 1,
+        maxWidth: '480px',
+        width: '100%',
+        margin: '0 auto',
+        padding: '0.75rem 1rem 1rem',
+        boxSizing: 'border-box',
+      }}>
+        {tab === 'home'      && <HomeScreen onNavigate={setTab} />}
+        {tab === 'review'    && <ReviewScreen />}
+        {tab === 'practice'  && <PracticeScreen />}
         {tab === 'dashboard' && <DashboardScreen onGoReview={() => setTab('review')} />}
-        {tab === 'import' && <ImportScreen />}
-      </div>
+        {tab === 'import'    && <ImportScreen onGoReview={() => setTab('review')} />}
+      </main>
+
+      {/* ── 하단 탭 바 ── */}
+      <nav style={{
+        position: 'fixed',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: '480px',
+        background: colors.surface,
+        borderTop: `1px solid ${colors.border}`,
+        display: 'flex',
+        alignItems: 'stretch',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        zIndex: 50,
+        boxShadow: '0 -1px 0 var(--border), 0 -4px 16px rgba(0,0,0,0.06)',
+      }}>
+        {([
+          { id: 'home',      icon: '🏠', label: '홈' },
+          { id: 'review',    icon: '🎯', label: '복습' },
+          { id: 'practice',  icon: '✍️', label: '연습' },
+          { id: 'dashboard', icon: '📊', label: '분석' },
+          { id: 'import',    icon: '📋', label: '입력' },
+        ] as { id: Tab; icon: string; label: string }[]).map(({ id, icon, label }) => (
+          <TabButton
+            key={id}
+            icon={icon}
+            label={label}
+            active={tab === id}
+            onClick={() => setTab(id)}
+          />
+        ))}
+      </nav>
     </div>
   )
 }
 
-function NavButton({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function TabButton({
+  icon, label, active, onClick,
+}: {
+  icon: string
+  label: string
+  active: boolean
+  onClick: () => void
+}) {
   return (
     <button
       onClick={onClick}
       style={{
-        ...styles.navButton,
-        background: active ? colors.primary : 'white',
-        color: active ? 'white' : colors.primary,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '2px',
+        padding: '0.5rem 0.25rem',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        minHeight: '56px',
+        position: 'relative',
+        fontFamily: 'inherit',
+        WebkitTapHighlightColor: 'transparent',
       }}
     >
-      {label}
+      {/* 활성 인디케이터 */}
+      {active && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '32px',
+          height: '2.5px',
+          background: colors.primary,
+          borderRadius: '0 0 2px 2px',
+          transition: 'width 0.2s',
+        }} />
+      )}
+      <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>
+      <span style={{
+        fontSize: '0.62rem',
+        fontWeight: active ? 700 : 500,
+        color: active ? colors.primary : colors.textSubtle,
+        letterSpacing: '-0.01em',
+        transition: 'color 0.15s, font-weight 0.15s',
+      }}>
+        {label}
+      </span>
     </button>
   )
 }
-
-const styles = {
-  page: {
-    minHeight: '100vh',
-    background: colors.bg,
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    padding: '1rem',
-    boxSizing: 'border-box' as const,
-  },
-  nav: {
-    display: 'flex',
-    gap: '0.5rem',
-    width: '100%',
-    maxWidth: '480px',
-    marginBottom: '1rem',
-  },
-  navButton: {
-    flex: 1,
-    padding: '0.5rem 0.25rem',
-    borderRadius: radius.md,
-    border: `1.5px solid ${colors.primary}`,
-    fontSize: '0.72rem',
-    fontWeight: 600,
-    cursor: 'pointer',
-    transition: 'background 0.15s, color 0.15s',
-  },
-  content: {
-    width: '100%',
-    maxWidth: '480px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-  },
-} as const

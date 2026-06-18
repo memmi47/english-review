@@ -1,61 +1,62 @@
-// 디자인 시스템 — "Professional Calm" 팔레트
-// 레퍼런스: Readwise · Notion · Linear
-// 밝은 인디고/퍼플 → 딥 네이비로, 파란 빛 도는 배경 → 웜 아이보리로 교체
+// styles.ts — CSS 변수 기반 디자인 토큰 & 공통 스타일
+// index.css의 CSS custom properties를 참조한다.
+// 다크모드는 [data-theme="dark"]로 자동 전환되므로 JS에서 별도 분기 불필요.
 
 export const colors = {
-  // 브랜드 — 깊은 네이비
-  primary: '#1e3a5f',
-  primaryHover: '#16304f',
-  primaryLight: '#eaeff6',   // 네이비 아주 연하게
+  // CSS 변수 참조값 (JS inline style에서 사용)
+  primary:      'var(--primary)',
+  primaryHover: 'var(--primary-hover)',
+  primaryLight: 'var(--primary-light)',
 
-  // 배경 / 서피스
-  bg: '#f4f3ef',             // 웜 아이보리 (파란 기 없음)
-  surface: '#ffffff',
-  surfaceAlt: '#f9f8f5',     // 카드 내부 중첩 영역
+  bg:          'var(--bg)',
+  surface:     'var(--surface)',
+  surfaceAlt:  'var(--surface-alt)',
 
-  // 텍스트
-  text: '#1a2332',
-  textMuted: '#6b7280',
-  textSubtle: '#9ca3af',
+  text:        'var(--text)',
+  textMuted:   'var(--text-muted)',
+  textSubtle:  'var(--text-subtle)',
 
-  // 시맨틱
-  green: '#166534',
-  greenBg: '#f0fdf4',
-  greenBorder: '#86efac',
-  red: '#991b1b',
-  redBg: '#fef2f2',
-  redBorder: '#fca5a5',
-  amber: '#78350f',
-  amberBg: '#fffbeb',
-  amberBorder: '#fcd34d',
+  green:       'var(--green)',
+  greenBg:     'var(--green-bg)',
+  greenBorder: 'var(--green-border)',
+  red:         'var(--red)',
+  redBg:       'var(--red-bg)',
+  redBorder:   'var(--red-border)',
+  amber:       'var(--amber)',
+  amberBg:     'var(--amber-bg)',
+  amberBorder: 'var(--amber-border)',
+  purple:      'var(--purple)',
+  purpleBg:    'var(--purple-bg)',
+  purpleBorder:'var(--purple-border)',
 
-  // UI 크롬
-  border: '#dcd9d0',         // 웜 그레이 보더
-  borderStrong: '#b5b0a5',
-  divider: '#e8e5df',
+  border:       'var(--border)',
+  borderStrong: 'var(--border-strong)',
+  divider:      'var(--divider)',
 }
 
 export const radius = {
-  sm: '0.375rem',
-  md: '0.625rem',
-  lg: '0.875rem',
-  xl: '1.125rem',
-  pill: '999px',
+  sm:   'var(--radius-sm)',
+  md:   'var(--radius-md)',
+  lg:   'var(--radius-lg)',
+  xl:   'var(--radius-xl)',
+  pill: 'var(--radius-pill)',
 }
 
 export const shadow = {
-  card: '0 1px 3px rgba(26,35,50,0.07), 0 0 0 1px rgba(26,35,50,0.05)',
-  cardHover: '0 4px 12px rgba(26,35,50,0.1), 0 0 0 1px rgba(26,35,50,0.06)',
+  card:      'var(--shadow-card)',
+  cardHover: 'var(--shadow-card-hover)',
 }
+
+// ── 공통 컴포넌트 스타일 ──
 
 export const styles = {
   page: {
-    minHeight: '100vh',
+    minHeight: '100dvh',
     background: colors.bg,
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
-    padding: '1.25rem 1rem 2rem',
+    padding: '0.75rem 1rem 1rem',
     boxSizing: 'border-box' as const,
   },
   card: {
@@ -65,8 +66,6 @@ export const styles = {
     boxShadow: shadow.card,
     border: `1px solid ${colors.border}`,
     width: '100%',
-    maxWidth: '480px',
-    height: 'fit-content',
     boxSizing: 'border-box' as const,
   },
   title: {
@@ -74,7 +73,8 @@ export const styles = {
     fontWeight: 700,
     color: colors.text,
     margin: '0 0 0.2rem',
-    letterSpacing: '-0.01em',
+    letterSpacing: '-0.02em',
+    lineHeight: 1.3,
   },
   sectionTitle: {
     fontSize: '0.95rem',
@@ -92,7 +92,7 @@ export const styles = {
   button: {
     marginTop: '0.75rem',
     width: '100%',
-    padding: '0.75rem',
+    padding: '0.8rem',
     background: colors.primary,
     color: 'white',
     border: 'none',
@@ -101,12 +101,13 @@ export const styles = {
     fontWeight: 600,
     cursor: 'pointer',
     letterSpacing: '-0.01em',
-    transition: 'opacity 0.15s',
+    transition: 'opacity 0.15s, transform 0.1s',
+    fontFamily: 'inherit',
   },
   secondaryButton: {
     marginTop: '0.75rem',
     width: '100%',
-    padding: '0.75rem',
+    padding: '0.8rem',
     background: colors.surface,
     color: colors.primary,
     border: `1.5px solid ${colors.border}`,
@@ -116,6 +117,7 @@ export const styles = {
     cursor: 'pointer',
     letterSpacing: '-0.01em',
     transition: 'opacity 0.15s',
+    fontFamily: 'inherit',
   },
   errorBox: {
     marginTop: '1rem',
@@ -189,7 +191,7 @@ export const styles = {
     fontSize: '0.825rem',
   },
   warnMsg: {
-    color: '#78350f',
+    color: colors.amber,
     fontSize: '0.775rem',
     margin: '0.2rem 0 0',
     lineHeight: 1.5,

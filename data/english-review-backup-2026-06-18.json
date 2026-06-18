@@ -1,0 +1,2583 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-06-18T15:43:55.077Z",
+  "data": {
+    "sessions": [
+      {
+        "id": "03be9530-5da7-4ce2-9d40-aa22691b0f07",
+        "date": "2026-06-16",
+        "topic": "일상대화",
+        "duration_min": 30,
+        "raw_report": "<!-- meta: date=2026-06-16 | topic=일상대화 | duration_min=30 -->\n\n## 2. 정확성 교정\n\n| 원문 | 교정 | 규칙 | 태그 | 심각도 |\n|------|------|------|------|--------|\n| I go to school yesterday | I went to school yesterday | 과거 시제 | [tense] | 반복 |\n\n## 5. 추천 Phrase\n\n| Phrase | 의미 | 예문 | 태그 |\n|--------|------|------|------|\n| on second thought | 다시 생각해보니 | On second thought, let's stay home. | [collocation] |\n\n## 6. 능동 어휘\n\n| 단어 | 의미 | 태그 |\n|------|------|------|\n| reluctant | 내키지 않는 | [word-choice] |",
+        "created_at": "2026-06-16T14:49:31.432Z"
+      },
+      {
+        "id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "date": "2026-06-18",
+        "topic": "Casual Small Talk & Personal Growth",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-18 | topic=Casual Small Talk & Personal Growth | duration_min=15 -->\n날짜: 2026-06-18 | 주제: Casual Small Talk & Personal Growth | 소요시간: 15분\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| (지난 세션 Next Session 액션) | 달성 / 부분 / 미달 |\n| 이전 미션 정보 없음 — 앱에서 자동 점검 |  |\n## 1. 종합 평가\n이번 세션에서는 목적 지향적이고 분석적인 커뮤니케이션 스타일에서 벗어나 자연스러운 일상적 소규모 대화인 스몰토크를 연습하는 데 집중하였습니다. 표준적인 취미나 여행 주제를 피하면서도, 개인의 성장이나 배움에 대한 주제를 통해 대화의 흐름을 부드럽게 이어가는 능력을 성공적으로 보여주었습니다.\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along | re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다 | [collocation] | 반복 |\n| I'm not good at speaking that is not have purpose | I struggle with making small talk when there's no clear purpose | 목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다 | [word-choice] | 화석화 |\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| 원문 | 추정 |\n| 없음 |  |\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along? / How is your latest venture going? | 're-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다 | [collocation] |\n## 4. 반복 패턴\n### 강점\n * 명확하고 직관적인 대화 시작 능력\n * 개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다 | [register] | 반복 |\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| coming along | 일이 진행되다, 진척되다 | How is your new project coming along? | [collocation] |\n| outside of daily routines | 일상 업무/일상 생활 외에 | What do you usually do outside of daily routines? | [collocation] |\n| deep dive | 깊이 파고들다, 몰두하다 | I decided to take a deep dive into machine learning this week. | [word-choice] |\n| fresh perspective | 새로운 시각, 참신한 관점 | That experience gave me a fresh perspective on the issue. | [collocation] |\n| broaden my horizons | 시야를 넓히다 | Traveling to different countries can really broaden your horizons. | [collocation] |\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| venture | 새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다 | [word-choice] |\n| curiosity | 단순한 목적 외에 내적 호기심을 표현하는 단어입니다 | [word-choice] |\n| immerse | 어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다 | [word-choice] |\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다 | [register] |\n| 최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다 | [word-choice] |",
+        "created_at": "2026-06-18T14:04:22.591Z"
+      },
+      {
+        "id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "date": "2025-01-15",
+        "topic": "AI와 투자",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n날짜: 2025-01-15 | 주제: AI와 투자 | 소요시간: 15분\n\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| flag my concerns 사용하기 | 달성 |\n\n## 1. 종합 평가\nAI 기술이 투자 프레임워크에 미치는 영향에 대해 C1 수준의 고급 어휘를 활용하여 논리적으로 답변했습니다. 거시적 관점에서의 Outside-In 분석이 돋보였으나, 주어와 동사의 수 일치 등 기본적인 문법 규칙에서 간헐적인 실수가 발견되었습니다. 전반적으로 비즈니스 어조를 잘 유지하며 명확한 논거를 제시한 세션이었습니다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| many of people believes | many people believe | 복수 주어 동사 일치 | [sva] | 반복 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| patient fund | pension fund |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| the order from the top | directive from leadership | 군사적 뉘앙스를 제거하고 세련된 비즈니스 어조로 변경 | [register] |\n\n## 4. 반복 패턴\n### 강점\n- 논리적 대조 구조 활용\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 관사 반복 누락 | [articles] | 화석화 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| have skin in the game | 직접 이해관계가 걸려 있다 | Individual investors have skin in the game. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| pension fund | 연금 기금 | [word-choice] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| have skin in the game 실전 사용 | [collocation] |",
+        "created_at": "2026-06-17T10:51:20.651Z"
+      },
+      {
+        "id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "date": "2026-06-18",
+        "topic": "Casual Small Talk & Personal Growth",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-18 | topic=Casual Small Talk & Personal Growth | duration_min=15 -->\n날짜: 2026-06-18 | 주제: Casual Small Talk & Personal Growth | 소요시간: 15분\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| (지난 세션 Next Session 액션) | 달성 / 부분 / 미달 |\n| 이전 미션 정보 없음 — 앱에서 자동 점검 |  |\n## 1. 종합 평가\n이번 세션에서는 목적 지향적이고 분석적인 커뮤니케이션 스타일에서 벗어나 자연스러운 일상적 소규모 대화인 스몰토크를 연습하는 데 집중하였습니다. 표준적인 취미나 여행 주제를 피하면서도, 개인의 성장이나 배움에 대한 주제를 통해 대화의 흐름을 부드럽게 이어가는 능력을 성공적으로 보여주었습니다.\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along | re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다 | [collocation] | 반복 |\n| I'm not good at speaking that is not have purpose | I struggle with making small talk when there's no clear purpose | 목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다 | [word-choice] | 화석화 |\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| 원문 | 추정 |\n| 없음 |  |\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along? / How is your latest venture going? | 're-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다 | [collocation] |\n## 4. 반복 패턴\n### 강점\n * 명확하고 직관적인 대화 시작 능력\n * 개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다 | [register] | 반복 |\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| coming along | 일이 진행되다, 진척되다 | How is your new project coming along? | [collocation] |\n| outside of daily routines | 일상 업무/일상 생활 외에 | What do you usually do outside of daily routines? | [collocation] |\n| deep dive | 깊이 파고들다, 몰두하다 | I decided to take a deep dive into machine learning this week. | [word-choice] |\n| fresh perspective | 새로운 시각, 참신한 관점 | That experience gave me a fresh perspective on the issue. | [collocation] |\n| broaden my horizons | 시야를 넓히다 | Traveling to different countries can really broaden your horizons. | [collocation] |\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| venture | 새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다 | [word-choice] |\n| curiosity | 단순한 목적 외에 내적 호기심을 표현하는 단어입니다 | [word-choice] |\n| immerse | 어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다 | [word-choice] |\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다 | [register] |\n| 최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다 | [word-choice] |",
+        "created_at": "2026-06-18T14:04:22.104Z"
+      },
+      {
+        "id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "date": "2025-02-02",
+        "topic": "NBA",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2025-02-02 | topic=NBA | duration_min=15 -->\n날짜: 2025-02-02 | 주제: NBA | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\n전반적으로 자연스럽고 자신감 있는 대화였다. NBA라는 친숙한 주제에서도 전문적인 분석력과 스토리텔링 능력이 돋보였고, 전달하고자 하는 핵심은 일관되게 명확했다. 고유명사 발음 혼동이 맥락 파악을 어렵게 만드는 경우가 있었으며, 시제 일관성과 관사 사용도 추가 점검이 필요하다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| to improving my English skills | to improve my English skills | to부정사 뒤에는 동사원형 | [verbal-noun] | 화석화 |\n| How do you think? | What do you think? | 의견을 물을 때는 \"What do you think?\" 사용, \"How do you think?\"는 비문 | [question-form] | 일회성 |\n| the people don't think he's prominent | people didn't think he was prominent | 과거 상황이므로 과거시제, 관사 the 불필요 | [articles] | 반복 |\n| all of the cars equipped at three points play | all of the teams adopted a three-point-heavy style | cars → teams, equipped at → adopted | [word-choice] | 일회성 |\n| Jungdo only left one wins | San Antonio only needed one more win | 주어 혼동 및 구조 수정 | [word-choice] | 일회성 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| Tafran Curry | Steph Curry |\n| Bronze / Brunson | Brunson |\n| the mix leads three to one | the Knicks led three to one |\n| MRB | MLB |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| I start to sharing the New York Knicks | I started rooting for the Knicks / I jumped on the Knicks' bandwagon | rooting for은 자연스러운 응원 표현, jump on the bandwagon은 구어체로 생동감 있음 | [collocation] |\n| the basketball was the game for the tour guys | basketball used to be dominated by big men / it was a big man's game | big man's game은 농구 담론에서 자주 쓰이는 관용 표현 | [word-choice] |\n| he's a clutch player | he's got ice in his veins / he thrives under pressure | clutch는 맞는 표현이나 idiom을 쓰면 더 vivid | [collocation] |\n| find a ball handler and make the fox focus on scoring | they need a floor general to take the playmaking burden off Fox | floor general은 농구 전문 용어, take the burden off는 세련된 표현 | [word-choice] |\n| not stable ball handler | not a reliable distributor / his playmaking is inconsistent | distributor, inconsistent이 더 정확하고 세련된 표현 | [word-choice] |\n\n## 4. 반복 패턴\n### 강점\n- 논리적 흐름을 갖춘 스토리텔링 능력(Brunson의 서사, Fox의 역할 분석 등)\n- 스포츠 담론에서 핵심 개념을 영어로 표현하려는 적극적 시도\n- 메타 커뮤니케이션 자연스럽게 처리(\"by the way, you changed the topic\" 등)\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 고유명사 발음·표기 혼동 — 대화 맥락에서 혼란 야기(Curry, Brunson, Knicks 등) | [pronunciation] | 반복 |\n| 과거 사건을 현재형으로 서술하는 패턴 반복 | [tense] | 반복 |\n| 관사(a/the) 사용 불안정 | [articles] | 반복 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| carry a team on one's back | 팀을 혼자 이끌다 | Brunson literally carried the Knicks on his back in Game 6. | [collocation] |\n| defy expectations | 기대를 뛰어넘다, 예상을 깨다 | He defied expectations by outscoring players twice his size. | [collocation] |\n| floor general | 코트 위의 지휘관, 탁월한 플레이메이커 | San Antonio needs a floor general to complement Wembanyama. | [word-choice] |\n| come full circle | 결국 원점으로 돌아오다, 완결되다 | Winning against the Spurs came full circle for Brunson's family. | [collocation] |\n| take the pressure off | 부담을 덜어주다 | Adding a veteran point guard would take the pressure off Fox. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| underdog | 열세에 있는 팀·선수 — Brunson 묘사에 적합 | [word-choice] |\n| homogenization | 획일화 — 3점슛 위주로 NBA가 획일화됐다는 맥락 | [word-choice] |\n| generational talent | 세대를 대표하는 재능 — Wembanyama 묘사에 적합 | [collocation] |\n| redemption arc | 구원의 서사, 재기의 스토리 — Brunson 가족 스토리에 정확히 맞는 표현 | [collocation] |\n| inconsistent | 불안정한, 일관성 없는 — Fox의 플레이메이킹 묘사 | [word-choice] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 스포츠·비즈니스 대화 전 주요 인명·팀명 정확한 영어 발음 사전 확인 | [pronunciation] |\n| carry on one's back / redemption arc / floor general 중 2개 다음 대화에서 의식적 사용 | [collocation] |",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "date": "2025-01-12",
+        "topic": "불교·AI·투자",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2025-01-12 | topic=불교·AI·투자 | duration_min=15 -->\n날짜: 2025-01-12 | 주제: 불교·AI·투자 | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\n불교 철학과 AI·투자 행동이라는 두 주제를 자연스럽게 연결한 지적으로 풍부한 대화였다. 특히 AI 도입에서 기관투자자와 개인투자자의 비대칭성을 포착한 관찰은 날카롭고 설득력 있었다. 다만 정확한 어휘가 떠오르지 않을 때 우회 표현이 잦아지면서 논지가 흐려지는 순간들이 있었고, 어휘 정밀도를 높이는 것이 현재 가장 우선적인 개선 포인트다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| many of people in Korea believes | many people in Korea believe | many of people → many people, 복수 주어이므로 believe | [sva] | 반복 |\n| everyone wants earn more money | everyone wants to earn more money | want + to부정사, to 누락 | [verbal-noun] | 반복 |\n| Buddhism didn't ask people to do more aggressively | Buddhism doesn't ask people to act more aggressively | 불교의 일반적 가르침이므로 현재시제, do → act | [tense] | 일회성 |\n| you spend your time very valuable | you spend your time valuably | very 뒤에는 부사 필요, valuable(형용사) → valuably(부사) | [word-choice] | 일회성 |\n| Is there anything that Buddhism influence you | Is there anything about Buddhism that has influenced you? | 관계절 구조 오류, influence → has influenced(현재완료) | [sva] | 일회성 |\n| human resource | human resources | 복수형이 관용적 표현 | [plural] | 일회성 |\n| bond (단수) | bonds | 복수 맥락에서 복수형 사용 | [plural] | 일회성 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| patient fund | pension fund (발음 유사) |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| life of circulation | the cycle of rebirth / samsara | 불교 맥락에서 samsara가 가장 정확한 용어 | [word-choice] |\n| Buddhism didn't ask people to do more aggressively | Buddhism doesn't push people toward relentless accumulation | push toward / encourage가 훨씬 자연스러운 collocation | [collocation] |\n| give the opportunity AI to enjoy that success | hand AI the credit for those wins / let AI claim the glory | 비즈니스 맥락에서 자주 쓰이는 표현 | [word-choice] |\n| individual investor as a one whole group | retail investors as a monolithic group | monolithic은 C1+ 수준의 자연스러운 표현 | [word-choice] |\n| tech service already adopt AI to trade the bundle stocks | tech-savvy investors already use AI to trade baskets of stocks | basket of stocks는 금융 표준 표현 | [collocation] |\n\n## 4. 반복 패턴\n### 강점\n- 논리적 대조 구조 활용(however, instead, on the other hand 개념 자연스럽게 사용)\n- 기관투자자 vs 개인투자자 분석적 세분화 능력\n- 대화 흐름 능동적으로 주도하고 주제 전환 자연스럽게 처리\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 복수 주어(many people, some investors 등) 뒤 단수 동사 패턴 반복 | [sva] | 반복 |\n| 어휘 공백 시 대화 중단 또는 불명확한 표현으로 대체하는 경향 | [word-choice] | 반복 |\n| 관사·복수형 간헐적 오류 | [articles] | 반복 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| serve as a counterweight to | ~에 대한 균형추 역할을 하다 | Buddhist philosophy serves as a counterweight to the relentless pursuit of growth in capitalism. | [collocation] |\n| delegate decision-making to | 의사결정을 ~에게 위임하다 | Individual investors are reluctant to delegate decision-making to AI, even when it outperforms them. | [collocation] |\n| treat X as a monolithic group | X를 단일한 집단으로 취급하다 | We can't treat retail investors as a monolithic group — the variance across segments is enormous. | [word-choice] |\n| vary considerably across | ~에 걸쳐 상당히 다양하다 | AI adoption rates vary considerably across age groups and education levels. | [collocation] |\n| have skin in the game | 직접 이해관계가 걸려 있다 | Individual investors have skin in the game — they can't stay emotionally detached the way institutions can. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| samsara | \"life of circulation\"을 대신할 정확한 불교 용어, 영어 대화에서도 그대로 사용 가능 | [word-choice] |\n| pension fund | \"patient fund\"가 아닌 연금 기금의 정확한 표현 | [word-choice] |\n| basket of stocks | \"bundle stocks\" 대신 금융에서 표준적으로 쓰이는 표현 | [collocation] |\n| non-attachment | 불교의 무집착 개념, 오늘 대화 맥락에서 유용한 표현 | [word-choice] |\n| fiduciary | 수탁자 책임 — 기관투자자 맥락 핵심 어휘(fiduciary duty, fiduciary pressure) | [register] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| many people / some investors 등 주어 발화 직후 동사 형태 의식적 확인 | [sva] |\n| 어휘 공백 시 \"What I'm trying to say is…\" / \"The concept I'm reaching for is…\" bridging phrase 활용 | [word-choice] |",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "date": "2026-06-18",
+        "topic": "Casual Small Talk & Personal Growth",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-18 | topic=Casual Small Talk & Personal Growth | duration_min=15 -->\n날짜: 2026-06-18 | 주제: Casual Small Talk & Personal Growth | 소요시간: 15분\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| (지난 세션 Next Session 액션) | 달성 / 부분 / 미달 |\n| 이전 미션 정보 없음 — 앱에서 자동 점검 |  |\n## 1. 종합 평가\n이번 세션에서는 목적 지향적이고 분석적인 커뮤니케이션 스타일에서 벗어나 자연스러운 일상적 소규모 대화인 스몰토크를 연습하는 데 집중하였습니다. 표준적인 취미나 여행 주제를 피하면서도, 개인의 성장이나 배움에 대한 주제를 통해 대화의 흐름을 부드럽게 이어가는 능력을 성공적으로 보여주었습니다.\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along | re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다 | [collocation] | 반복 |\n| I'm not good at speaking that is not have purpose | I struggle with making small talk when there's no clear purpose | 목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다 | [word-choice] | 화석화 |\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| 원문 | 추정 |\n| 없음 |  |\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along? / How is your latest venture going? | 're-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다 | [collocation] |\n## 4. 반복 패턴\n### 강점\n * 명확하고 직관적인 대화 시작 능력\n * 개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다 | [register] | 반복 |\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| coming along | 일이 진행되다, 진척되다 | How is your new project coming along? | [collocation] |\n| outside of daily routines | 일상 업무/일상 생활 외에 | What do you usually do outside of daily routines? | [collocation] |\n| deep dive | 깊이 파고들다, 몰두하다 | I decided to take a deep dive into machine learning this week. | [word-choice] |\n| fresh perspective | 새로운 시각, 참신한 관점 | That experience gave me a fresh perspective on the issue. | [collocation] |\n| broaden my horizons | 시야를 넓히다 | Traveling to different countries can really broaden your horizons. | [collocation] |\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| venture | 새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다 | [word-choice] |\n| curiosity | 단순한 목적 외에 내적 호기심을 표현하는 단어입니다 | [word-choice] |\n| immerse | 어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다 | [word-choice] |\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다 | [register] |\n| 최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다 | [word-choice] |",
+        "created_at": "2026-06-18T14:04:21.012Z"
+      },
+      {
+        "id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "date": "2025-01-26",
+        "topic": "AI 인프라·리서치 방법론",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2025-01-26 | topic=AI 인프라·리서치 방법론 | duration_min=15 -->\n날짜: 2025-01-26 | 주제: AI 인프라·리서치 방법론 | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\nAI 인프라, 반도체 수요 예측, 개인 리서치 방법론이라는 고난도 주제를 영어로 자연스럽게 풀어낸 세션이었다. 전문적 개념을 직관적으로 설명하는 능력은 C1 이상 수준이 분명히 느껴졌다. 다만 준동사 오류(to+동사원형 vs -ing)와 내포 의문문 어순에서 반복적 오류가 나타났고, 이 부분이 전체적인 인상을 다소 깎고 있다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| I am not in Jungdo | I am Jungdo | 전치사 \"in\" 불필요, 존재를 나타낼 때는 be동사만 사용 | [preposition] | 일회성 |\n| I'm trying to gathering | I'm trying to gather | try to + 동사원형, to 뒤에는 반드시 동사원형 | [verbal-noun] | 화석화 |\n| gathering as many as companies possible | gathering as many companies as possible | as many + 명사 + as possible 어순 | [word-choice] | 일회성 |\n| they required to | they're required to | be동사 탈락 오류 | [sva] | 일회성 |\n| in my instinct | my instinct tells me / intuitively | \"in my instinct\"는 비표준 표현 | [word-choice] | 일회성 |\n| how do we use that data (내포절) | how to use that data / how we could use that data | 내포 의문문은 평서문 어순 사용 | [question-form] | 반복 |\n| I will decide that how to | I will decide how to | \"that\"과 \"how\" 중복 사용 불가 | [redundancy] | 일회성 |\n| we can't have a quality discussion | we can have a quality discussion | 문맥상 긍정 의도인데 부정어 삽입 | [word-choice] | 일회성 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| large luggage motor | large language model (LLM) (발음 유사) |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| it sounds astonishing that I can make something useful for my life | What's remarkable is that I can actually build something practical — no engineering background required | what-cleft 강조 구문으로 임팩트 강화, 더 자연스러운 구어체 | [register] |\n| they cover big extent of the coverage | their coverage is impressively broad / they cast a remarkably wide net | \"big extent of the coverage\"는 redundant, 간결하게 표현 | [redundancy] |\n| the main sense of the books | the key takeaways / the gist of the books | \"sense\"는 이 맥락에 어색, gist가 자연스러운 구어 표현 | [word-choice] |\n| books for laborers | reference books / foundational texts on the subject | 발화 오류 가능성, 더 정확한 표현으로 대체 권장 | [word-choice] |\n| I must ask about this to my agents | I'll put this to my agents / I'll run this by my agents | \"ask to\"는 비표준, put X to / run X by가 자연스러운 비즈니스 표현 | [preposition] |\n\n## 4. 반복 패턴\n### 강점\n- 전문 어휘 자연스럽게 구사 (leading indicators, AI factory ecosystem, triangulating, quantify the signal 등)\n- 복잡한 리서치 방법론을 논리적 흐름으로 설명하는 능력 우수\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| \"try to + -ing\" 패턴 반복 — 한국어 화자에게 매우 흔한 화석화 오류 | [verbal-noun] | 화석화 |\n| I mean / uh / and then이 문장 시작부에 반복 등장 — 내용 신뢰도 저하 | [filler] | 반복 |\n| 문장이 도중에 끊기거나 방향이 바뀌는 패턴 반복 | [fragmentation] | 반복 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| run X by someone | ~에게 검토·의견을 구하다 | Let me run this triangulation idea by my agents and see what they surface. | [collocation] |\n| cast a wide net | 광범위하게 탐색하다 | At this stage, we're casting a wide net before narrowing the scope. | [collocation] |\n| a canary in the coal mine | 위험·변화의 조기 신호 | Power grid strain could be a canary in the coal mine for the next capex cycle. | [collocation] |\n| triangulate (across sources) | 복수 소스를 교차 검증하다 | We can triangulate across permit filings, land leases, and utility contracts. | [collocation] |\n| the gist of | 핵심, 요지 | Once I've got the gist of the foundational texts, I'll have the agents synthesize the rest. | [word-choice] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| large language model (LLM) | \"large luggage motor\"로 발화됨 — 정확한 발음 연습 필요 | [pronunciation] |\n| put X to (an agent/team) | \"ask about this to\" 대신 쓸 수 있는 자연스러운 표현 | [preposition] |\n| proxy / proxy indicator | 직접 측정 불가 시 대리 지표 — 금융·리서치 맥락에 매우 적합 | [word-choice] |\n| aggregate (data) | \"gathering data\"의 더 정확하고 전문적인 표현 | [word-choice] |\n| proprietary information | \"information they don't expose to the public\"의 간결하고 정확한 대체 | [register] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 계획·의도 표현 시 \"try to gather / plan to build / intend to use\" 형태 의식적 사용 | [verbal-noun] |\n| \"I mean\" 대신 한 박자 침묵 후 발화, 또는 \"To put it differently,\" / \"What I'm getting at is—\" 로 교체 | [filler] |",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "date": "2025-01-05",
+        "topic": "직장 내 커뮤니케이션",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2025-01-05 | topic=직장 내 커뮤니케이션 | duration_min=15 -->\n날짜: 2025-01-05 | 주제: 직장 내 커뮤니케이션 | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\n오늘 대화의 핵심은 직장 내 커뮤니케이션 실수에 대한 자기 분석이었다. 복잡한 상황을 영어로 설명하려는 시도 자체는 인상적이었고, 특히 세 가지 문제점을 구조적으로 짚어낸 논리 전개가 돋보였다. 다만 복잡한 생각을 영어로 표현할 때 문장 구조가 무너지는 경향이 있었고, 관사 오류와 어색한 어휘 선택이 반복적으로 나타났다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| I got additional task to deal with it | I ended up with an additional task to deal with | 관사 누락(an additional task), \"deal with it\"의 it은 중복 | [articles] | 반복 |\n| it's not a great work | it's not great work | work는 불가산명사, \"a great work\"는 문학 작품 맥락에서만 사용 | [word-choice] | 일회성 |\n| I felt that our team leader be frustrated | I felt that our team leader was frustrated | felt 이후 종속절은 직설법 과거 사용 | [tense] | 일회성 |\n| to make it efficient our work | to make our work more efficient | 어순 오류 + 비교급 필요 | [word-choice] | 일회성 |\n| I should choose better place to talk | I should choose a better place to talk | 관사 누락(a better place) | [articles] | 반복 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| personal device | personal advice |\n| tear it | share it / bring it up |\n| Michael and manner | my tone and manner |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| frankly speaking | frankly / to be frank / if I'm being honest | 원어민이 거의 쓰지 않는 직역체 표현 | [register] |\n| the order from the top | the directive from leadership / instructions from above | order from the top은 군사적·권위적 뉘앙스, directive가 비즈니스 맥락에 자연스러움 | [register] |\n| show off my comments to everyone | air my views in front of the whole team / voice my concerns publicly | show off는 '자랑하다' 부정 뉘앙스, air views / voice concerns가 중립적 | [word-choice] |\n| That's insane. Doesn't make any sense. | That's completely unrealistic / That fundamentally misses the point | 비즈니스 맥락에서 세련된 비판 표현이 전문성을 높임 | [register] |\n| I didn't have to get into that conversation | I shouldn't have inserted myself into that discussion / That wasn't my place to weigh in | 더 정확한 책임 인식을 담은 C1 수준 표현 | [word-choice] |\n\n## 4. 반복 패턴\n### 강점\n- \"in his shoes\" 관용표현을 자연스럽게 활용\n- 복잡한 상황을 세 가지로 구조화해 설명하는 논리적 전개력\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 가산명사 앞 관사 반복 누락 (additional task, better place 등) | [articles] | 반복 |\n| 복잡한 감정·상황 서술 시 문장 미완성 또는 구조 붕괴 | [fragmentation] | 반복 |\n| um, uh, like 필러 과다 사용 — 전문성 인상에 영향 | [filler] | 반복 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| speak out of turn | 말해서는 안 될 때/자리에서 발언하다 | I realize I spoke out of turn in that meeting. | [register] |\n| flag my concerns | 우려사항을 미리 알리다 | I should have flagged my concerns to him privately first. | [collocation] |\n| get on the same page | 같은 이해·합의에 도달하다 | Let's get on the same page before the meeting. | [collocation] |\n| push back diplomatically | 외교적으로 반박·저항하다 | You can push back diplomatically without undermining your leader. | [register] |\n| that wasn't my place to weigh in | 내가 끼어들 자리가 아니었다 | In retrospect, that wasn't my place to weigh in so publicly. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| directive | 상부의 지시·방침 — \"order from the top\"의 세련된 비즈니스 대안 | [register] |\n| misaligned expectations | 기대치가 어긋난 상태 — 경영진과 실무진 간 이해 차이 설명에 적합 | [word-choice] |\n| overextend oneself | 자신의 역할·능력 이상으로 나서다 | [collocation] |\n| frame the message | 메시지를 어떻게 전달할지 설계하다 — \"adjust my manner\"의 더 정확한 표현 | [word-choice] |\n| take it offline | 회의 중 논의를 따로 빼서 개인적으로 얘기하자고 할 때 쓰는 비즈니스 관용어 | [collocation] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 발화 시 가산명사 앞 a/an/the 의식적 체크 — a task, a meeting, a better approach부터 시작 | [articles] |\n| flag my concerns + take it offline 다음 세션에서 자연스럽게 1회씩 사용 | [collocation] |",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "date": "2026-06-18",
+        "topic": "Casual Small Talk & Personal Growth",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-18 | topic=Casual Small Talk & Personal Growth | duration_min=15 -->\n날짜: 2026-06-18 | 주제: Casual Small Talk & Personal Growth | 소요시간: 15분\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| (지난 세션 Next Session 액션) | 달성 / 부분 / 미달 |\n| 이전 미션 정보 없음 — 앱에서 자동 점검 |  |\n## 1. 종합 평가\n이번 세션에서는 목적 지향적이고 분석적인 커뮤니케이션 스타일에서 벗어나 자연스러운 일상적 소규모 대화인 스몰토크를 연습하는 데 집중하였습니다. 표준적인 취미나 여행 주제를 피하면서도, 개인의 성장이나 배움에 대한 주제를 통해 대화의 흐름을 부드럽게 이어가는 능력을 성공적으로 보여주었습니다.\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along | re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다 | [collocation] | 반복 |\n| I'm not good at speaking that is not have purpose | I struggle with making small talk when there's no clear purpose | 목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다 | [word-choice] | 화석화 |\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| 원문 | 추정 |\n| 없음 |  |\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along? / How is your latest venture going? | 're-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다 | [collocation] |\n## 4. 반복 패턴\n### 강점\n * 명확하고 직관적인 대화 시작 능력\n * 개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다 | [register] | 반복 |\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| coming along | 일이 진행되다, 진척되다 | How is your new project coming along? | [collocation] |\n| outside of daily routines | 일상 업무/일상 생활 외에 | What do you usually do outside of daily routines? | [collocation] |\n| deep dive | 깊이 파고들다, 몰두하다 | I decided to take a deep dive into machine learning this week. | [word-choice] |\n| fresh perspective | 새로운 시각, 참신한 관점 | That experience gave me a fresh perspective on the issue. | [collocation] |\n| broaden my horizons | 시야를 넓히다 | Traveling to different countries can really broaden your horizons. | [collocation] |\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| venture | 새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다 | [word-choice] |\n| curiosity | 단순한 목적 외에 내적 호기심을 표현하는 단어입니다 | [word-choice] |\n| immerse | 어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다 | [word-choice] |\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다 | [register] |\n| 최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다 | [word-choice] |",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "date": "2025-01-19",
+        "topic": "SK Hynix 성장 스토리",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2025-01-19 | topic=SK Hynix 성장 스토리 | duration_min=15 -->\n날짜: 2025-01-19 | 주제: SK Hynix 성장 스토리 | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\n컨디션이 좋지 않으셨음에도 SK Hynix의 성장 스토리라는 경험에 기반한 주제로 대화를 이끌어가셨다. 회사 내부의 정서를 영어로 묘사하려는 시도가 인상적이었고, 대화 흐름 조율도 자연스러웠다. 다만 \"because that\" 패턴이 반복적으로 나타나는 화석화 오류가 두드러졌고, 시제 일관성도 추가 점검이 필요하다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how they mislead the users? | how do they mislead users? | 직접 의문문이므로 do-inversion 필요, \"the users\" → \"users\" (일반 지칭) | [question-form] | 일회성 |\n| Let's to do some easier talk | Let's have a lighter conversation | Let's 뒤에는 동사원형, \"to do\" → \"do\" 또는 표현 교체 | [verbal-noun] | 일회성 |\n| the talking about the stock market | talking about the stock market | 동명사 앞에 정관사 the 불필요 | [articles] | 일회성 |\n| our company reaches one trillion dollar | our company reached one trillion dollars | 과거 사건이므로 과거시제, dollar → dollars | [tense] | 일회성 |\n| because that we haven't paid back | because we hadn't paid back | \"because that\"은 비문, \"haven't\" → \"hadn't\" (과거완료) | [redundancy] | 화석화 |\n| every employees | every employee / all employees | every + 단수명사, 복수는 all employees | [plural] | 반복 |\n| when they are in the downtown | when the company was going through a downturn | downtown(시내)이 아닌 downturn(침체기), 시제도 과거로 | [word-choice] | 일회성 |\n| It's get used to it | People just get used to it | 주어-동사 구조 재정립 필요 | [sva] | 일회성 |\n| That's very important one | That's a very important point | 부정관사 \"a\" 누락, \"one\" → \"point\" | [articles] | 반복 |\n| managed by government | managed by the government | 특정 기관 지칭 시 정관사 \"the\" 필요 | [articles] | 반복 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| downtown | downturn (발음 유사, 혼동 가능) |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| I have been working for SK Hynix | I'm with SK Hynix / I've been at SK Hynix for X years | \"be with\" 또는 \"be at\"이 비즈니스 맥락에서 더 자연스럽고 세련됨 | [register] |\n| one of the biggest memory manufacturer in the world | one of the world's leading memory chip manufacturers | biggest → leading이 비즈니스 레지스터에 적합, 어순 조정 | [register] |\n| Hynix has survived by today | Hynix has come this far / Hynix has made it to where it is today | \"survived by today\"는 어색한 구조 | [word-choice] |\n| stock price went up at least five times | shares surged anywhere from five to tenfold / the stock has at least quintupled | 비즈니스·금융 맥락에서 quintupled, tenfold, surged가 세련된 표현 | [register] |\n| under the surveillance of the government | under government receivership / under state oversight | surveillance는 감시·첩보 맥락, 부채 관리·구조조정에는 receivership / state oversight가 정확 | [word-choice] |\n\n## 4. 반복 패턴\n### 강점\n- \"Let's call it a day\" 원어민 이디엄을 자연스럽고 정확하게 사용\n- \"frankly speaking\" 자신의 입장 명확히 할 때 자연스럽게 활용\n- 대화 주도권 조율 표현을 직접적이고 정중하게 구사\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| \"because that\" 반복 — 비문이며 because 단독으로만 사용해야 함 | [redundancy] | 화석화 |\n| 과거 사건을 현재형으로 서술하는 경향, 내러티브 서술 시 시제 혼용 | [tense] | 반복 |\n| 아이디어가 명확함에도 문장 구조가 중간에 흐트러지는 경우 반복 | [fragmentation] | 반복 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| under government receivership | 법정관리·정부 관리 하에 있음 | Hynix was under government receivership before its remarkable turnaround. | [register] |\n| ride the wave of | ~의 흐름을 타다, 수혜를 받다 | SK Hynix has been riding the wave of AI-driven demand for HBM chips. | [collocation] |\n| normalize surprisingly quickly | 놀랍도록 빠르게 일상화되다 | People normalize success surprisingly quickly — even a tenfold stock gain. | [collocation] |\n| windfall gains | 뜻밖의 대규모 이익, 횡재 | Employees didn't seem fazed by the windfall gains in the stock price. | [collocation] |\n| from near-collapse to [milestone] | 거의 붕괴 직전에서 ~까지 | The story of Hynix — from near-collapse to a trillion-dollar valuation — is remarkable. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| downturn | 경기·실적 침체기 — \"downtown\"이 아닌 정확한 표현 | [word-choice] |\n| government receivership / state oversight | 부채·구조조정 맥락의 정확한 표현 | [register] |\n| quintupled / surged tenfold | 금융 문맥에서 세련된 배수 표현 | [register] |\n| High-Bandwidth Memory (HBM) | AI 수요 맥락에서 핵심 반도체 용어 | [word-choice] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 이유 설명 시 \"because that\" 대신 because 단독 사용 — 나오려 하면 잠깐 멈추고 수정 | [redundancy] |\n| surged / quintupled / rode the rally 중 하나를 의식적으로 사용 | [register] |",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "date": "2026-06-18",
+        "topic": "Casual Small Talk & Personal Growth",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-18 | topic=Casual Small Talk & Personal Growth | duration_min=15 -->\n날짜: 2026-06-18 | 주제: Casual Small Talk & Personal Growth | 소요시간: 15분\n## 0. 지난 미션 점검\n| 미션 | 이행 |\n|---|---|\n| (지난 세션 Next Session 액션) | 달성 / 부분 / 미달 |\n| 이전 미션 정보 없음 — 앱에서 자동 점검 |  |\n## 1. 종합 평가\n이번 세션에서는 목적 지향적이고 분석적인 커뮤니케이션 스타일에서 벗어나 자연스러운 일상적 소규모 대화인 스몰토크를 연습하는 데 집중하였습니다. 표준적인 취미나 여행 주제를 피하면서도, 개인의 성장이나 배움에 대한 주제를 통해 대화의 흐름을 부드럽게 이어가는 능력을 성공적으로 보여주었습니다.\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along | re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다 | [collocation] | 반복 |\n| I'm not good at speaking that is not have purpose | I struggle with making small talk when there's no clear purpose | 목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다 | [word-choice] | 화석화 |\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| 원문 | 추정 |\n| 없음 |  |\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| how's your learning project re-going | How's that learning project of yours coming along? / How is your latest venture going? | 're-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다 | [collocation] |\n## 4. 반복 패턴\n### 강점\n * 명확하고 직관적인 대화 시작 능력\n * 개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다 | [register] | 반복 |\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| coming along | 일이 진행되다, 진척되다 | How is your new project coming along? | [collocation] |\n| outside of daily routines | 일상 업무/일상 생활 외에 | What do you usually do outside of daily routines? | [collocation] |\n| deep dive | 깊이 파고들다, 몰두하다 | I decided to take a deep dive into machine learning this week. | [word-choice] |\n| fresh perspective | 새로운 시각, 참신한 관점 | That experience gave me a fresh perspective on the issue. | [collocation] |\n| broaden my horizons | 시야를 넓히다 | Traveling to different countries can really broaden your horizons. | [collocation] |\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| venture | 새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다 | [word-choice] |\n| curiosity | 단순한 목적 외에 내적 호기심을 표현하는 단어입니다 | [word-choice] |\n| immerse | 어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다 | [word-choice] |\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다 | [register] |\n| 최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다 | [word-choice] |",
+        "created_at": "2026-06-18T14:04:22.951Z"
+      },
+      {
+        "id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "date": "2026-06-16",
+        "topic": "World Cup & National Team Tactics",
+        "duration_min": 15,
+        "raw_report": "# 오늘의 대화 분석 리포트\n<!-- meta: date=2026-06-16 | topic=World Cup & National Team Tactics | duration_min=15 -->\n날짜: 2026-06-16 | 주제: World Cup & National Team Tactics | 소요시간: 15분\n\n## 0. 지난 미션 점검\n이전 미션 정보 없음 — 앱에서 자동 점검\n\n## 1. 종합 평가\nC1+ 수준의 고급 비즈니스 어휘를 수용할 수 있는 높은 이해력을 보여주었다. 축구 전술과 선수 기용이라는 주제를 빌려 리스크 관리, 자원 부족(스쿼드 뎁스), 외부 평가 등의 전략적 개념을 논리적으로 전개했다. 전반적으로 유창하나, 문장 완성도와 정확한 명사·전치사 선택에서 일부 정교화가 필요하다.\n\n## 2. 정확성 교정\n| Original | Corrected | 설명 | Tag | Severity |\n|---|---|---|---|---|\n| Korea is qualified as a user? | Korea qualified as a participant? | 월드컵 참가국 맥락에서 user는 부적절, participant/contender가 적합 | [word-choice] | 일회성 |\n| head coach decided to change Son Heung-Min to other player. | the head coach decided to replace Son Heung-min with another player. | 선수 교체는 replace A with B 또는 substitute A for B | [collocation] | 반복 |\n| it was a successful to change the new to a new attacker | it was a successful substitution of the new attacker | 형용사 successful 뒤에는 보어나 명사구가 와야 함, successful to change는 비문 | [verbal-noun] | 일회성 |\n| Korea was not good at depend. | Korea has not been good at defending. | 전치사 at 뒤에는 동명사 defending 또는 명사 defense | [verbal-noun] | 화석화 |\n| we cannot hardly expect the substitute player play that well. | we can hardly expect the substitute player to play that well. | hardly 자체에 부정 의미가 있어 cannot과 중복 사용 시 이중 부정, expect A to R 구조 필요 | [redundancy] | 반복 |\n| Which club they are playing in? | Which clubs do they play for? | 의문문 어순 오류, 클럽 소속 전치사는 for | [question-form] | 반복 |\n| How does the other nations assessment to head coach Hong Myung-bo? | What is the assessment of other nations regarding head coach Hong Myung-bo? | 명사 assessment를 동사처럼 잘못 사용한 구조적 붕괴 | [fragmentation] | 일회성 |\n\n## 2b. 전사 의심 (통계 제외)\n| 들린 표현 | 추정 원의도 |\n|---|---|\n| put a new attacker in the ground | put a new attacker on the pitch / field (경기장 투입) |\n| foreign gentleman | foreign giant / prestigious club (PSG를 지칭한 것으로 추정) |\n\n## 3. Native-like Rewrites\n| 사용자 표현 | Native-like 버전 | Nuance / Register | Tag |\n|---|---|---|---|\n| change of the player | tactical substitution / making a sub | 단순 교체보다 전술적 교체의 뉘앙스를 살린 스포츠·비즈니스 표현 | [collocation] |\n| he had a room to move around | he had space to exploit / operate | 물리적인 방(room)보다 전술적 공간(space)을 활용한다는 정교한 표현 | [word-choice] |\n| we are highly big expectation on him. | expectations are running high for him / we have high hopes for him. | 기대가 크다를 비즈니스적이고 세련된 명사구 주어로 표현 | [register] |\n| Thank you for having me | Thank you for your time. / Great talking to you. | 본인이 초대받은 상황이 아니므로 비즈니스 미팅 종료 시 시간 할애 감사 표현으로 교체 | [register] |\n\n## 4. 반복 패턴\n### 강점\n- 축구 전술의 인과관계(상대 수비 시선 분산 → 체력 저하 → 공간 창출)를 논리적인 구조로 설명하는 능력\n\n### 약점\n| 설명 | Tag | Severity |\n|---|---|---|\n| 특정 동사와 결합하는 전치사(play for, replace with) 혼동 | [preposition] | 반복 |\n| hardly의 부정 중복 사용 및 의문문 형성 시 어순 오류 | [question-form] | 반복 |\n| 전치사 뒤 동사원형 배치(at depend) 및 준동사 목적어 구조 오류 | [verbal-noun] | 화석화 |\n\n## 5. 추천 Phrase\n| Phrase | 의미·뉘앙스 | 예문 | Tag |\n|---|---|---|---|\n| double-edged sword | 양날의 검 — 리스크와 기회가 공존할 때 | Benching the star player was a double-edged sword, but it ultimately paid off. | [collocation] |\n| thin on depth | 스쿼드·인력 층이 얇은 | Critics worry that the team is too thin on depth to survive the group stage. | [word-choice] |\n| rise to the occasion | 위기·중요한 순간에 역량을 발휘하다 | The substitute players need to rise to the occasion if key starters get injured. | [collocation] |\n| turn the tide | 형세를 뒤집다, 반전시키다 | Lee Kang-in's precise pass completely turned the tide of the match. | [collocation] |\n| cushion the blow | 충격을 완화하다 | The opponent's red card might cushion the blow of losing our key defender. | [collocation] |\n\n## 6. 능동 어휘\n| 표현 | 설명 | Tag |\n|---|---|---|\n| tactical flexibility | 전술적 유연성 — 상황에 따라 변화를 주는 능력 | [word-choice] |\n| vulnerability | 취약점 — 수비진의 약점 등을 논할 때 선호됨 | [word-choice] |\n| bench strength | 후보 선수들의 역량 — 스쿼드 뎁스의 동의어 | [collocation] |\n| high stakes | 리스크가 큰, 중요한 이권이 걸린 — 중요한 경기·협상 맥락 | [register] |\n\n## 7. Next Session\n| 액션 | 연관 Tag |\n|---|---|\n| 준동사(to부정사 vs 동명사) 구문 의도적 배치 — expect A to R, good at -ing 적용 | [verbal-noun] |\n| 부정어(hardly, seldom) 사용 시 don't / cannot 중복 제거 의식하기 | [redundancy] |",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      }
+    ],
+    "phrases": [
+      {
+        "id": "01f9fe10-a3a1-4336-a96b-b7b423dae6d1",
+        "norm": "flag my concerns",
+        "phrase": "flag my concerns",
+        "meaning": "우려사항을 미리 알리다",
+        "example": "I should have flagged my concerns to him privately first.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 1,
+        "due_date": "2026-06-17",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "0a7de6d1-47d7-4b4a-a2f3-4835d5635449",
+        "norm": "come full circle",
+        "phrase": "come full circle",
+        "meaning": "결국 원점으로 돌아오다, 완결되다",
+        "example": "Winning against the Spurs came full circle for Brunson's family.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "0ce9ec43-38b1-43ca-8e33-e88010c1c2c0",
+        "norm": "carry a team on one s back",
+        "phrase": "carry a team on one's back",
+        "meaning": "팀을 혼자 이끌다",
+        "example": "Brunson literally carried the Knicks on his back in Game 6.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "14b0b848-a600-4aca-a90f-fe7dbeaefc00",
+        "norm": "triangulate across sources",
+        "phrase": "triangulate (across sources)",
+        "meaning": "복수 소스를 교차 검증하다",
+        "example": "We can triangulate across permit filings, land leases, and utility contracts.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "1632962d-eec6-443e-86ef-6b8a56e534d1",
+        "norm": "floor general",
+        "phrase": "floor general",
+        "meaning": "코트 위의 지휘관, 탁월한 플레이메이커",
+        "example": "San Antonio needs a floor general to complement Wembanyama.",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "192b2189-7402-49de-8006-15fc7050acf1",
+        "norm": "under government receivership",
+        "phrase": "under government receivership",
+        "meaning": "법정관리·정부 관리 하에 있음",
+        "example": "Hynix was under government receivership before its remarkable turnaround.",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "3975c884-4118-46fa-80bf-f68dea1def7c",
+        "norm": "windfall gains",
+        "phrase": "windfall gains",
+        "meaning": "뜻밖의 대규모 이익, 횡재",
+        "example": "Employees didn't seem fazed by the windfall gains in the stock price.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "3b08d818-2544-4cf5-bab9-bfe38fe9555b",
+        "norm": "speak out of turn",
+        "phrase": "speak out of turn",
+        "meaning": "말해서는 안 될 때/자리에서 발언하다",
+        "example": "I realize I spoke out of turn in that meeting.",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "3b68094e-7cc9-466d-90ee-105fda7d5217",
+        "norm": "fresh perspective",
+        "phrase": "fresh perspective",
+        "meaning": "새로운 시각, 참신한 관점",
+        "note": "",
+        "example": "That experience gave me a fresh perspective on the issue.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 4,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "3c1865f6-a5a1-4a11-975c-21703446afb8",
+        "norm": "rise to the occasion",
+        "phrase": "rise to the occasion",
+        "meaning": "위기·중요한 순간에 역량을 발휘하다",
+        "example": "The substitute players need to rise to the occasion if key starters get injured.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "3d556c4c-12b5-4dea-b8ea-97ead52e08e5",
+        "norm": "outside of daily routines",
+        "phrase": "outside of daily routines",
+        "meaning": "일상 업무/일상 생활 외에",
+        "note": "",
+        "example": "What do you usually do outside of daily routines?",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 4,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "4369f1ad-009a-4d99-8860-0342e23b4543",
+        "norm": "coming along",
+        "phrase": "coming along",
+        "meaning": "일이 진행되다, 진척되다",
+        "note": "",
+        "example": "How is your new project coming along?",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 4,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "5234ad03-a326-4217-b696-916a2f1f2779",
+        "norm": "push back diplomatically",
+        "phrase": "push back diplomatically",
+        "meaning": "외교적으로 반박·저항하다",
+        "example": "You can push back diplomatically without undermining your leader.",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "52cc0475-0a18-42bb-a0fa-6c316d1da554",
+        "norm": "from near collapse to milestone",
+        "phrase": "from near-collapse to [milestone]",
+        "meaning": "거의 붕괴 직전에서 ~까지",
+        "example": "The story of Hynix — from near-collapse to a trillion-dollar valuation — is remarkable.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "537a54cd-2544-4432-879d-54b08226f066",
+        "norm": "serve as a counterweight to",
+        "phrase": "serve as a counterweight to",
+        "meaning": "~에 대한 균형추 역할을 하다",
+        "example": "Buddhist philosophy serves as a counterweight to the relentless pursuit of growth in capitalism.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "55249c1a-3fa0-49b2-a4af-48cb50aaed4e",
+        "norm": "have skin in the game",
+        "phrase": "have skin in the game",
+        "meaning": "직접 이해관계가 걸려 있다",
+        "example": "Individual investors have skin in the game — they can't stay emotionally detached the way institutions can.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 1,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "5a4b499c-9e2c-49a5-abb3-027ebf3e5986",
+        "norm": "normalize surprisingly quickly",
+        "phrase": "normalize surprisingly quickly",
+        "meaning": "놀랍도록 빠르게 일상화되다",
+        "example": "People normalize success surprisingly quickly — even a tenfold stock gain.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "5d7fcfab-2c8c-48ca-88c5-36149f62bcc4",
+        "norm": "deep dive",
+        "phrase": "deep dive",
+        "meaning": "깊이 파고들다, 몰두하다",
+        "note": "",
+        "example": "I decided to take a deep dive into machine learning this week.",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 4,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "62390c01-2954-4fc5-9c14-77ae3fcf1834",
+        "norm": "run x by someone",
+        "phrase": "run X by someone",
+        "meaning": "~에게 검토·의견을 구하다",
+        "example": "Let me run this triangulation idea by my agents and see what they surface.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "6de1dd01-7d23-416f-9a53-4820548cbd57",
+        "norm": "broaden my horizons",
+        "phrase": "broaden my horizons",
+        "meaning": "시야를 넓히다",
+        "note": "",
+        "example": "Traveling to different countries can really broaden your horizons.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 4,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "7cfbcbe7-5e1a-42fe-a497-c5eda76b717f",
+        "norm": "treat x as a monolithic group",
+        "phrase": "treat X as a monolithic group",
+        "meaning": "X를 단일한 집단으로 취급하다",
+        "example": "We can't treat retail investors as a monolithic group — the variance across segments is enormous.",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "82f3b3f3-d839-47d3-af1f-0a077527bb74",
+        "norm": "delegate decision making to",
+        "phrase": "delegate decision-making to",
+        "meaning": "의사결정을 ~에게 위임하다",
+        "example": "Individual investors are reluctant to delegate decision-making to AI, even when it outperforms them.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "86fc5662-2e68-460b-8659-03afe7a3c5d3",
+        "norm": "the gist of",
+        "phrase": "the gist of",
+        "meaning": "핵심, 요지",
+        "example": "Once I've got the gist of the foundational texts, I'll have the agents synthesize the rest.",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-17",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "895cb895-0136-4796-95ac-2510ff625b6e",
+        "norm": "a canary in the coal mine",
+        "phrase": "a canary in the coal mine",
+        "meaning": "위험·변화의 조기 신호",
+        "example": "Power grid strain could be a canary in the coal mine for the next capex cycle.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "945beacd-c22b-4542-bba9-26626a2afc88",
+        "norm": "get on the same page",
+        "phrase": "get on the same page",
+        "meaning": "같은 이해·합의에 도달하다",
+        "example": "Let's get on the same page before the meeting.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "97d98668-c5c9-4cdc-9e16-389fec013af4",
+        "norm": "vary considerably across",
+        "phrase": "vary considerably across",
+        "meaning": "~에 걸쳐 상당히 다양하다",
+        "example": "AI adoption rates vary considerably across age groups and education levels.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "a5962579-ea5a-4369-8d3b-9dec06608c0f",
+        "norm": "defy expectations",
+        "phrase": "defy expectations",
+        "meaning": "기대를 뛰어넘다, 예상을 깨다",
+        "example": "He defied expectations by outscoring players twice his size.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "a65f33a8-a908-48cb-9c74-dcdb4e5b1411",
+        "norm": "that wasn t my place to weigh in",
+        "phrase": "that wasn't my place to weigh in",
+        "meaning": "내가 끼어들 자리가 아니었다",
+        "example": "In retrospect, that wasn't my place to weigh in so publicly.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "a9cf9e2f-2b8f-49ed-8a5b-1b9290b57196",
+        "norm": "cast a wide net",
+        "phrase": "cast a wide net",
+        "meaning": "광범위하게 탐색하다",
+        "example": "At this stage, we're casting a wide net before narrowing the scope.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "b80d51d0-11b5-4a1b-bf42-d60df0de967d",
+        "norm": "take the pressure off",
+        "phrase": "take the pressure off",
+        "meaning": "부담을 덜어주다",
+        "example": "Adding a veteran point guard would take the pressure off Fox.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "c94ca973-99cc-4898-8255-074fd841235a",
+        "norm": "thin on depth",
+        "phrase": "thin on depth",
+        "meaning": "스쿼드·인력 층이 얇은",
+        "example": "Critics worry that the team is too thin on depth to survive the group stage.",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "cdeeb9ad-1d5f-42a7-94c0-a2e9963c8ad4",
+        "norm": "ride the wave of",
+        "phrase": "ride the wave of",
+        "meaning": "~의 흐름을 타다, 수혜를 받다",
+        "example": "SK Hynix has been riding the wave of AI-driven demand for HBM chips.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "reps": 1,
+        "used_later_count": 0,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "cfdc1400-1a01-4d70-8bbe-d51d4ed42385",
+        "norm": "on second thought",
+        "phrase": "on second thought",
+        "meaning": "다시 생각해보니",
+        "example": "On second thought, let's stay home.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "03be9530-5da7-4ce2-9d40-aa22691b0f07",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:49:31.432Z"
+      },
+      {
+        "id": "d4a3dc62-8f03-4af6-addc-9c1df4ef10af",
+        "norm": "double edged sword",
+        "phrase": "double-edged sword",
+        "meaning": "양날의 검 — 리스크와 기회가 공존할 때",
+        "example": "Benching the star player was a double-edged sword, but it ultimately paid off.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "ef13d8f9-898c-441d-8a76-64f6fdc2c4c7",
+        "norm": "cushion the blow",
+        "phrase": "cushion the blow",
+        "meaning": "충격을 완화하다",
+        "example": "The opponent's red card might cushion the blow of losing our key defender.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "fc0c0c50-c620-40e6-b902-15fc72df6113",
+        "norm": "turn the tide",
+        "phrase": "turn the tide",
+        "meaning": "형세를 뒤집다, 반전시키다",
+        "example": "Lee Kang-in's precise pass completely turned the tide of the match.",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "reps": 0,
+        "used_later_count": 0,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      }
+    ],
+    "vocab": [
+      {
+        "id": "0565c6c7-1b6a-4740-b5d3-942c0e70a028",
+        "norm": "redemption arc",
+        "word": "redemption arc",
+        "meaning": "구원의 서사, 재기의 스토리 — Brunson 가족 스토리에 정확히 맞는 표현",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "09c74a3e-2405-43db-ac9c-b5fdfece60fd",
+        "norm": "curiosity",
+        "word": "curiosity",
+        "meaning": "단순한 목적 외에 내적 호기심을 표현하는 단어입니다",
+        "note": "",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "0d410e21-2619-48d9-929a-da0b7c16ce36",
+        "norm": "bench strength",
+        "word": "bench strength",
+        "meaning": "후보 선수들의 역량 — 스쿼드 뎁스의 동의어",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "0ed2163b-47f0-49cf-9f70-08ef0c6cb95d",
+        "norm": "basket of stocks",
+        "word": "basket of stocks",
+        "meaning": "\"bundle stocks\" 대신 금융에서 표준적으로 쓰이는 표현",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "1314b26c-12de-4cb3-93c6-536b69455708",
+        "norm": "generational talent",
+        "word": "generational talent",
+        "meaning": "세대를 대표하는 재능 — Wembanyama 묘사에 적합",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "154a1438-ae87-4a85-a405-d93f6f137509",
+        "norm": "high bandwidth memory hbm",
+        "word": "High-Bandwidth Memory (HBM)",
+        "meaning": "AI 수요 맥락에서 핵심 반도체 용어",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 2,
+        "due_date": "2026-06-20",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "17341904-45e3-4656-af39-c83247a0f3e6",
+        "norm": "underdog",
+        "word": "underdog",
+        "meaning": "열세에 있는 팀·선수 — Brunson 묘사에 적합",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 2,
+        "due_date": "2026-06-20",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "197aa46a-09dc-4e45-b8f3-b2bac3ce7ca3",
+        "norm": "proxy proxy indicator",
+        "word": "proxy / proxy indicator",
+        "meaning": "직접 측정 불가 시 대리 지표 — 금융·리서치 맥락에 매우 적합",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "23f7a60f-882f-4a70-9636-3639c9b5c368",
+        "norm": "overextend oneself",
+        "word": "overextend oneself",
+        "meaning": "자신의 역할·능력 이상으로 나서다",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "260265b2-333a-4515-ac78-10fdce48af60",
+        "norm": "government receivership state oversight",
+        "word": "government receivership / state oversight",
+        "meaning": "부채·구조조정 맥락의 정확한 표현",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "2a1d3661-6550-45ba-96ed-906b65d0b262",
+        "norm": "quintupled surged tenfold",
+        "word": "quintupled / surged tenfold",
+        "meaning": "금융 문맥에서 세련된 배수 표현",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "2e029ee9-7607-4976-b909-4543506d6320",
+        "norm": "tactical flexibility",
+        "word": "tactical flexibility",
+        "meaning": "전술적 유연성 — 상황에 따라 변화를 주는 능력",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "317fb09b-1940-4f3b-9e78-14ace37c5a81",
+        "norm": "venture",
+        "word": "venture",
+        "meaning": "새롭게 시도하는 사업이나 계획을 의미하는 어휘입니다",
+        "note": "",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "37fbe3e6-37e1-4045-8e2f-31d865940da4",
+        "norm": "proprietary information",
+        "word": "proprietary information",
+        "meaning": "\"information they don't expose to the public\"의 간결하고 정확한 대체",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "3a24867a-980b-42ac-8bc7-3bf463314e95",
+        "norm": "non attachment",
+        "word": "non-attachment",
+        "meaning": "불교의 무집착 개념, 오늘 대화 맥락에서 유용한 표현",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "7e6b6e45-d3f5-4744-a518-66bcf977a1b6",
+        "norm": "vulnerability",
+        "word": "vulnerability",
+        "meaning": "취약점 — 수비진의 약점 등을 논할 때 선호됨",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "83b739b1-e587-41b9-8042-233bcbc73cfb",
+        "norm": "homogenization",
+        "word": "homogenization",
+        "meaning": "획일화 — 3점슛 위주로 NBA가 획일화됐다는 맥락",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "862cacf3-d6c9-4084-af7d-5f082a868526",
+        "norm": "pension fund",
+        "word": "pension fund",
+        "meaning": "\"patient fund\"가 아닌 연금 기금의 정확한 표현",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "91c3a26e-b10a-473a-9bc0-1cbb859240d4",
+        "norm": "fiduciary",
+        "word": "fiduciary",
+        "meaning": "수탁자 책임 — 기관투자자 맥락 핵심 어휘(fiduciary duty, fiduciary pressure)",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "9397adff-ba5e-41bf-af24-f3801c956e96",
+        "norm": "high stakes",
+        "word": "high stakes",
+        "meaning": "리스크가 큰, 중요한 이권이 걸린 — 중요한 경기·협상 맥락",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T15:12:44.421Z"
+      },
+      {
+        "id": "96df1772-480e-45c9-a39f-f35a6f76002a",
+        "norm": "aggregate data",
+        "word": "aggregate (data)",
+        "meaning": "\"gathering data\"의 더 정확하고 전문적인 표현",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "a98eeddb-ea7f-4c72-971b-104d4a26977b",
+        "norm": "misaligned expectations",
+        "word": "misaligned expectations",
+        "meaning": "기대치가 어긋난 상태 — 경영진과 실무진 간 이해 차이 설명에 적합",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "a9dc5388-31ae-4275-8dbb-4090e46fd508",
+        "norm": "directive",
+        "word": "directive",
+        "meaning": "상부의 지시·방침 — \"order from the top\"의 세련된 비즈니스 대안",
+        "tags": [
+          "register"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "c002c864-33c3-4dc3-aec8-54443afd461b",
+        "norm": "downturn",
+        "word": "downturn",
+        "meaning": "경기·실적 침체기 — \"downtown\"이 아닌 정확한 표현",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "srs_box": 2,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-16T14:52:39.945Z"
+      },
+      {
+        "id": "c4141fd9-9a33-4a93-afb5-85a4d9011f23",
+        "norm": "reluctant",
+        "word": "reluctant",
+        "meaning": "내키지 않는",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "03be9530-5da7-4ce2-9d40-aa22691b0f07",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:49:31.432Z"
+      },
+      {
+        "id": "c528c35d-954b-43a2-b307-8ddf1f591f64",
+        "norm": "inconsistent",
+        "word": "inconsistent",
+        "meaning": "불안정한, 일관성 없는 — Fox의 플레이메이킹 묘사",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:57.449Z"
+      },
+      {
+        "id": "d7ed8ef6-9a96-40f9-b191-01d3444e36eb",
+        "norm": "put x to an agent team",
+        "word": "put X to (an agent/team)",
+        "meaning": "\"ask about this to\" 대신 쓸 수 있는 자연스러운 표현",
+        "tags": [
+          "preposition"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "e277ed61-2c82-4d36-8562-74e803e953c4",
+        "norm": "immerse",
+        "word": "immerse",
+        "meaning": "어떤 분야나 작업에 깊이 몰두하는 상태를 나타냅니다",
+        "note": "",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "srs_box": 1,
+        "due_date": "2026-06-18",
+        "created_at": "2026-06-18T13:59:27.496Z"
+      },
+      {
+        "id": "e2f8d9ec-be63-4919-9948-602d2784f164",
+        "norm": "take it offline",
+        "word": "take it offline",
+        "meaning": "회의 중 논의를 따로 빼서 개인적으로 얘기하자고 할 때 쓰는 비즈니스 관용어",
+        "tags": [
+          "collocation"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      },
+      {
+        "id": "ef1bc60c-d533-4840-bf03-a3b3b8dc62bf",
+        "norm": "large language model llm",
+        "word": "large language model (LLM)",
+        "meaning": "\"large luggage motor\"로 발화됨 — 정확한 발음 연습 필요",
+        "tags": [
+          "pronunciation"
+        ],
+        "first_seen_session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:52:50.084Z"
+      },
+      {
+        "id": "f0c1df5c-f1ed-4fc8-9c9b-b80e7c510aa7",
+        "norm": "samsara",
+        "word": "samsara",
+        "meaning": "\"life of circulation\"을 대신할 정확한 불교 용어, 영어 대화에서도 그대로 사용 가능",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "srs_box": 1,
+        "due_date": "2026-06-19",
+        "created_at": "2026-06-16T14:52:23.331Z"
+      },
+      {
+        "id": "fe281855-42c7-4b84-8e52-9e72193e0869",
+        "norm": "frame the message",
+        "word": "frame the message",
+        "meaning": "메시지를 어떻게 전달할지 설계하다 — \"adjust my manner\"의 더 정확한 표현",
+        "tags": [
+          "word-choice"
+        ],
+        "first_seen_session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "srs_box": 1,
+        "due_date": "2026-06-16",
+        "created_at": "2026-06-16T14:51:56.552Z"
+      }
+    ],
+    "rewrites": [
+      {
+        "id": "148657f4-c071-429a-98d0-6d629d155706",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "user_expr": "he had a room to move around",
+        "native_version": "he had space to exploit / operate",
+        "nuance": "물리적인 방(room)보다 전술적 공간(space)을 활용한다는 정교한 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "1f5bebde-41b5-419d-8b13-9e16e8fde78c",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "user_expr": "show off my comments to everyone",
+        "native_version": "air my views in front of the whole team / voice my concerns publicly",
+        "nuance": "show off는 '자랑하다' 부정 뉘앙스, air views / voice concerns가 중립적",
+        "tag": "word-choice"
+      },
+      {
+        "id": "2060ba2a-8432-4e37-8999-55dcfe936b5a",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "user_expr": "I start to sharing the New York Knicks",
+        "native_version": "I started rooting for the Knicks / I jumped on the Knicks' bandwagon",
+        "nuance": "rooting for은 자연스러운 응원 표현, jump on the bandwagon은 구어체로 생동감 있음",
+        "tag": "collocation"
+      },
+      {
+        "id": "28792378-b5af-4f43-9ad3-c858a127ffc0",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "user_expr": "the main sense of the books",
+        "native_version": "the key takeaways / the gist of the books",
+        "nuance": "\"sense\"는 이 맥락에 어색, gist가 자연스러운 구어 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "2a2dd709-3b07-4a47-85cd-1f6cfd5c0850",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "user_expr": "I have been working for SK Hynix",
+        "native_version": "I'm with SK Hynix / I've been at SK Hynix for X years",
+        "nuance": "\"be with\" 또는 \"be at\"이 비즈니스 맥락에서 더 자연스럽고 세련됨",
+        "tag": "register"
+      },
+      {
+        "id": "332e5548-d679-47d5-9778-09d0e15f9861",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "user_expr": "it sounds astonishing that I can make something useful for my life",
+        "native_version": "What's remarkable is that I can actually build something practical — no engineering background required",
+        "nuance": "what-cleft 강조 구문으로 임팩트 강화, 더 자연스러운 구어체",
+        "tag": "register"
+      },
+      {
+        "id": "35b2693b-a66b-4365-89ff-aec367cc33f0",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "user_expr": "give the opportunity AI to enjoy that success",
+        "native_version": "hand AI the credit for those wins / let AI claim the glory",
+        "nuance": "비즈니스 맥락에서 자주 쓰이는 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "39a35a49-c6cb-49b0-bf30-9d083855dcfb",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "user_expr": "he's a clutch player",
+        "native_version": "he's got ice in his veins / he thrives under pressure",
+        "nuance": "clutch는 맞는 표현이나 idiom을 쓰면 더 vivid",
+        "tag": "collocation"
+      },
+      {
+        "id": "3ac70cc4-7684-407d-ab89-168c503fbe07",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "user_expr": "I must ask about this to my agents",
+        "native_version": "I'll put this to my agents / I'll run this by my agents",
+        "nuance": "\"ask to\"는 비표준, put X to / run X by가 자연스러운 비즈니스 표현",
+        "tag": "preposition"
+      },
+      {
+        "id": "3cffcf7e-248d-4839-a11f-14dda9afc608",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "user_expr": "I didn't have to get into that conversation",
+        "native_version": "I shouldn't have inserted myself into that discussion / That wasn't my place to weigh in",
+        "nuance": "더 정확한 책임 인식을 담은 C1 수준 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "41d1338e-4626-4d1c-af30-cc7fbfcd8fc7",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "user_expr": "That's insane. Doesn't make any sense.",
+        "native_version": "That's completely unrealistic / That fundamentally misses the point",
+        "nuance": "비즈니스 맥락에서 세련된 비판 표현이 전문성을 높임",
+        "tag": "register"
+      },
+      {
+        "id": "44ecec9b-18ce-48a7-9a5a-221b37169e85",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "user_expr": "they cover big extent of the coverage",
+        "native_version": "their coverage is impressively broad / they cast a remarkably wide net",
+        "nuance": "\"big extent of the coverage\"는 redundant, 간결하게 표현",
+        "tag": "redundancy"
+      },
+      {
+        "id": "477d576b-22e8-4ea8-a63e-098ae392b0fa",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "user_expr": "how's your learning project re-going",
+        "native_version": "How's that learning project of yours coming along? / How is your latest venture going?",
+        "nuance": "'re-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다",
+        "tag": "collocation"
+      },
+      {
+        "id": "540348eb-0005-433e-b3b1-fe34480ec0b1",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "user_expr": "the order from the top",
+        "native_version": "the directive from leadership / instructions from above",
+        "nuance": "order from the top은 군사적·권위적 뉘앙스, directive가 비즈니스 맥락에 자연스러움",
+        "tag": "register"
+      },
+      {
+        "id": "55841225-cb9c-4ab1-981b-c99c00efcd22",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "user_expr": "the order from the top",
+        "native_version": "directive from leadership",
+        "nuance": "군사적 뉘앙스를 제거하고 세련된 비즈니스 어조로 변경",
+        "tag": "register"
+      },
+      {
+        "id": "5b861b95-c883-4987-92cf-37bcfc2bd07b",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "user_expr": "how's your learning project re-going",
+        "native_version": "How's that learning project of yours coming along? / How is your latest venture going?",
+        "nuance": "'re-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다",
+        "tag": "collocation"
+      },
+      {
+        "id": "5ee51ad7-6cea-4dcd-9960-414385278c15",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "user_expr": "the basketball was the game for the tour guys",
+        "native_version": "basketball used to be dominated by big men / it was a big man's game",
+        "nuance": "big man's game은 농구 담론에서 자주 쓰이는 관용 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "6542be46-1ae4-4ab8-81b6-b04bd0287a71",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "user_expr": "Hynix has survived by today",
+        "native_version": "Hynix has come this far / Hynix has made it to where it is today",
+        "nuance": "\"survived by today\"는 어색한 구조",
+        "tag": "word-choice"
+      },
+      {
+        "id": "68b9097f-619d-4a3a-8ef8-b73529d5ae27",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "user_expr": "we are highly big expectation on him.",
+        "native_version": "expectations are running high for him / we have high hopes for him.",
+        "nuance": "기대가 크다를 비즈니스적이고 세련된 명사구 주어로 표현",
+        "tag": "register"
+      },
+      {
+        "id": "7087ad74-48b5-4fd6-a0d4-e98c1ae2cc53",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "user_expr": "under the surveillance of the government",
+        "native_version": "under government receivership / under state oversight",
+        "nuance": "surveillance는 감시·첩보 맥락, 부채 관리·구조조정에는 receivership / state oversight가 정확",
+        "tag": "word-choice"
+      },
+      {
+        "id": "7290d70e-67f6-44be-acef-7609cbf380da",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "user_expr": "individual investor as a one whole group",
+        "native_version": "retail investors as a monolithic group",
+        "nuance": "monolithic은 C1+ 수준의 자연스러운 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "7bbd4103-8fe2-4923-8718-9c4ab97a62ca",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "user_expr": "how's your learning project re-going",
+        "native_version": "How's that learning project of yours coming along? / How is your latest venture going?",
+        "nuance": "'re-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다",
+        "tag": "collocation"
+      },
+      {
+        "id": "7dbf7029-9a1f-47dd-a6f2-b5c61460f8a6",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "user_expr": "stock price went up at least five times",
+        "native_version": "shares surged anywhere from five to tenfold / the stock has at least quintupled",
+        "nuance": "비즈니스·금융 맥락에서 quintupled, tenfold, surged가 세련된 표현",
+        "tag": "register"
+      },
+      {
+        "id": "8e7ce3f2-5c48-49bc-9164-37e834b47da1",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "user_expr": "not stable ball handler",
+        "native_version": "not a reliable distributor / his playmaking is inconsistent",
+        "nuance": "distributor, inconsistent이 더 정확하고 세련된 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "92669265-1cc1-4123-a106-6f8931b7bc4f",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "user_expr": "life of circulation",
+        "native_version": "the cycle of rebirth / samsara",
+        "nuance": "불교 맥락에서 samsara가 가장 정확한 용어",
+        "tag": "word-choice"
+      },
+      {
+        "id": "94f19408-abeb-4f66-9d4a-fd71bb88578f",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "user_expr": "one of the biggest memory manufacturer in the world",
+        "native_version": "one of the world's leading memory chip manufacturers",
+        "nuance": "biggest → leading이 비즈니스 레지스터에 적합, 어순 조정",
+        "tag": "register"
+      },
+      {
+        "id": "9eb03fea-fd3e-424b-a2c5-92d4f2a382b8",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "user_expr": "how's your learning project re-going",
+        "native_version": "How's that learning project of yours coming along? / How is your latest venture going?",
+        "nuance": "'re-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다",
+        "tag": "collocation"
+      },
+      {
+        "id": "b1655823-0f80-47c5-b882-6c28e9123cfa",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "user_expr": "Buddhism didn't ask people to do more aggressively",
+        "native_version": "Buddhism doesn't push people toward relentless accumulation",
+        "nuance": "push toward / encourage가 훨씬 자연스러운 collocation",
+        "tag": "collocation"
+      },
+      {
+        "id": "b5f6b2a4-6480-4aa6-b29d-1ba59ad77763",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "user_expr": "books for laborers",
+        "native_version": "reference books / foundational texts on the subject",
+        "nuance": "발화 오류 가능성, 더 정확한 표현으로 대체 권장",
+        "tag": "word-choice"
+      },
+      {
+        "id": "c07d4110-42cc-459e-a156-5e88195dcbde",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "user_expr": "Thank you for having me",
+        "native_version": "Thank you for your time. / Great talking to you.",
+        "nuance": "본인이 초대받은 상황이 아니므로 비즈니스 미팅 종료 시 시간 할애 감사 표현으로 교체",
+        "tag": "register"
+      },
+      {
+        "id": "c179eb8f-d1b0-4b07-bb70-ea680260dbbd",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "user_expr": "tech service already adopt AI to trade the bundle stocks",
+        "native_version": "tech-savvy investors already use AI to trade baskets of stocks",
+        "nuance": "basket of stocks는 금융 표준 표현",
+        "tag": "collocation"
+      },
+      {
+        "id": "c66b2139-2ffb-401b-8eca-e98a088de9b7",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "user_expr": "change of the player",
+        "native_version": "tactical substitution / making a sub",
+        "nuance": "단순 교체보다 전술적 교체의 뉘앙스를 살린 스포츠·비즈니스 표현",
+        "tag": "collocation"
+      },
+      {
+        "id": "c88d389f-277e-42a3-88cb-725d04f50418",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "user_expr": "find a ball handler and make the fox focus on scoring",
+        "native_version": "they need a floor general to take the playmaking burden off Fox",
+        "nuance": "floor general은 농구 전문 용어, take the burden off는 세련된 표현",
+        "tag": "word-choice"
+      },
+      {
+        "id": "f50c55c2-8aa7-4b9b-b6db-ec90907cf60e",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "user_expr": "frankly speaking",
+        "native_version": "frankly / to be frank / if I'm being honest",
+        "nuance": "원어민이 거의 쓰지 않는 직역체 표현",
+        "tag": "register"
+      },
+      {
+        "id": "fd091993-8572-4b0a-b18d-c4ae6ff23a1a",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "user_expr": "how's your learning project re-going",
+        "native_version": "How's that learning project of yours coming along? / How is your latest venture going?",
+        "nuance": "'re-going'을 보다 원어민처럼 자연스럽고 유연한 표현인 'coming along'으로 바꾸었습니다",
+        "tag": "collocation"
+      }
+    ],
+    "corrections": [
+      {
+        "id": "034fd71b-ef7d-48f6-9d47-cd0f21087498",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "Is there anything that Buddhism influence you",
+        "corrected": "Is there anything about Buddhism that has influenced you?",
+        "rule": "관계절 구조 오류, influence → has influenced(현재완료)",
+        "error_tag": "sva",
+        "severity": "일회성"
+      },
+      {
+        "id": "10f662ae-25a7-4d0f-adb6-2f232d022ce0",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "original": "I'm not good at speaking that is not have purpose",
+        "corrected": "I struggle with making small talk when there's no clear purpose",
+        "rule": "목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다",
+        "error_tag": "word-choice",
+        "severity": "화석화"
+      },
+      {
+        "id": "125efdd3-b406-471e-88fc-82a2e2885041",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "Buddhism didn't ask people to do more aggressively",
+        "corrected": "Buddhism doesn't ask people to act more aggressively",
+        "rule": "불교의 일반적 가르침이므로 현재시제, do → act",
+        "error_tag": "tense",
+        "severity": "일회성"
+      },
+      {
+        "id": "1491de35-b6ba-491f-9b31-04f0e5ce2f6a",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "the talking about the stock market",
+        "corrected": "talking about the stock market",
+        "rule": "동명사 앞에 정관사 the 불필요",
+        "error_tag": "articles",
+        "severity": "일회성"
+      },
+      {
+        "id": "15cd0fbc-75a3-4cc0-8695-4a5c83c4e969",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "every employees",
+        "corrected": "every employee / all employees",
+        "rule": "every + 단수명사, 복수는 all employees",
+        "error_tag": "plural",
+        "severity": "반복"
+      },
+      {
+        "id": "1865f15a-5af1-476c-9ca3-613aada2a0a1",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "original": "I should choose better place to talk",
+        "corrected": "I should choose a better place to talk",
+        "rule": "관사 누락(a better place)",
+        "error_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "2463c446-f64b-40fc-80eb-bb89d005923d",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "we cannot hardly expect the substitute player play that well.",
+        "corrected": "we can hardly expect the substitute player to play that well.",
+        "rule": "hardly 자체에 부정 의미가 있어 cannot과 중복 사용 시 이중 부정, expect A to R 구조 필요",
+        "error_tag": "redundancy",
+        "severity": "반복"
+      },
+      {
+        "id": "27b02e31-b527-4519-8687-a411d79f2853",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "in my instinct",
+        "corrected": "my instinct tells me / intuitively",
+        "rule": "\"in my instinct\"는 비표준 표현",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "28d319f6-1e13-4bef-8064-5a2f5cac2882",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "original": "the people don't think he's prominent",
+        "corrected": "people didn't think he was prominent",
+        "rule": "과거 상황이므로 과거시제, 관사 the 불필요",
+        "error_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "2bfca073-a499-45ba-8a99-cad8736d653f",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "original": "I'm not good at speaking that is not have purpose",
+        "corrected": "I struggle with making small talk when there's no clear purpose",
+        "rule": "목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다",
+        "error_tag": "word-choice",
+        "severity": "화석화"
+      },
+      {
+        "id": "2f63d08e-345a-409e-8f81-5ee5da906e48",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "our company reaches one trillion dollar",
+        "corrected": "our company reached one trillion dollars",
+        "rule": "과거 사건이므로 과거시제, dollar → dollars",
+        "error_tag": "tense",
+        "severity": "일회성"
+      },
+      {
+        "id": "3123dff1-74f4-46b6-995c-42edadfa9d42",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "I'm trying to gathering",
+        "corrected": "I'm trying to gather",
+        "rule": "try to + 동사원형, to 뒤에는 반드시 동사원형",
+        "error_tag": "verbal-noun",
+        "severity": "화석화"
+      },
+      {
+        "id": "316a15b7-95b1-4b44-a526-cdd331c8d130",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "head coach decided to change Son Heung-Min to other player.",
+        "corrected": "the head coach decided to replace Son Heung-min with another player.",
+        "rule": "선수 교체는 replace A with B 또는 substitute A for B",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "37404c31-5ea4-4654-a9f2-5a9f3455850f",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "Which club they are playing in?",
+        "corrected": "Which clubs do they play for?",
+        "rule": "의문문 어순 오류, 클럽 소속 전치사는 for",
+        "error_tag": "question-form",
+        "severity": "반복"
+      },
+      {
+        "id": "3968303c-a8b6-4175-9bc2-c4316e74d9ae",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "original": "I felt that our team leader be frustrated",
+        "corrected": "I felt that our team leader was frustrated",
+        "rule": "felt 이후 종속절은 직설법 과거 사용",
+        "error_tag": "tense",
+        "severity": "일회성"
+      },
+      {
+        "id": "3b168cb1-46bd-4291-8879-41cca629f15a",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "how they mislead the users?",
+        "corrected": "how do they mislead users?",
+        "rule": "직접 의문문이므로 do-inversion 필요, \"the users\" → \"users\" (일반 지칭)",
+        "error_tag": "question-form",
+        "severity": "일회성"
+      },
+      {
+        "id": "5ca249cd-b6e7-42b9-a396-48febf4a2309",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "they required to",
+        "corrected": "they're required to",
+        "rule": "be동사 탈락 오류",
+        "error_tag": "sva",
+        "severity": "일회성"
+      },
+      {
+        "id": "5f96010a-9696-49a4-98cd-5524fe071f06",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "original": "many of people believes",
+        "corrected": "many people believe",
+        "rule": "복수 주어 동사 일치",
+        "error_tag": "sva",
+        "severity": "반복"
+      },
+      {
+        "id": "6081eb53-1c04-48bb-9ef9-0e87c779a1f7",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "original": "how's your learning project re-going",
+        "corrected": "How's that learning project of yours coming along",
+        "rule": "re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "636cde58-657f-40e2-85fe-efa0d22b5886",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "original": "I'm not good at speaking that is not have purpose",
+        "corrected": "I struggle with making small talk when there's no clear purpose",
+        "rule": "목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다",
+        "error_tag": "word-choice",
+        "severity": "화석화"
+      },
+      {
+        "id": "66b0368a-f5cd-406c-841e-ea15a37e121b",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "I will decide that how to",
+        "corrected": "I will decide how to",
+        "rule": "\"that\"과 \"how\" 중복 사용 불가",
+        "error_tag": "redundancy",
+        "severity": "일회성"
+      },
+      {
+        "id": "66fa2cbb-0407-4f0b-9a27-8d24d5303e58",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "original": "how's your learning project re-going",
+        "corrected": "How's that learning project of yours coming along",
+        "rule": "re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "67b34980-59aa-4b61-abc4-ac9fd48d5615",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "you spend your time very valuable",
+        "corrected": "you spend your time valuably",
+        "rule": "very 뒤에는 부사 필요, valuable(형용사) → valuably(부사)",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "6993e41e-1529-480f-818d-bcb184e4ccb7",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "it was a successful to change the new to a new attacker",
+        "corrected": "it was a successful substitution of the new attacker",
+        "rule": "형용사 successful 뒤에는 보어나 명사구가 와야 함, successful to change는 비문",
+        "error_tag": "verbal-noun",
+        "severity": "일회성"
+      },
+      {
+        "id": "6c4ff103-a5ba-4b92-a05c-2d51645be31e",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "many of people in Korea believes",
+        "corrected": "many people in Korea believe",
+        "rule": "many of people → many people, 복수 주어이므로 believe",
+        "error_tag": "sva",
+        "severity": "반복"
+      },
+      {
+        "id": "6fa87e99-8115-4a45-89e7-4793d0cc6b74",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "Korea was not good at depend.",
+        "corrected": "Korea has not been good at defending.",
+        "rule": "전치사 at 뒤에는 동명사 defending 또는 명사 defense",
+        "error_tag": "verbal-noun",
+        "severity": "화석화"
+      },
+      {
+        "id": "83150a87-ee70-4623-acc8-f72dd3f46270",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "managed by government",
+        "corrected": "managed by the government",
+        "rule": "특정 기관 지칭 시 정관사 \"the\" 필요",
+        "error_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "85d8927f-46f1-4888-a8e1-e6f998e0ce2b",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "original": "how's your learning project re-going",
+        "corrected": "How's that learning project of yours coming along",
+        "rule": "re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "863b01a3-b4db-43e5-8474-8ce5e4a244e9",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "That's very important one",
+        "corrected": "That's a very important point",
+        "rule": "부정관사 \"a\" 누락, \"one\" → \"point\"",
+        "error_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "8ae91572-29c2-4f16-a670-a99db47cf5da",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "original": "I got additional task to deal with it",
+        "corrected": "I ended up with an additional task to deal with",
+        "rule": "관사 누락(an additional task), \"deal with it\"의 it은 중복",
+        "error_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "8e3ded2d-0157-4eb5-9d27-1e7ddfa07736",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "Let's to do some easier talk",
+        "corrected": "Let's have a lighter conversation",
+        "rule": "Let's 뒤에는 동사원형, \"to do\" → \"do\" 또는 표현 교체",
+        "error_tag": "verbal-noun",
+        "severity": "일회성"
+      },
+      {
+        "id": "9ec6c61f-116e-473c-9128-049386676d61",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "Korea is qualified as a user?",
+        "corrected": "Korea qualified as a participant?",
+        "rule": "월드컵 참가국 맥락에서 user는 부적절, participant/contender가 적합",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "ae3931c0-b64d-4812-b95e-f944d18a198f",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "original": "I'm not good at speaking that is not have purpose",
+        "corrected": "I struggle with making small talk when there's no clear purpose",
+        "rule": "목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다",
+        "error_tag": "word-choice",
+        "severity": "화석화"
+      },
+      {
+        "id": "af9b7acc-b4f2-446c-98aa-703384e50a48",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "original": "how's your learning project re-going",
+        "corrected": "How's that learning project of yours coming along",
+        "rule": "re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "b3639d14-6bd0-4866-8683-4fe0b879b088",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "original": "How do you think?",
+        "corrected": "What do you think?",
+        "rule": "의견을 물을 때는 \"What do you think?\" 사용, \"How do you think?\"는 비문",
+        "error_tag": "question-form",
+        "severity": "일회성"
+      },
+      {
+        "id": "b9c8db90-2d8a-4a0e-8805-ac83db1ee694",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "original": "Jungdo only left one wins",
+        "corrected": "San Antonio only needed one more win",
+        "rule": "주어 혼동 및 구조 수정",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "bc3595b9-c902-4469-9700-7e051955996d",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "original": "How does the other nations assessment to head coach Hong Myung-bo?",
+        "corrected": "What is the assessment of other nations regarding head coach Hong Myung-bo?",
+        "rule": "명사 assessment를 동사처럼 잘못 사용한 구조적 붕괴",
+        "error_tag": "fragmentation",
+        "severity": "일회성"
+      },
+      {
+        "id": "c2429974-15a9-4b6f-90a9-84c3405c8b9c",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "original": "how's your learning project re-going",
+        "corrected": "How's that learning project of yours coming along",
+        "rule": "re-going은 문법적으로 사용되지 않는 표현이며 coming along 또는 going을 사용하는 것이 자연스럽습니다",
+        "error_tag": "collocation",
+        "severity": "반복"
+      },
+      {
+        "id": "c5414e55-0d2e-49bc-bf15-ef3ec64a0830",
+        "session_id": "03be9530-5da7-4ce2-9d40-aa22691b0f07",
+        "original": "I go to school yesterday",
+        "corrected": "I went to school yesterday",
+        "rule": "과거 시제",
+        "error_tag": "tense",
+        "severity": "반복"
+      },
+      {
+        "id": "c58c1e94-604c-4357-8c05-1fa8a289267c",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "It's get used to it",
+        "corrected": "People just get used to it",
+        "rule": "주어-동사 구조 재정립 필요",
+        "error_tag": "sva",
+        "severity": "일회성"
+      },
+      {
+        "id": "c82f9130-064b-42c5-9c86-11836b9ba23e",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "I am not in Jungdo",
+        "corrected": "I am Jungdo",
+        "rule": "전치사 \"in\" 불필요, 존재를 나타낼 때는 be동사만 사용",
+        "error_tag": "preposition",
+        "severity": "일회성"
+      },
+      {
+        "id": "ce09beeb-3e42-4972-8e60-9288ea9684ba",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "original": "to improving my English skills",
+        "corrected": "to improve my English skills",
+        "rule": "to부정사 뒤에는 동사원형",
+        "error_tag": "verbal-noun",
+        "severity": "화석화"
+      },
+      {
+        "id": "d16e029f-5119-4ba7-919e-8c0240ff2a57",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "bond (단수)",
+        "corrected": "bonds",
+        "rule": "복수 맥락에서 복수형 사용",
+        "error_tag": "plural",
+        "severity": "일회성"
+      },
+      {
+        "id": "d242a77b-4ad8-42ad-9553-1648638567e7",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "everyone wants earn more money",
+        "corrected": "everyone wants to earn more money",
+        "rule": "want + to부정사, to 누락",
+        "error_tag": "verbal-noun",
+        "severity": "반복"
+      },
+      {
+        "id": "d3f12384-1b06-48de-b38e-0d49c542f0f5",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "original": "human resource",
+        "corrected": "human resources",
+        "rule": "복수형이 관용적 표현",
+        "error_tag": "plural",
+        "severity": "일회성"
+      },
+      {
+        "id": "d5fa76b3-66bf-43e8-b6e6-ef8522e44ee2",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "original": "to make it efficient our work",
+        "corrected": "to make our work more efficient",
+        "rule": "어순 오류 + 비교급 필요",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "d6a318a8-7fb8-41a6-a6a8-a26745d9ccc0",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "gathering as many as companies possible",
+        "corrected": "gathering as many companies as possible",
+        "rule": "as many + 명사 + as possible 어순",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "e0694f2b-5382-49aa-ab28-2196f9c40a13",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "how do we use that data (내포절)",
+        "corrected": "how to use that data / how we could use that data",
+        "rule": "내포 의문문은 평서문 어순 사용",
+        "error_tag": "question-form",
+        "severity": "반복"
+      },
+      {
+        "id": "e1b125f4-6067-4700-bcd4-61940b2f2b5a",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "original": "it's not a great work",
+        "corrected": "it's not great work",
+        "rule": "work는 불가산명사, \"a great work\"는 문학 작품 맥락에서만 사용",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "e4211a3b-4858-4cd6-aa42-69e2df2b5984",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "original": "I'm not good at speaking that is not have purpose",
+        "corrected": "I struggle with making small talk when there's no clear purpose",
+        "rule": "목적이 명확하지 않은 대화의 어려움을 더 명확하고 격식 있는 구조로 교정하였습니다",
+        "error_tag": "word-choice",
+        "severity": "화석화"
+      },
+      {
+        "id": "e9ca7cae-5377-4daa-90b9-f9d405f78693",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "when they are in the downtown",
+        "corrected": "when the company was going through a downturn",
+        "rule": "downtown(시내)이 아닌 downturn(침체기), 시제도 과거로",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "f484f091-537f-4bae-9027-4e82936c97c0",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "original": "we can't have a quality discussion",
+        "corrected": "we can have a quality discussion",
+        "rule": "문맥상 긍정 의도인데 부정어 삽입",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "f982c5d2-4160-4107-9c4a-8c3931499fc4",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "original": "all of the cars equipped at three points play",
+        "corrected": "all of the teams adopted a three-point-heavy style",
+        "rule": "cars → teams, equipped at → adopted",
+        "error_tag": "word-choice",
+        "severity": "일회성"
+      },
+      {
+        "id": "fd11e616-8216-41bf-8c07-d3dd5022cac8",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "original": "because that we haven't paid back",
+        "corrected": "because we hadn't paid back",
+        "rule": "\"because that\"은 비문, \"haven't\" → \"hadn't\" (과거완료)",
+        "error_tag": "redundancy",
+        "severity": "화석화"
+      }
+    ],
+    "patterns": [
+      {
+        "id": "05c4726b-c450-4b0d-bfa1-b6e912729e89",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "type": "weakness",
+        "description": "목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다",
+        "canonical_tag": "register",
+        "severity": "반복"
+      },
+      {
+        "id": "0d438218-76b1-4bb3-b10a-413b0a181dc6",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "type": "weakness",
+        "description": "목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다",
+        "canonical_tag": "register",
+        "severity": "반복"
+      },
+      {
+        "id": "0eb56df3-c004-4ed0-a92a-8967a19adae0",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "type": "weakness",
+        "description": "hardly의 부정 중복 사용 및 의문문 형성 시 어순 오류",
+        "canonical_tag": "question-form",
+        "severity": "반복"
+      },
+      {
+        "id": "0f394c13-af0b-4cc3-8773-c87a5bbaea2b",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "weakness",
+        "description": "과거 사건을 현재형으로 서술하는 패턴 반복",
+        "canonical_tag": "tense",
+        "severity": "반복"
+      },
+      {
+        "id": "1d761e08-a37f-4f56-97e6-851c690220b3",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "type": "weakness",
+        "description": "문장이 도중에 끊기거나 방향이 바뀌는 패턴 반복",
+        "canonical_tag": "fragmentation",
+        "severity": "반복"
+      },
+      {
+        "id": "20def88a-d990-4b15-87a5-c2e185314432",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "type": "strength",
+        "description": "복잡한 상황을 세 가지로 구조화해 설명하는 논리적 전개력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "26942a05-18f7-411a-a2d3-f7f0d04fee30",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "type": "weakness",
+        "description": "관사 반복 누락",
+        "canonical_tag": "articles",
+        "severity": "화석화"
+      },
+      {
+        "id": "2929826d-bdca-4a18-be2a-371e7894d3ae",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "type": "strength",
+        "description": "명확하고 직관적인 대화 시작 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "294e5ecf-1cf8-4d85-a906-488e254f490f",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "type": "strength",
+        "description": "개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "30507c16-28fb-4c78-8bbe-783e06ab1d0f",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "type": "strength",
+        "description": "명확하고 직관적인 대화 시작 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "364060d1-ffea-47b9-baef-46e5dd6d5411",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "type": "strength",
+        "description": "명확하고 직관적인 대화 시작 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "375014a7-263c-4baa-941e-9cda7cf93713",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "strength",
+        "description": "스포츠 담론에서 핵심 개념을 영어로 표현하려는 적극적 시도",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "482dbe61-792d-42f1-9df1-be713bb04b3f",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "weakness",
+        "description": "고유명사 발음·표기 혼동 — 대화 맥락에서 혼란 야기(Curry, Brunson, Knicks 등)",
+        "canonical_tag": "pronunciation",
+        "severity": "반복"
+      },
+      {
+        "id": "4d2b062e-0f60-453e-955c-c194ada84432",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "weakness",
+        "description": "과거 사건을 현재형으로 서술하는 경향, 내러티브 서술 시 시제 혼용",
+        "canonical_tag": "tense",
+        "severity": "반복"
+      },
+      {
+        "id": "56015c3a-dd6e-4ad5-b877-346ae3db3c2b",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "type": "weakness",
+        "description": "um, uh, like 필러 과다 사용 — 전문성 인상에 영향",
+        "canonical_tag": "filler",
+        "severity": "반복"
+      },
+      {
+        "id": "5a6085cd-d59d-46ff-8316-319d44e603eb",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "weakness",
+        "description": "\"because that\" 반복 — 비문이며 because 단독으로만 사용해야 함",
+        "canonical_tag": "redundancy",
+        "severity": "화석화"
+      },
+      {
+        "id": "68432e35-3d86-4c3a-b6bb-c506e4e7293a",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "type": "strength",
+        "description": "명확하고 직관적인 대화 시작 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "6904fc28-8e20-4168-88b0-aa17af0128dd",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "strength",
+        "description": "논리적 흐름을 갖춘 스토리텔링 능력(Brunson의 서사, Fox의 역할 분석 등)",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "70e9d0ca-bd99-41d6-a731-7e30ce2a3e2f",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "type": "strength",
+        "description": "개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "774db783-5fb2-4b6e-9502-d37459abddcb",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "strength",
+        "description": "논리적 대조 구조 활용(however, instead, on the other hand 개념 자연스럽게 사용)",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "7b3d647a-6baa-4fcb-8007-fff8084bde48",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "type": "strength",
+        "description": "전문 어휘 자연스럽게 구사 (leading indicators, AI factory ecosystem, triangulating, quantify the signal 등)",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "82a896fe-3d77-433d-878e-8f4ed0e2f2fc",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "type": "strength",
+        "description": "축구 전술의 인과관계(상대 수비 시선 분산 → 체력 저하 → 공간 창출)를 논리적인 구조로 설명하는 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "8ae0a9f1-0052-43e0-9812-7987654cdcd4",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "strength",
+        "description": "기관투자자 vs 개인투자자 분석적 세분화 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "8c0d7684-c65f-4d12-bbb9-eaa3c9d95065",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "type": "weakness",
+        "description": "목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다",
+        "canonical_tag": "register",
+        "severity": "반복"
+      },
+      {
+        "id": "8cd10075-9a7b-44a7-b551-9b9dc5125f82",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "type": "strength",
+        "description": "개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "90371580-6a91-4a6f-9db8-ebb1f2a61ae6",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "type": "strength",
+        "description": "개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "914d6a4c-39f7-4c53-9bb5-1e16ae5b0f3d",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "type": "strength",
+        "description": "논리적 대조 구조 활용",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "979c7282-e071-4bf9-8721-46b70c8205cb",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "type": "weakness",
+        "description": "특정 동사와 결합하는 전치사(play for, replace with) 혼동",
+        "canonical_tag": "preposition",
+        "severity": "반복"
+      },
+      {
+        "id": "9d2ce71e-4146-4d8f-ba6c-ba60e381b711",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "type": "weakness",
+        "description": "I mean / uh / and then이 문장 시작부에 반복 등장 — 내용 신뢰도 저하",
+        "canonical_tag": "filler",
+        "severity": "반복"
+      },
+      {
+        "id": "9d381e06-3776-48bf-ac87-680e60a68377",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "type": "strength",
+        "description": "명확하고 직관적인 대화 시작 능력",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "a3688fd3-bc8e-4be5-9e5c-689725fe73fa",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "strength",
+        "description": "대화 흐름 능동적으로 주도하고 주제 전환 자연스럽게 처리",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "a6587579-8e27-4501-9c64-7fb18b6abb21",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "strength",
+        "description": "\"Let's call it a day\" 원어민 이디엄을 자연스럽고 정확하게 사용",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "ab064b0d-faa6-4df0-843a-affc5efe79f7",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "type": "weakness",
+        "description": "목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다",
+        "canonical_tag": "register",
+        "severity": "반복"
+      },
+      {
+        "id": "aff6e399-57f4-47bf-b380-9b43d330ac6f",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "type": "strength",
+        "description": "복잡한 리서치 방법론을 논리적 흐름으로 설명하는 능력 우수",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "b7040bb9-e538-48b6-a954-a033699b6106",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "type": "weakness",
+        "description": "가산명사 앞 관사 반복 누락 (additional task, better place 등)",
+        "canonical_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "b79b68f5-79fb-449f-b910-7ea87aea5d81",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "type": "weakness",
+        "description": "복잡한 감정·상황 서술 시 문장 미완성 또는 구조 붕괴",
+        "canonical_tag": "fragmentation",
+        "severity": "반복"
+      },
+      {
+        "id": "b8711144-90c8-4e00-a069-a95b5fbfc233",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "weakness",
+        "description": "아이디어가 명확함에도 문장 구조가 중간에 흐트러지는 경우 반복",
+        "canonical_tag": "fragmentation",
+        "severity": "반복"
+      },
+      {
+        "id": "b96d3ba0-f0d9-43b8-8d2b-ffb994383aa0",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "strength",
+        "description": "\"frankly speaking\" 자신의 입장 명확히 할 때 자연스럽게 활용",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "bccdb06c-08ce-4002-a50a-e57be6a1b8be",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "type": "weakness",
+        "description": "전치사 뒤 동사원형 배치(at depend) 및 준동사 목적어 구조 오류",
+        "canonical_tag": "verbal-noun",
+        "severity": "화석화"
+      },
+      {
+        "id": "beb546bd-b02e-4c77-9f0e-626c0374b217",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "strength",
+        "description": "메타 커뮤니케이션 자연스럽게 처리(\"by the way, you changed the topic\" 등)",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "c341be85-4c79-4a88-a4f1-185bac68678c",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "type": "strength",
+        "description": "개인의 성장 및 학습에 대한 주제를 활용하는 유연한 화제 전환",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "cc7c6ec8-b4ab-414a-bf40-46dfe59e781b",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "type": "weakness",
+        "description": "목적이 없는 대화에 대해 기계적이거나 과제처럼 접근하는 경향이 있습니다",
+        "canonical_tag": "register",
+        "severity": "반복"
+      },
+      {
+        "id": "ddc628e5-1b09-4db6-a028-98c99115163b",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "type": "weakness",
+        "description": "\"try to + -ing\" 패턴 반복 — 한국어 화자에게 매우 흔한 화석화 오류",
+        "canonical_tag": "verbal-noun",
+        "severity": "화석화"
+      },
+      {
+        "id": "ee17b079-29ca-405a-a9f4-61799ccf7f52",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "type": "strength",
+        "description": "\"in his shoes\" 관용표현을 자연스럽게 활용",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "eee74dcd-3fea-420b-8594-16edc8a211cb",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "weakness",
+        "description": "복수 주어(many people, some investors 등) 뒤 단수 동사 패턴 반복",
+        "canonical_tag": "sva",
+        "severity": "반복"
+      },
+      {
+        "id": "efd41cde-7706-46c4-b035-fb1240432083",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "type": "strength",
+        "description": "대화 주도권 조율 표현을 직접적이고 정중하게 구사",
+        "canonical_tag": null,
+        "severity": null
+      },
+      {
+        "id": "f464b21e-c15e-41a7-8e1e-c043baaa9d72",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "type": "weakness",
+        "description": "관사(a/the) 사용 불안정",
+        "canonical_tag": "articles",
+        "severity": "반복"
+      },
+      {
+        "id": "f7cf689a-c625-4681-9f22-dabc9b87cfb0",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "weakness",
+        "description": "어휘 공백 시 대화 중단 또는 불명확한 표현으로 대체하는 경향",
+        "canonical_tag": "word-choice",
+        "severity": "반복"
+      },
+      {
+        "id": "fa9345b1-3093-45a3-bebe-ce9e987062f2",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "type": "weakness",
+        "description": "관사·복수형 간헐적 오류",
+        "canonical_tag": "articles",
+        "severity": "반복"
+      }
+    ],
+    "actions": [
+      {
+        "id": "09ed420e-2fe0-47a4-a29c-27e7a4f724da",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "completed": false,
+        "suggestion": "일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다",
+        "target_tag": "register"
+      },
+      {
+        "id": "1d8c8828-3eb1-4913-921f-a38507495820",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "completed": false,
+        "suggestion": "최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "1ea6a29e-01de-4c8d-8858-bac3f703ba44",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "completed": false,
+        "suggestion": "일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다",
+        "target_tag": "register"
+      },
+      {
+        "id": "293399e4-4db7-4867-9246-05bae5164c05",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "completed": false,
+        "suggestion": "carry on one's back / redemption arc / floor general 중 2개 다음 대화에서 의식적 사용",
+        "target_tag": "collocation"
+      },
+      {
+        "id": "2f4943c6-687e-4f5e-8524-183929eedab4",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "completed": false,
+        "suggestion": "many people / some investors 등 주어 발화 직후 동사 형태 의식적 확인",
+        "target_tag": "sva"
+      },
+      {
+        "id": "3aa3baa9-5f1d-44a2-a140-bf218861bd3b",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "completed": false,
+        "suggestion": "준동사(to부정사 vs 동명사) 구문 의도적 배치 — expect A to R, good at -ing 적용",
+        "target_tag": "verbal-noun"
+      },
+      {
+        "id": "3d72bcfd-268d-456e-95cd-a56ad800e891",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "completed": false,
+        "suggestion": "어휘 공백 시 \"What I'm trying to say is…\" / \"The concept I'm reaching for is…\" bridging phrase 활용",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "538e034a-0e95-49ae-87e0-aaf3e124c703",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "completed": false,
+        "suggestion": "flag my concerns + take it offline 다음 세션에서 자연스럽게 1회씩 사용",
+        "target_tag": "collocation"
+      },
+      {
+        "id": "56717f32-8469-4505-a367-906e5a102e98",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "completed": false,
+        "suggestion": "최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "60bdd3d9-4d24-435b-ae14-770799ff3d7d",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "completed": false,
+        "suggestion": "부정어(hardly, seldom) 사용 시 don't / cannot 중복 제거 의식하기",
+        "target_tag": "redundancy"
+      },
+      {
+        "id": "6f50a94f-1646-4f70-baf3-def29e411556",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "completed": false,
+        "suggestion": "최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "722efcb8-4bdc-4cdb-a451-6e21e78ed288",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "completed": false,
+        "suggestion": "\"I mean\" 대신 한 박자 침묵 후 발화, 또는 \"To put it differently,\" / \"What I'm getting at is—\" 로 교체",
+        "target_tag": "filler"
+      },
+      {
+        "id": "79bf001f-5976-4e9b-a4af-52a49be297d7",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "completed": false,
+        "suggestion": "surged / quintupled / rode the rally 중 하나를 의식적으로 사용",
+        "target_tag": "register"
+      },
+      {
+        "id": "79dc6782-5c72-4919-904f-c9181ac7f9e8",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "completed": false,
+        "suggestion": "일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다",
+        "target_tag": "register"
+      },
+      {
+        "id": "87de2c78-9d6f-4856-9c5e-f3b1a97501fd",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "completed": false,
+        "suggestion": "이유 설명 시 \"because that\" 대신 because 단독 사용 — 나오려 하면 잠깐 멈추고 수정",
+        "target_tag": "redundancy"
+      },
+      {
+        "id": "94446e03-9c42-427f-8aef-b32746dcfa7e",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "completed": false,
+        "suggestion": "발화 시 가산명사 앞 a/an/the 의식적 체크 — a task, a meeting, a better approach부터 시작",
+        "target_tag": "articles"
+      },
+      {
+        "id": "9ab8c5af-f2ff-43b2-828e-c4d386dd0736",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "completed": false,
+        "suggestion": "계획·의도 표현 시 \"try to gather / plan to build / intend to use\" 형태 의식적 사용",
+        "target_tag": "verbal-noun"
+      },
+      {
+        "id": "ae8490cd-9470-46c2-9ac4-dea7dbe6a1dd",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "completed": false,
+        "suggestion": "최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "b42f5fa9-7435-4b7a-b726-2e36bdbebe39",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "completed": false,
+        "suggestion": "일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다",
+        "target_tag": "register"
+      },
+      {
+        "id": "b7190db1-8931-4d96-8795-4b7c1868e3b7",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "completed": false,
+        "suggestion": "스포츠·비즈니스 대화 전 주요 인명·팀명 정확한 영어 발음 사전 확인",
+        "target_tag": "pronunciation"
+      },
+      {
+        "id": "bf18fc2f-1413-4e8c-86bc-79bac7d1d25d",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "completed": false,
+        "suggestion": "최근 몰입하고 있는 호기심에 대해 상대방에게 질문하는 것을 1회 이상 시도해 봅니다",
+        "target_tag": "word-choice"
+      },
+      {
+        "id": "ded07111-7102-41b5-8898-9472e341a52b",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "completed": false,
+        "suggestion": "일상 업무 주제를 완전히 제외한 상태에서 커피 브레이크 상황의 대화를 시도해 봅니다",
+        "target_tag": "register"
+      },
+      {
+        "id": "edba9057-acef-461e-bc10-6c8a26c837fe",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "completed": false,
+        "suggestion": "have skin in the game 실전 사용",
+        "target_tag": "collocation"
+      }
+    ],
+    "transcription_suspects": [
+      {
+        "id": "0853d69f-d4b3-498e-b15d-b122b323f3f1",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "heard": "없음",
+        "intended": ""
+      },
+      {
+        "id": "0b5b6c1f-3e3f-402c-89a3-d1261d246305",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "heard": "없음",
+        "intended": ""
+      },
+      {
+        "id": "16ec96aa-0f1c-4366-9b28-def1b533ce62",
+        "session_id": "e01eda13-2edf-4f3c-85d4-42e9d0f90bd5",
+        "heard": "원문",
+        "intended": "추정"
+      },
+      {
+        "id": "2ee6dfc8-cf26-4c77-b4df-67d0a38846ec",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "heard": "원문",
+        "intended": "추정"
+      },
+      {
+        "id": "2f1251af-3414-4a45-a7b4-f4efbd5b0f9c",
+        "session_id": "03dafef9-e314-4341-a255-b88ed710a296",
+        "heard": "원문",
+        "intended": "추정"
+      },
+      {
+        "id": "44558247-969f-4d86-86a6-e3cb19f382bc",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "heard": "tear it",
+        "intended": "share it / bring it up"
+      },
+      {
+        "id": "529cee1b-cc4a-4673-b7fe-7c3b0d37315e",
+        "session_id": "a825e034-2008-4be1-bf6c-c49d6519f0bb",
+        "heard": "없음",
+        "intended": ""
+      },
+      {
+        "id": "57b714fd-3b4d-42d4-afb0-e16996ced3ea",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "heard": "foreign gentleman",
+        "intended": "foreign giant / prestigious club (PSG를 지칭한 것으로 추정)"
+      },
+      {
+        "id": "6c23b267-d42b-4caf-a731-7fb63a0b3522",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "heard": "원문",
+        "intended": "추정"
+      },
+      {
+        "id": "6e54e120-0456-4af8-9461-3e6e42a741b9",
+        "session_id": "cbaad703-da34-4143-8e20-7b9d77e67f58",
+        "heard": "downtown",
+        "intended": "downturn (발음 유사, 혼동 가능)"
+      },
+      {
+        "id": "72314f81-a30e-4f34-9cd4-4e214cb47ca4",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "heard": "personal device",
+        "intended": "personal advice"
+      },
+      {
+        "id": "85812484-9a90-4760-8a2d-9942570968ea",
+        "session_id": "8bd43dee-aa26-41cd-9f8e-49b671479963",
+        "heard": "large luggage motor",
+        "intended": "large language model (LLM) (발음 유사)"
+      },
+      {
+        "id": "89063ad2-dc36-43e8-b02a-bab4f1890282",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "heard": "없음",
+        "intended": ""
+      },
+      {
+        "id": "a3e86e63-d3cd-4ae8-901b-1bbd5a505759",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "heard": "Tafran Curry",
+        "intended": "Steph Curry"
+      },
+      {
+        "id": "a6bac6fb-30e2-4e0c-85b4-9b725a6871da",
+        "session_id": "e1911bf1-f797-499e-99ac-e7f8cf7333b2",
+        "heard": "put a new attacker in the ground",
+        "intended": "put a new attacker on the pitch / field (경기장 투입)"
+      },
+      {
+        "id": "afe8df7c-6efb-4bcf-b882-7b3525924d07",
+        "session_id": "1de79cbf-057e-4515-8609-7b9bdeaae569",
+        "heard": "patient fund",
+        "intended": "pension fund"
+      },
+      {
+        "id": "bb5a2476-8c5d-4be8-90f7-b6dccb3a6f45",
+        "session_id": "33a3017f-93aa-4c63-9552-6bae44505322",
+        "heard": "없음",
+        "intended": ""
+      },
+      {
+        "id": "c1c75a6e-73bd-4c78-af2d-78e94e5afcb4",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "heard": "Bronze / Brunson",
+        "intended": "Brunson"
+      },
+      {
+        "id": "d14ecc73-1a03-4551-afeb-771099025c66",
+        "session_id": "9bff5c78-d29a-4f02-b966-645890a4a0f6",
+        "heard": "Michael and manner",
+        "intended": "my tone and manner"
+      },
+      {
+        "id": "d4dd5a62-bf81-4bfb-a7ca-67da51996e61",
+        "session_id": "3ae04a66-53ba-473a-aaa7-c60c16880aa7",
+        "heard": "patient fund",
+        "intended": "pension fund (발음 유사)"
+      },
+      {
+        "id": "ebee2b97-f7f1-49be-aacf-a3d4964dc0c7",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "heard": "MRB",
+        "intended": "MLB"
+      },
+      {
+        "id": "ed506993-99aa-408a-a510-c1f686619d6c",
+        "session_id": "6172a291-a04b-47d4-b9c3-cffcdebff07a",
+        "heard": "원문",
+        "intended": "추정"
+      },
+      {
+        "id": "ed72c938-166a-40cf-9ca2-fb8c1e977d6f",
+        "session_id": "362d95ab-8ee1-4e98-a95f-1eae1eb17612",
+        "heard": "the mix leads three to one",
+        "intended": "the Knicks led three to one"
+      }
+    ]
+  }
+}

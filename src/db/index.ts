@@ -5,3 +5,4 @@ export * from './ingest';
 export * from './analytics';
 export * from './srs';
 export * from './backup';
+export * from './streak';

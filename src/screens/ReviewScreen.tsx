@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { dueForReview, reviewPhrase, reviewVocab } from '../db'
 import type { PhraseRow, VocabRow, Grade } from '../db'
-import { styles, colors } from '../shared/styles'
+import { styles, colors, radius } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
 // 복습 탭은 phrase/vocab(의미 암기)만 담당한다.
@@ -61,18 +61,48 @@ export default function ReviewScreen() {
 
   if (queue.length === 0) {
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>🎉 오늘 복습할 항목이 없어요</h2>
-        <p style={styles.subtitle}>모든 카드가 완료됐어요. 내일 다시 와주세요!</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎉</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.4rem' }}>오늘 복습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: 0 }}>모든 카드가 완료됐어요. 내일 다시 와주세요!</p>
+        </div>
       </div>
     )
   }
 
   if (index >= queue.length) {
+    const phrasesDone = queue.filter(i => i.kind === 'phrase').length
+    const vocabDone = queue.filter(i => i.kind === 'vocab').length
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>✅ 오늘 복습 끝!</h2>
-        <p style={styles.subtitle}>{gradedCount}개 카드를 복습했어요. 잘했어요!</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '0.5rem 0 1rem' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎊</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.5rem' }}>복습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: '0 0 1.25rem' }}>
+            총 {gradedCount}개 카드를 완료했어요. 잘했어요!
+          </p>
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+            {phrasesDone > 0 && (
+              <div style={{
+                background: colors.primaryLight, border: `1px solid ${colors.primary}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.primary }}>{phrasesDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>Phrase</div>
+              </div>
+            )}
+            {vocabDone > 0 && (
+              <div style={{
+                background: colors.greenBg, border: `1px solid ${colors.greenBorder}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.green }}>{vocabDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>어휘</div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     )
   }
