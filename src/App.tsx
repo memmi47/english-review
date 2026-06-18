@@ -2,9 +2,10 @@ import { useState } from 'react'
 import ImportScreen from './screens/ImportScreen'
 import DashboardScreen from './screens/DashboardScreen'
 import ReviewScreen from './screens/ReviewScreen'
+import PracticeScreen from './screens/PracticeScreen'
 import { colors } from './shared/styles'
 
-type Tab = 'import' | 'dashboard' | 'review'
+type Tab = 'import' | 'dashboard' | 'review' | 'practice'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('review')
@@ -13,14 +14,16 @@ export default function App() {
     <div style={styles.page}>
       <div style={styles.nav}>
         <NavButton label="🎯 복습" active={tab === 'review'} onClick={() => setTab('review')} />
-        <NavButton label="📊 대시보드" active={tab === 'dashboard'} onClick={() => setTab('dashboard')} />
-        <NavButton label="📋 가져오기" active={tab === 'import'} onClick={() => setTab('import')} />
+        <NavButton label="✍️ 연습" active={tab === 'practice'} onClick={() => setTab('practice')} />
+        <NavButton label="📊 분석" active={tab === 'dashboard'} onClick={() => setTab('dashboard')} />
+        <NavButton label="📋 입력" active={tab === 'import'} onClick={() => setTab('import')} />
       </div>
 
       <div style={styles.content}>
-        {tab === 'import' && <ImportScreen />}
-        {tab === 'dashboard' && <DashboardScreen onGoReview={() => setTab('review')} />}
         {tab === 'review' && <ReviewScreen />}
+        {tab === 'practice' && <PracticeScreen />}
+        {tab === 'dashboard' && <DashboardScreen onGoReview={() => setTab('review')} />}
+        {tab === 'import' && <ImportScreen />}
       </div>
     </div>
   )
@@ -60,10 +63,10 @@ const styles = {
   },
   navButton: {
     flex: 1,
-    padding: '0.6rem 0.5rem',
+    padding: '0.5rem 0.25rem',
     borderRadius: '0.75rem',
     border: `1.5px solid ${colors.primary}`,
-    fontSize: '0.8rem',
+    fontSize: '0.72rem',
     fontWeight: 600,
     cursor: 'pointer',
     transition: 'background 0.15s, color 0.15s',
