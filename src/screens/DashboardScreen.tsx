@@ -116,10 +116,10 @@ const localStyles = {
     alignItems: 'stretch',
     gap: '0',
     margin: '0.5rem 0 0.75rem',
-    background: '#f8f8ff',
+    background: colors.surfaceAlt,
     borderRadius: '0.875rem',
     overflow: 'hidden' as const,
-    border: '1px solid #e5e3ff',
+    border: `1px solid ${colors.border}`,
   },
   todayBlock: {
     flex: 1,
@@ -131,7 +131,7 @@ const localStyles = {
   },
   todayDivider: {
     width: '1px',
-    background: '#e5e3ff',
+    background: colors.divider,
   },
   todayNum: {
     fontSize: '2rem',
@@ -142,11 +142,11 @@ const localStyles = {
   todayLabel: {
     fontSize: '0.8rem',
     fontWeight: 700,
-    color: '#555',
+    color: colors.textMuted,
   },
   todaySub: {
     fontSize: '0.7rem',
-    color: '#aaa',
+    color: colors.textSubtle,
   },
   rankList: {
     display: 'flex',
@@ -157,7 +157,7 @@ const localStyles = {
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    background: '#f8f8ff',
+    background: colors.surfaceAlt,
     borderRadius: '0.5rem',
     padding: '0.5rem 0.75rem',
   },
@@ -169,7 +169,7 @@ const localStyles = {
   rankTag: {
     flex: 1,
     fontWeight: 600,
-    color: '#333',
+    color: colors.text,
     fontSize: '0.9rem',
     textAlign: 'left' as const,
   },
@@ -180,7 +180,7 @@ const localStyles = {
   },
   rankDate: {
     fontSize: '0.7rem',
-    color: '#999',
+    color: colors.textSubtle,
   },
   rateRow: {
     display: 'flex',
@@ -191,7 +191,7 @@ const localStyles = {
     flex: 1,
     height: '0.6rem',
     borderRadius: '1rem',
-    background: '#eee',
+    background: colors.divider,
     overflow: 'hidden' as const,
   },
   rateBarFill: {
@@ -207,7 +207,7 @@ const localStyles = {
   },
   rateSub: {
     fontSize: '0.8rem',
-    color: '#999',
+    color: colors.textSubtle,
     margin: '0.5rem 0 0',
   },
 } as const

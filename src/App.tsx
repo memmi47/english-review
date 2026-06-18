@@ -3,7 +3,7 @@ import ImportScreen from './screens/ImportScreen'
 import DashboardScreen from './screens/DashboardScreen'
 import ReviewScreen from './screens/ReviewScreen'
 import PracticeScreen from './screens/PracticeScreen'
-import { colors } from './shared/styles'
+import { colors, radius } from './shared/styles'
 
 type Tab = 'import' | 'dashboard' | 'review' | 'practice'
 
@@ -64,7 +64,7 @@ const styles = {
   navButton: {
     flex: 1,
     padding: '0.5rem 0.25rem',
-    borderRadius: '0.75rem',
+    borderRadius: radius.md,
     border: `1.5px solid ${colors.primary}`,
     fontSize: '0.72rem',
     fontWeight: 600,
