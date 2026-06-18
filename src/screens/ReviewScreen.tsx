@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { dueForReview, reviewPhrase, reviewVocab } from '../db'
 import type { PhraseRow, VocabRow, Grade } from '../db'
-import { dueStudyItems, reviewStudyItem } from '../db/study'
-import type { DueStudyItem } from '../db/study'
 import { styles, colors } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
+// 복습 탭은 phrase/vocab(의미 암기)만 담당한다.
+// correction/rewrite 문장 훈련은 ✍️ 연습 탭이 전담한다.
 type CardItem =
   | { kind: 'phrase'; row: PhraseRow }
   | { kind: 'vocab'; row: VocabRow }
-  | DueStudyItem
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -20,22 +19,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-// 짧은 단어/숙어보다 "문장 단위" 표현(교정·rewrite·긴 phrase)을 먼저 복습하도록 정렬한다.
-// 실수했던 문장 자체를 계속 보는 게 아니라, 그 자리를 대체할 좋은 문장을 더 많이 연습하는 게 목적.
-function targetText(item: CardItem): string {
-  if (item.kind === 'phrase') return item.row.phrase
-  if (item.kind === 'vocab') return item.row.word
-  if (item.kind === 'correction') return item.row.corrected
-  return item.row.native_version
-}
-
-function sentencePriority(item: CardItem): number {
-  const wordCount = targetText(item).trim().split(/\s+/).filter(Boolean).length
-  if (item.kind === 'correction' || item.kind === 'rewrite') return 100 + wordCount
-  return wordCount
-}
-
-// "A / B" 처럼 슬래시로 묶인 대체 표현들을 한 줄에 뭉쳐 보여주지 않고 각각 줄바꿈으로 분리한다.
+// "A / B" 처럼 슬래시로 묶인 대체 표현들을 각각 줄바꿈으로 분리한다.
 function splitVariants(text: string): string[] {
   return text.split('/').map(s => s.trim()).filter(s => s.length > 0)
 }
@@ -48,18 +32,12 @@ export default function ReviewScreen() {
 
   useEffect(() => {
     (async () => {
-      const [{ phrases, vocab }, studyItems] = await Promise.all([
-        dueForReview(),
-        dueStudyItems(),
-      ])
+      const { phrases, vocab } = await dueForReview()
       const items: CardItem[] = [
         ...phrases.map(row => ({ kind: 'phrase' as const, row })),
         ...vocab.map(row => ({ kind: 'vocab' as const, row })),
-        ...studyItems,
       ]
-      // 무작위로 섞은 뒤, 문장 단위 표현(긴 문장/교정/rewrite)이 앞쪽에 오도록 정렬
-      const sorted = shuffle(items).sort((a, b) => sentencePriority(b) - sentencePriority(a))
-      setQueue(sorted)
+      setQueue(shuffle(items))
     })()
   }, [])
 
@@ -67,8 +45,7 @@ export default function ReviewScreen() {
     if (!queue) return
     const current = queue[index]
     if (current.kind === 'phrase') await reviewPhrase(current.row.id, grade)
-    else if (current.kind === 'vocab') await reviewVocab(current.row.id, grade)
-    else await reviewStudyItem(current.kind, current.row.id, grade)
+    else await reviewVocab(current.row.id, grade)
     setGradedCount(c => c + 1)
     setFlipped(false)
     setIndex(i => i + 1)
@@ -102,45 +79,20 @@ export default function ReviewScreen() {
 
   const current = queue[index]
 
-  const typeBadgeLabel = {
-    phrase: 'Phrase', vocab: '어휘', correction: '교정', rewrite: 'Rewrite',
-  }[current.kind]
-
-  // 앞면 = 내가 말해야 할 정답/추천 문장(좋은 표현). 오답(예전에 잘못 썼던 문장)은
-  // 크게 보여주지 않고, 뒷면에 참고용으로만 작게 덧붙인다 — 나쁜 습관을 계속 보는 게 아니라
-  // 좋은 문장으로 덮어쓰는 게 목적이기 때문.
-  let front: string
-  let meaning: string | null = null  // 한국어 뜻 (phrase/vocab)
-  let backNote: string | null // 피드백/뉘앙스/문법 설명
-  let example: string | null = null  // 예문 (phrase)
-  let mistakeRef: string | null = null // 예전에 썼던 문장(참고용, 작게만)
-  if (current.kind === 'phrase') {
-    front = current.row.phrase
-    meaning = current.row.meaning
-    backNote = current.row.note || null
-    example = current.row.example
-  } else if (current.kind === 'vocab') {
-    front = current.row.word
-    meaning = current.row.meaning
-    backNote = current.row.note || null
-  } else if (current.kind === 'correction') {
-    front = current.row.corrected
-    backNote = current.row.rule || null
-    mistakeRef = current.row.original
-  } else {
-    front = current.row.native_version
-    backNote = current.row.nuance || null
-    mistakeRef = current.row.user_expr
-  }
+  const front = current.kind === 'phrase' ? current.row.phrase : current.row.word
+  const meaning = current.row.meaning
+  const note = current.row.note || null
+  const example = current.kind === 'phrase' ? current.row.example : null
 
   return (
     <div style={styles.card}>
       <div style={localStyles.headerRow}>
         <p style={styles.subtitle}>{index + 1} / {queue.length}</p>
-        <span style={localStyles.typeBadge}>{typeBadgeLabel}</span>
+        <span style={localStyles.typeBadge}>{current.kind === 'phrase' ? 'Phrase' : '어휘'}</span>
       </div>
 
       <div style={localStyles.flashcard}>
+        {/* 앞면: 영어 표현 + 발음 듣기 */}
         <div style={localStyles.frontStack}>
           {splitVariants(front).map((part, i) => (
             <div key={i} style={localStyles.frontRow}>
@@ -152,14 +104,12 @@ export default function ReviewScreen() {
 
         {!flipped ? (
           <button style={styles.secondaryButton} onClick={() => setFlipped(true)}>
-            설명 보기
+            뜻 확인
           </button>
         ) : (
           <div style={localStyles.back}>
-            {meaning && <p style={localStyles.meaning}>{meaning}</p>}
-            {backNote && (
-              <p style={localStyles.note}>💡 {backNote}</p>
-            )}
+            <p style={localStyles.meaning}>{meaning}</p>
+            {note && <p style={localStyles.note}>💡 {note}</p>}
             {example && (
               <div style={localStyles.frontStack}>
                 {splitVariants(example).map((part, i) => (
@@ -170,13 +120,6 @@ export default function ReviewScreen() {
                 ))}
               </div>
             )}
-            {mistakeRef && (
-              <div style={localStyles.frontStack}>
-                {splitVariants(mistakeRef).map((part, i) => (
-                  <p key={i} style={localStyles.mistakeRef}>예전엔 이렇게 썼었어요: "{part}"</p>
-                ))}
-              </div>
-            )}
           </div>
         )}
       </div>
@@ -184,10 +127,10 @@ export default function ReviewScreen() {
       {flipped && (
         <div style={localStyles.gradeRow}>
           <button style={localStyles.againButton} onClick={() => handleGrade('again')}>
-            🔁 더 연습할게요
+            🔁 다시
           </button>
           <button style={localStyles.goodButton} onClick={() => handleGrade('good')}>
-            😎 입에 붙었어요
+            ✅ 알아요
           </button>
         </div>
       )}
@@ -262,12 +205,6 @@ const localStyles = {
     background: '#fff8e1',
     borderRadius: '0.5rem',
     padding: '0.4rem 0.6rem',
-    margin: 0,
-  },
-  mistakeRef: {
-    fontSize: '0.75rem',
-    color: '#aaa',
-    fontStyle: 'italic' as const,
     margin: 0,
   },
   gradeRow: {

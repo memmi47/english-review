@@ -8,7 +8,8 @@ interface Data {
   tags: TagStat[]
   adoption: { total: number; adopted: number; rate: number }
   mission: { total: number; completed: number; rate: number }
-  due: { count: number; phrases: number; vocab: number; corrections: number; rewrites: number }
+  review: { phrases: number; vocab: number }   // 🎯 복습 탭 대상
+  practice: { corrections: number; rewrites: number } // ✍️ 연습 탭 대상
 }
 
 export default function DashboardScreen({ onGoReview }: { onGoReview: () => void }) {
@@ -19,18 +20,14 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
       const [tags, adoption, mission, due, studyItems] = await Promise.all([
         tagRecurrence(), phraseAdoption(), missionCompletion(), dueForReview(), dueStudyItems(),
       ])
-      const corrections = studyItems.filter(i => i.kind === 'correction').length
-      const rewrites = studyItems.filter(i => i.kind === 'rewrite').length
       setData({
         tags,
         adoption: { total: adoption.total, adopted: adoption.adopted, rate: adoption.rate },
         mission,
-        due: {
-          count: due.count + corrections + rewrites,
-          phrases: due.phrases.length,
-          vocab: due.vocab.length,
-          corrections,
-          rewrites,
+        review: { phrases: due.phrases.length, vocab: due.vocab.length },
+        practice: {
+          corrections: studyItems.filter(i => i.kind === 'correction').length,
+          rewrites: studyItems.filter(i => i.kind === 'rewrite').length,
         },
       })
     })()
@@ -47,13 +44,23 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
   return (
     <>
       <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>📅 오늘 복습</h2>
-        <p style={styles.subtitle}>
-          Phrase {data.due.phrases}개 · 어휘 {data.due.vocab}개 · 교정 {data.due.corrections}개 · Rewrite {data.due.rewrites}개
-        </p>
-        <div style={localStyles.bigNumber}>{data.due.count}</div>
-        <button style={styles.button} onClick={onGoReview} disabled={data.due.count === 0}>
-          {data.due.count === 0 ? '오늘 복습할 항목이 없어요' : '복습하러 가기 →'}
+        <h2 style={styles.sectionTitle}>📅 오늘 할 일</h2>
+        <div style={localStyles.todayRow}>
+          <div style={localStyles.todayBlock}>
+            <span style={localStyles.todayNum}>{data.review.phrases + data.review.vocab}</span>
+            <span style={localStyles.todayLabel}>🎯 복습</span>
+            <span style={localStyles.todaySub}>Phrase {data.review.phrases} · 어휘 {data.review.vocab}</span>
+          </div>
+          <div style={localStyles.todayDivider} />
+          <div style={localStyles.todayBlock}>
+            <span style={localStyles.todayNum}>{data.practice.corrections + data.practice.rewrites}</span>
+            <span style={localStyles.todayLabel}>✍️ 연습</span>
+            <span style={localStyles.todaySub}>교정 {data.practice.corrections} · Rewrite {data.practice.rewrites}</span>
+          </div>
+        </div>
+        <button style={styles.button} onClick={onGoReview}
+          disabled={data.review.phrases + data.review.vocab === 0}>
+          {data.review.phrases + data.review.vocab === 0 ? '오늘 복습 완료 ✅' : '복습 시작하기 →'}
         </button>
       </div>
 
@@ -104,11 +111,42 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
 }
 
 const localStyles = {
-  bigNumber: {
-    fontSize: '2.5rem',
+  todayRow: {
+    display: 'flex',
+    alignItems: 'stretch',
+    gap: '0',
+    margin: '0.5rem 0 0.75rem',
+    background: '#f8f8ff',
+    borderRadius: '0.875rem',
+    overflow: 'hidden' as const,
+    border: '1px solid #e5e3ff',
+  },
+  todayBlock: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    padding: '0.875rem 0.5rem',
+    gap: '0.15rem',
+  },
+  todayDivider: {
+    width: '1px',
+    background: '#e5e3ff',
+  },
+  todayNum: {
+    fontSize: '2rem',
     fontWeight: 800,
     color: colors.primary,
-    margin: '0.5rem 0 1rem',
+    lineHeight: 1,
+  },
+  todayLabel: {
+    fontSize: '0.8rem',
+    fontWeight: 700,
+    color: '#555',
+  },
+  todaySub: {
+    fontSize: '0.7rem',
+    color: '#aaa',
   },
   rankList: {
     display: 'flex',
