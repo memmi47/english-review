@@ -46,8 +46,22 @@ export default function App() {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <span style={{ fontSize: '1.1rem' }}>🗣️</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{
+              width: '1.7rem',
+              height: '1.7rem',
+              borderRadius: radius.sm,
+              background: colors.primary,
+              color: '#fff',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.68rem',
+              fontWeight: 800,
+              letterSpacing: '0',
+            }}>
+              ER
+            </span>
             <span style={{
               fontSize: '0.95rem',
               fontWeight: 700,
@@ -65,15 +79,16 @@ export default function App() {
               background: colors.surfaceAlt,
               border: `1px solid ${colors.border}`,
               borderRadius: radius.pill,
-              padding: '0.3rem 0.6rem',
-              fontSize: '0.85rem',
+              padding: '0.3rem 0.65rem',
+              fontSize: '0.72rem',
+              color: colors.textMuted,
               cursor: 'pointer',
               transition: 'background 0.2s',
               lineHeight: 1,
               fontFamily: 'inherit',
             }}
           >
-            {dark ? '☀️' : '🌙'}
+            {dark ? 'Light' : 'Dark'}
           </button>
         </div>
       </header>
@@ -111,11 +126,11 @@ export default function App() {
         boxShadow: '0 -1px 0 var(--border), 0 -4px 16px rgba(0,0,0,0.06)',
       }}>
         {([
-          { id: 'home',      icon: '🏠', label: '홈' },
-          { id: 'review',    icon: '🎯', label: '복습' },
-          { id: 'practice',  icon: '✍️', label: '연습' },
-          { id: 'dashboard', icon: '📊', label: '분석' },
-          { id: 'import',    icon: '📋', label: '입력' },
+          { id: 'home',      icon: 'HM', label: '홈' },
+          { id: 'review',    icon: 'RV', label: '복습' },
+          { id: 'practice',  icon: 'PR', label: '연습' },
+          { id: 'dashboard', icon: 'IN', label: '분석' },
+          { id: 'import',    icon: 'IM', label: '입력' },
         ] as { id: Tab; icon: string; label: string }[]).map(({ id, icon, label }) => (
           <TabButton
             key={id}
@@ -172,7 +187,13 @@ function TabButton({
           transition: 'width 0.2s',
         }} />
       )}
-      <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>
+      <span style={{
+        fontSize: '0.62rem',
+        lineHeight: 1,
+        fontWeight: 800,
+        letterSpacing: '0',
+        color: active ? colors.primary : colors.textSubtle,
+      }}>{icon}</span>
       <span style={{
         fontSize: '0.62rem',
         fontWeight: active ? 700 : 500,

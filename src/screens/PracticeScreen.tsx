@@ -22,6 +22,7 @@ interface PracticeItem {
   context: string     // 문법 설명 or 뉘앙스
   clozeText: string   // cloze 모드: _____ 포함 문장
   clozeAnswer: string // cloze 모드: 빈칸 정답
+  clozeWordCount: number
 }
 
 type Phase =
@@ -30,13 +31,12 @@ type Phase =
 
 // ── 유틸 ──────────────────────────────────────────────
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length
+}
+
+function firstWordHint(text: string): string {
+  return text.trim().split(/\s+/).filter(Boolean)[0] ?? ''
 }
 
 // ── diff 결과 렌더러 ─────────────────────────────────
@@ -117,9 +117,10 @@ export default function PracticeScreen() {
           context,
           clozeText: clozeResult?.clozeText ?? target,
           clozeAnswer: clozeResult?.answer ?? '',
+          clozeWordCount: clozeResult ? wordCount(clozeResult.answer) : 0,
         })
       }
-      setItems(shuffle(built))
+      setItems(built)
     })()
   }, [])
 
@@ -137,6 +138,14 @@ export default function PracticeScreen() {
     const trimmed = userInput.trim()
     if (!trimmed) return
     setPhase({ tag: 'submitted', input: trimmed })
+  }
+
+  function handleReveal() {
+    if (!items) return
+    const item = items[index]
+    setPhase({ tag: 'submitted', input: item.mode === 'cloze' ? item.clozeAnswer : item.target })
+    setUserInput('')
+    setShowHint(true)
   }
 
   // ── 로딩 ──
@@ -233,6 +242,7 @@ export default function PracticeScreen() {
           setShowHint={setShowHint}
           inputRef={inputRef}
           onSubmit={handleSubmit}
+          onReveal={handleReveal}
         />
       ) : (
         <ClozeMode
@@ -246,6 +256,7 @@ export default function PracticeScreen() {
           setShowHint={setShowHint}
           inputRef={inputRef}
           onSubmit={handleSubmit}
+          onReveal={handleReveal}
         />
       )}
 
@@ -268,7 +279,7 @@ export default function PracticeScreen() {
 
 function DiffMode({
   item, isSubmitted, submittedInput, userInput, setUserInput,
-  showHint, setShowHint, inputRef, onSubmit,
+  showHint, setShowHint, inputRef, onSubmit, onReveal,
 }: {
   item: PracticeItem
   isSubmitted: boolean
@@ -279,6 +290,7 @@ function DiffMode({
   setShowHint: (v: boolean) => void
   inputRef: React.RefObject<HTMLTextAreaElement | null>
   onSubmit: () => void
+  onReveal: () => void
 }) {
   const variants = item.source.split('/').map(s => s.trim()).filter(Boolean)
   return (
@@ -314,9 +326,12 @@ function DiffMode({
         </div>
       )}
 
-      <p style={localStyles.instruction}>
-        위 문장을 더 자연스럽게 고쳐 써보세요 👇
-      </p>
+      <div style={localStyles.promptRow}>
+        <p style={localStyles.instruction}>
+          위 문장을 더 자연스럽게 고쳐 써보세요
+        </p>
+        <span style={localStyles.wordHint}>{wordCount(item.target)} words</span>
+      </div>
 
       {!isSubmitted ? (
         <>
@@ -328,13 +343,18 @@ function DiffMode({
             onChange={e => setUserInput(e.target.value)}
             rows={3}
           />
-          <button
-            style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4 }}
-            onClick={onSubmit}
-            disabled={!userInput.trim()}
-          >
-            제출하고 비교하기
-          </button>
+          <div style={localStyles.actionRow}>
+            <button
+              style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+              onClick={onSubmit}
+              disabled={!userInput.trim()}
+            >
+              제출하고 비교하기
+            </button>
+            <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={onReveal}>
+              정답 보기
+            </button>
+          </div>
         </>
       ) : (
         <>
@@ -364,7 +384,7 @@ function DiffMode({
 
 function ClozeMode({
   item, isSubmitted, submittedInput, clozeCorrect, userInput, setUserInput,
-  showHint, setShowHint, inputRef, onSubmit,
+  showHint, setShowHint, inputRef, onSubmit, onReveal,
 }: {
   item: PracticeItem
   isSubmitted: boolean
@@ -376,15 +396,19 @@ function ClozeMode({
   setShowHint: (v: boolean) => void
   inputRef: React.RefObject<HTMLTextAreaElement | null>
   onSubmit: () => void
+  onReveal: () => void
 }) {
   // _____를 시각적 블록으로 렌더링
   const parts = item.clozeText.split('_____')
 
   return (
     <div style={localStyles.body}>
-      <p style={localStyles.instruction}>
-        빈칸에 들어갈 표현을 입력해보세요 👇
-      </p>
+      <div style={localStyles.promptRow}>
+        <p style={localStyles.instruction}>
+          빈칸에 들어갈 표현을 입력해보세요
+        </p>
+        <span style={localStyles.wordHint}>{item.clozeWordCount} words</span>
+      </div>
 
       {item.intended_meaning && (
         <div style={{...localStyles.sourceBox, background: colors.primaryLight, borderColor: colors.primary}}>
@@ -406,6 +430,11 @@ function ClozeMode({
           </span>
           {parts[1]}
         </p>
+        {!isSubmitted && firstWordHint(item.clozeAnswer) && (
+          <p style={localStyles.clozeHelp}>
+            첫 단어: {firstWordHint(item.clozeAnswer)}
+          </p>
+        )}
       </div>
 
       {!isSubmitted ? (
@@ -418,13 +447,18 @@ function ClozeMode({
             onChange={e => setUserInput(e.target.value)}
             rows={2}
           />
-          <button
-            style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4 }}
-            onClick={onSubmit}
-            disabled={!userInput.trim()}
-          >
-            확인
-          </button>
+          <div style={localStyles.actionRow}>
+            <button
+              style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+              onClick={onSubmit}
+              disabled={!userInput.trim()}
+            >
+              확인
+            </button>
+            <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={onReveal}>
+              정답 보기
+            </button>
+          </div>
         </>
       ) : (
         <div style={clozeCorrect ? styles.resultBox : styles.errorBox}>
@@ -525,6 +559,27 @@ const localStyles = {
     margin: 0,
     fontWeight: 500,
   },
+  promptRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.75rem',
+    flexWrap: 'wrap' as const,
+  },
+  wordHint: {
+    fontSize: '0.72rem',
+    fontWeight: 700,
+    color: colors.primary,
+    background: colors.primaryLight,
+    border: `1px solid ${colors.primary}`,
+    borderRadius: radius.pill,
+    padding: '0.18rem 0.55rem',
+    whiteSpace: 'nowrap' as const,
+  },
+  actionRow: {
+    display: 'flex',
+    gap: '0.5rem',
+  },
   textarea: {
     width: '100%',
     minHeight: '90px',
@@ -618,6 +673,11 @@ const localStyles = {
     color: colors.text,
     margin: 0,
     wordBreak: 'break-word' as const,
+  },
+  clozeHelp: {
+    fontSize: '0.76rem',
+    color: colors.textMuted,
+    margin: '0.65rem 0 0',
   },
   clozeBlank: {
     display: 'inline-block',

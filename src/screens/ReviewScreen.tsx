@@ -10,18 +10,22 @@ type CardItem =
   | { kind: 'phrase'; row: PhraseRow }
   | { kind: 'vocab'; row: VocabRow }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
 // "A / B" 처럼 슬래시로 묶인 대체 표현들을 각각 줄바꿈으로 분리한다.
 function splitVariants(text: string): string[] {
   return text.split('/').map(s => s.trim()).filter(s => s.length > 0)
+}
+
+function reviewCount(row: PhraseRow | VocabRow): number {
+  if ('reps' in row && typeof row.reps === 'number') return row.reps
+  return row.srs_box === 1 ? 0 : 1
+}
+
+function orderCards(items: CardItem[]): CardItem[] {
+  return [...items].sort((a, b) => {
+    const repsDiff = reviewCount(a.row) - reviewCount(b.row)
+    if (repsDiff !== 0) return repsDiff
+    return a.row.created_at.localeCompare(b.row.created_at)
+  })
 }
 
 export default function ReviewScreen() {
@@ -37,7 +41,7 @@ export default function ReviewScreen() {
         ...phrases.map(row => ({ kind: 'phrase' as const, row })),
         ...vocab.map(row => ({ kind: 'vocab' as const, row })),
       ]
-      setQueue(shuffle(items))
+      setQueue(orderCards(items))
     })()
   }, [])
 

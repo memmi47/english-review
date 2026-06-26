@@ -38,8 +38,8 @@ export const studyDB = new StudyMarksDB();
 const markId = (kind: StudyKind, targetId: string) => `${kind}:${targetId}`;
 
 export type DueStudyItem =
-  | { kind: 'correction'; row: CorrectionRow }
-  | { kind: 'rewrite'; row: RewriteRow };
+  | { kind: 'correction'; row: CorrectionRow; isNew: boolean; dueDate: string }
+  | { kind: 'rewrite'; row: RewriteRow; isNew: boolean; dueDate: string };
 
 // 마크가 없으면(처음 등장) 오늘 바로 복습 대상으로 취급한다.
 export async function dueStudyItems(): Promise<DueStudyItem[]> {
@@ -54,13 +54,20 @@ export async function dueStudyItems(): Promise<DueStudyItem[]> {
 
   for (const row of corrections) {
     const mark = markMap.get(markId('correction', row.id));
-    if (!mark || mark.due_date <= t) items.push({ kind: 'correction', row });
+    if (!mark || mark.due_date <= t) {
+      items.push({ kind: 'correction', row, isNew: !mark, dueDate: mark?.due_date ?? t });
+    }
   }
   for (const row of rewrites) {
     const mark = markMap.get(markId('rewrite', row.id));
-    if (!mark || mark.due_date <= t) items.push({ kind: 'rewrite', row });
+    if (!mark || mark.due_date <= t) {
+      items.push({ kind: 'rewrite', row, isNew: !mark, dueDate: mark?.due_date ?? t });
+    }
   }
-  return items;
+  return items.sort((a, b) => {
+    if (a.isNew !== b.isNew) return a.isNew ? -1 : 1;
+    return a.dueDate.localeCompare(b.dueDate);
+  });
 }
 
 export async function reviewStudyItem(kind: StudyKind, targetId: string, grade: Grade): Promise<void> {

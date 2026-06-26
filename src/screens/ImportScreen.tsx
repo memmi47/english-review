@@ -153,7 +153,7 @@ export default function ImportScreen({ onGoReview }: Props) {
 
       <div style={{ ...styles.card, marginTop: '1rem' }}>
         <h2 style={styles.sectionTitle}>💾 백업</h2>
-        <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요.</p>
+        <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요. 연습 완료 이력도 함께 저장됩니다.</p>
 
         <button
           style={{ ...styles.button, opacity: backupStatus.kind === 'exporting' ? 0.6 : 1 }}
@@ -181,7 +181,7 @@ export default function ImportScreen({ onGoReview }: Props) {
               checked={importMode === 'replace'}
               onChange={() => setImportMode('replace')}
             />
-            전체 교체(replace) — 기존 삭제 후 덮어쓰기
+            전체 교체(replace) — 학습 데이터 덮어쓰기, 백업에 없으면 연습 이력 유지
           </label>
         </div>
 

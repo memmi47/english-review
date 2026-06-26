@@ -6,6 +6,12 @@ interface Props {
   longestStreak: number
   studiedToday: boolean
   heatmap: Record<string, boolean> // { 'YYYY-MM-DD': boolean }
+  stats: {
+    studyDays: number
+    sessions: number
+    corrections: number
+    phrases: number
+  }
 }
 
 // 최근 70일을 7열(요일) × 10주로 렌더링
@@ -55,8 +61,8 @@ function HeatmapGrid({ heatmap }: { heatmap: Record<string, boolean> }) {
   )
 }
 
-export function StreakBar({ streak, longestStreak, studiedToday, heatmap }: Props) {
-  const flameColor = streak >= 7 ? '#ef4444' : streak >= 3 ? '#f97316' : '#d97706'
+export function StreakBar({ streak, longestStreak, studiedToday, heatmap, stats }: Props) {
+  const statusText = studiedToday ? '오늘 완료' : '오늘 미완료'
 
   return (
     <div style={{
@@ -65,53 +71,43 @@ export function StreakBar({ streak, longestStreak, studiedToday, heatmap }: Prop
       padding: '1rem 1.25rem',
       boxShadow: 'var(--shadow-card)',
       border: `1px solid ${colors.border}`,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.875rem',
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1.05fr) minmax(8.5rem, 0.95fr)',
+      gap: '1rem',
     }}>
-      {/* 스트릭 숫자 + 오늘 상태 */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🔥</span>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem', marginBottom: '0.75rem' }}>
           <div>
+            <div style={{ fontSize: '0.7rem', color: colors.textSubtle, fontWeight: 700, marginBottom: '0.25rem' }}>
+              학습 연속성
+            </div>
             <div style={{
-              fontSize: '1.75rem',
+              fontSize: '1.9rem',
               fontWeight: 800,
-              color: flameColor,
+              color: colors.primary,
               lineHeight: 1,
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.02em',
             }}>
               {streak}일
             </div>
-            <div style={{ fontSize: '0.7rem', color: colors.textSubtle, marginTop: '1px' }}>
-              연속 학습 중
+            <div style={{ fontSize: '0.72rem', color: colors.textMuted, marginTop: '0.25rem' }}>
+              최장 {longestStreak}일
             </div>
           </div>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-          {/* 오늘 완료 여부 */}
           <span style={{
             fontSize: '0.7rem',
-            fontWeight: 600,
+            fontWeight: 700,
             padding: '0.2rem 0.6rem',
             borderRadius: radius.pill,
             background: studiedToday ? colors.greenBg : colors.amberBg,
             color: studiedToday ? colors.green : colors.amber,
             border: `1px solid ${studiedToday ? colors.greenBorder : colors.amberBorder}`,
+            whiteSpace: 'nowrap',
           }}>
-            {studiedToday ? '✅ 오늘 완료' : '📝 오늘 미완료'}
+            {statusText}
           </span>
-          {longestStreak > 0 && (
-            <span style={{ fontSize: '0.68rem', color: colors.textSubtle }}>
-              최장 {longestStreak}일
-            </span>
-          )}
         </div>
-      </div>
 
-      {/* 히트맵 */}
-      <div>
         <div style={{ fontSize: '0.68rem', color: colors.textSubtle, marginBottom: '6px', fontWeight: 500 }}>
           최근 10주
         </div>
@@ -124,6 +120,37 @@ export function StreakBar({ streak, longestStreak, studiedToday, heatmap }: Prop
           <div style={{ width: 10, height: 10, borderRadius: 2, background: 'var(--primary)', border: '1.5px solid var(--primary)', marginLeft: 4, boxSizing: 'border-box' }} />
           <span style={{ fontSize: '0.65rem', color: colors.textSubtle }}>오늘</span>
         </div>
+      </div>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '0.45rem',
+        alignContent: 'start',
+      }}>
+        <StatTile label="총 학습일" value={`${stats.studyDays}일`} />
+        <StatTile label="세션" value={`${stats.sessions}회`} />
+        <StatTile label="교정" value={`${stats.corrections}개`} />
+        <StatTile label="표현" value={`${stats.phrases}개`} />
+      </div>
+    </div>
+  )
+}
+
+function StatTile({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{
+      background: colors.surfaceAlt,
+      border: `1px solid ${colors.border}`,
+      borderRadius: radius.md,
+      padding: '0.55rem 0.6rem',
+      minHeight: '3.2rem',
+    }}>
+      <div style={{ fontSize: '0.65rem', color: colors.textSubtle, fontWeight: 700 }}>
+        {label}
+      </div>
+      <div style={{ fontSize: '0.96rem', color: colors.text, fontWeight: 800, marginTop: '0.15rem', letterSpacing: '-0.01em' }}>
+        {value}
       </div>
     </div>
   )

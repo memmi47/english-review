@@ -2,6 +2,7 @@
 // 코치가 아닌 DB가 교차 세션 분석을 담당한다.
 
 import { db, today } from './schema';
+import type { PhraseRow, VocabRow } from './schema';
 
 export interface TagStat { tag: string; count: number; lastSeen: string | null; }
 
@@ -54,7 +55,24 @@ export async function dueForReview() {
     db.phrases.where('due_date').belowOrEqual(t).toArray(),
     db.vocab.where('due_date').belowOrEqual(t).toArray(),
   ]);
-  return { phrases, vocab, count: phrases.length + vocab.length };
+  return {
+    phrases: orderDueCards(phrases),
+    vocab: orderDueCards(vocab),
+    count: phrases.length + vocab.length,
+  };
+}
+
+function reviewCount(row: PhraseRow | VocabRow): number {
+  if ('reps' in row && typeof row.reps === 'number') return row.reps;
+  return row.srs_box === 1 ? 0 : 1;
+}
+
+function orderDueCards<T extends PhraseRow | VocabRow>(rows: T[]): T[] {
+  return [...rows].sort((a, b) => {
+    const repsDiff = reviewCount(a) - reviewCount(b);
+    if (repsDiff !== 0) return repsDiff;
+    return a.created_at.localeCompare(b.created_at);
+  });
 }
 
 // ── Phase 2 추가 ──────────────────────────────────────────────

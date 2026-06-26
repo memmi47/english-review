@@ -1,7 +1,7 @@
 // DashboardScreen.tsx — Phase 2: 분석 | 기록 세그먼트 컨트롤
 import { useEffect, useState } from 'react'
 import {
-  tagRecurrence, phraseAdoption, missionCompletion, dueForReview,
+  tagRecurrence, phraseAdoption, dueForReview,
   sessionTrend, masteryDistribution, unadoptedPhrases, allSessions, sessionDetail,
 } from '../db'
 import type { TagStat, SessionTrendPoint, MasteryDist } from '../db'
@@ -68,7 +68,6 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
 interface AnalyticsData {
   tags: TagStat[]
   adoption: { total: number; adopted: number; rate: number }
-  mission: { total: number; completed: number; rate: number }
   review: { phrases: number; vocab: number }
   practice: { corrections: number; rewrites: number }
   trend: SessionTrendPoint[]
@@ -81,12 +80,12 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
 
   useEffect(() => {
     ;(async () => {
-      const [tags, adoption, mission, due, studyItems, trend, mastery, una] = await Promise.all([
-        tagRecurrence(), phraseAdoption(), missionCompletion(), dueForReview(),
+      const [tags, adoption, due, studyItems, trend, mastery, una] = await Promise.all([
+        tagRecurrence(), phraseAdoption(), dueForReview(),
         dueStudyItems(), sessionTrend(10), masteryDistribution(), unadoptedPhrases(),
       ])
       setData({
-        tags, adoption, mission,
+        tags, adoption,
         review: { phrases: due.phrases.length, vocab: due.vocab.length },
         practice: {
           corrections: studyItems.filter(i => i.kind === 'correction').length,
@@ -157,14 +156,6 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
         <h2 style={styles.sectionTitle}>🔁 Phrase 내재화 현황</h2>
         <p style={styles.subtitle}>추천받은 Phrase를 실제 대화에서 얼마나 사용했는지예요.</p>
         <AdoptionSection unadopted={data.unadopted} />
-      </div>
-
-      {/* 미션 이행률 */}
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>✅ 미션 이행률</h2>
-        <p style={styles.subtitle}>Next Session 추천 액션을 얼마나 이행했는지예요.</p>
-        <RateBar value={data.mission.rate}
-          sub={`${data.mission.completed} / ${data.mission.total}개 완료`} />
       </div>
     </div>
   )

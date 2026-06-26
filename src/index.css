@@ -9,19 +9,19 @@
 
 /* ── 라이트 모드 토큰 ── */
 :root {
-  --primary: #1e3a5f;
-  --primary-hover: #16304f;
-  --primary-light: #eaeff6;
-  --primary-glow: rgba(30, 58, 95, 0.15);
+  --primary: #34538C;
+  --primary-hover: #26406E;
+  --primary-light: #EEF2F8;
+  --primary-glow: rgba(52, 83, 140, 0.16);
 
-  --bg: #f4f3ef;
+  --bg: #F8FAFC;
   --surface: #ffffff;
-  --surface-alt: #f9f8f5;
-  --surface-hover: #f0efe9;
+  --surface-alt: #F1F5F9;
+  --surface-hover: #E8EEF7;
 
-  --text: #1a2332;
-  --text-muted: #6b7280;
-  --text-subtle: #9ca3af;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --text-subtle: #94A3B8;
 
   --green: #166534;
   --green-bg: #f0fdf4;
@@ -29,24 +29,24 @@
   --red: #991b1b;
   --red-bg: #fef2f2;
   --red-border: #fca5a5;
-  --amber: #78350f;
-  --amber-bg: #fffbeb;
-  --amber-border: #fcd34d;
+  --amber: #C8843C;
+  --amber-bg: #F6EEE3;
+  --amber-border: #E4C09B;
   --purple: #581c87;
   --purple-bg: #faf5ff;
   --purple-border: #d8b4fe;
 
-  --border: #dcd9d0;
-  --border-strong: #b5b0a5;
-  --divider: #e8e5df;
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --divider: #E2E8F0;
 
-  --shadow-card: 0 1px 3px rgba(26,35,50,0.07), 0 0 0 1px rgba(26,35,50,0.05);
-  --shadow-card-hover: 0 4px 12px rgba(26,35,50,0.1), 0 0 0 1px rgba(26,35,50,0.06);
+  --shadow-card: 0 8px 24px rgba(15,23,42,0.05), 0 0 0 1px rgba(15,23,42,0.04);
+  --shadow-card-hover: 0 12px 32px rgba(15,23,42,0.08), 0 0 0 1px rgba(15,23,42,0.06);
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.625rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
   --radius-lg: 0.875rem;
-  --radius-xl: 1.125rem;
+  --radius-xl: 1rem;
   --radius-pill: 999px;
 
   /* 하단 탭 바 높이 (safe area 포함) */

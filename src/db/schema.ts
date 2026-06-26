@@ -52,6 +52,7 @@ export interface VocabRow {
   tags: (CanonicalTag | 'unmapped')[];
   first_seen_session_id: string;
   srs_box: number;
+  reps?: number;
   due_date: string;
   created_at: string;
 }

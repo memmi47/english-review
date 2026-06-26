@@ -26,5 +26,5 @@ export async function reviewVocab(id: string, grade: Grade): Promise<void> {
   const v = await db.vocab.get(id);
   if (!v) return;
   const { srs_box, due_date } = schedule(v.srs_box, grade);
-  await db.vocab.update(id, { srs_box, due_date });
+  await db.vocab.update(id, { srs_box, due_date, reps: (v.reps ?? 0) + 1 });
 }

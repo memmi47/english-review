@@ -4,8 +4,13 @@ import { dueForReview } from '../db'
 import { dueStudyItems } from '../db/study'
 import { getStreakInfo, getStudyHeatmap, hasSessionToday } from '../db/streak'
 import { db } from '../db/schema'
+import type { PhraseRow, VocabRow } from '../db/schema'
 import { StreakBar } from '../shared/StreakBar'
 import { styles, colors, radius } from '../shared/styles'
+
+type ExposureItem =
+  | { kind: 'Phrase'; text: string; meaning: string; reps: number; createdAt: string }
+  | { kind: 'Vocab'; text: string; meaning: string; reps: number; createdAt: string }
 
 interface HomeData {
   streak: number
@@ -14,8 +19,14 @@ interface HomeData {
   heatmap: Record<string, boolean>
   reviewCount: number   // phrase + vocab
   practiceCount: number // correction + rewrite
-  pendingMissions: { id: string; suggestion: string }[]
   hasSessionToday: boolean
+  stats: {
+    studyDays: number
+    sessions: number
+    corrections: number
+    phrases: number
+  }
+  exposure: ExposureItem[]
 }
 
 type Tab = 'import' | 'home' | 'review' | 'practice' | 'dashboard'
@@ -27,10 +38,39 @@ interface Props {
 function greetingMessage(studiedToday: boolean, streak: number): string {
   const hour = new Date().getHours()
   const timeGreet = hour < 12 ? '좋은 아침이에요' : hour < 18 ? '안녕하세요' : '수고하셨어요'
-  if (!studiedToday) return `${timeGreet}! 오늘 리포트를 입력해보세요 🌱`
-  if (streak >= 7) return `${timeGreet}! ${streak}일 연속 🔥 대단해요!`
-  if (streak >= 3) return `${timeGreet}! ${streak}일째 꾸준히 하고 있어요 👍`
-  return `${timeGreet}! 오늘도 학습 완료! 💪`
+  if (!studiedToday) return `${timeGreet}. 오늘 리포트를 입력해보세요.`
+  if (streak >= 7) return `${timeGreet}. ${streak}일 연속으로 좋은 흐름입니다.`
+  if (streak >= 3) return `${timeGreet}. ${streak}일째 꾸준히 이어가고 있습니다.`
+  return `${timeGreet}. 오늘 학습이 기록되었습니다.`
+}
+
+function itemReps(row: PhraseRow | VocabRow): number {
+  return typeof row.reps === 'number' ? row.reps : row.srs_box === 1 ? 0 : 1
+}
+
+function buildExposure(phrases: PhraseRow[], vocab: VocabRow[]): ExposureItem[] {
+  const phraseItems: ExposureItem[] = phrases.map(p => ({
+    kind: 'Phrase',
+    text: p.phrase,
+    meaning: p.meaning,
+    reps: itemReps(p),
+    createdAt: p.created_at,
+  }))
+  const vocabItems: ExposureItem[] = vocab.map(v => ({
+    kind: 'Vocab',
+    text: v.word,
+    meaning: v.meaning,
+    reps: itemReps(v),
+    createdAt: v.created_at,
+  }))
+
+  return [...phraseItems, ...vocabItems]
+    .sort((a, b) => {
+      const repsDiff = a.reps - b.reps
+      if (repsDiff !== 0) return repsDiff
+      return b.createdAt.localeCompare(a.createdAt)
+    })
+    .slice(0, 5)
 }
 
 export default function HomeScreen({ onNavigate }: Props) {
@@ -38,15 +78,19 @@ export default function HomeScreen({ onNavigate }: Props) {
 
   useEffect(() => {
     ; (async () => {
-      const [streakInfo, heatmap, { phrases, vocab }, studyItems, todayDone, actions] =
+      const [streakInfo, heatmap, { phrases, vocab }, studyItems, todayDone, sessions, allPhrases, allVocab, corrections] =
         await Promise.all([
           getStreakInfo(),
           getStudyHeatmap(70),
           dueForReview(),
           dueStudyItems(),
           hasSessionToday(),
-          db.actions.filter(a => !a.completed).toArray(),
+          db.sessions.toArray(),
+          db.phrases.toArray(),
+          db.vocab.toArray(),
+          db.corrections.count(),
         ])
+      const studyDays = new Set(sessions.map(s => s.date)).size
 
       setData({
         streak: streakInfo.streak,
@@ -55,8 +99,14 @@ export default function HomeScreen({ onNavigate }: Props) {
         heatmap,
         reviewCount: phrases.length + vocab.length,
         practiceCount: studyItems.length,
-        pendingMissions: actions.slice(0, 3).map(a => ({ id: a.id, suggestion: a.suggestion })),
         hasSessionToday: todayDone,
+        stats: {
+          studyDays,
+          sessions: sessions.length,
+          corrections,
+          phrases: allPhrases.length + allVocab.length,
+        },
+        exposure: buildExposure(allPhrases, allVocab),
       })
     })()
   }, [])
@@ -87,7 +137,7 @@ export default function HomeScreen({ onNavigate }: Props) {
         </p>
         {allDone && (
           <p style={{ fontSize: '0.78rem', color: colors.textMuted, marginTop: '0.25rem' }}>
-            오늘 학습을 모두 완료했어요! 내일 다시 만나요 😊
+            오늘 학습을 모두 완료했습니다. 다음 복습 일정에 다시 표시됩니다.
           </p>
         )}
       </div>
@@ -98,13 +148,14 @@ export default function HomeScreen({ onNavigate }: Props) {
         longestStreak={data.longestStreak}
         studiedToday={data.studiedToday}
         heatmap={data.heatmap}
+        stats={data.stats}
       />
 
       {/* 오늘의 학습 카드들 */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {/* 리포트 입력 */}
         <TodoCard
-          emoji="📋"
+          code="DOC"
           title="리포트 입력"
           subtitle={data.hasSessionToday ? '오늘 리포트 입력 완료' : '오늘 대화 리포트를 붙여넣으세요'}
           done={data.hasSessionToday}
@@ -115,7 +166,7 @@ export default function HomeScreen({ onNavigate }: Props) {
 
         {/* 복습 */}
         <TodoCard
-          emoji="🎯"
+          code="RVW"
           title="단어 복습"
           subtitle={
             data.reviewCount === 0
@@ -131,7 +182,7 @@ export default function HomeScreen({ onNavigate }: Props) {
 
         {/* 연습 */}
         <TodoCard
-          emoji="✍️"
+          code="PRC"
           title="문장 연습"
           subtitle={
             data.practiceCount === 0
@@ -146,39 +197,8 @@ export default function HomeScreen({ onNavigate }: Props) {
         />
       </div>
 
-      {/* 미션 체크리스트 */}
-      {data.pendingMissions.length > 0 && (
-        <div style={{
-          ...styles.card,
-          padding: '1rem 1.25rem',
-        }}>
-          <h2 style={{ ...styles.sectionTitle, marginBottom: '0.6rem' }}>
-            📋 Next Session 미션
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {data.pendingMissions.map(m => (
-              <div key={m.id} style={{
-                display: 'flex',
-                gap: '0.5rem',
-                alignItems: 'flex-start',
-                padding: '0.5rem 0.6rem',
-                background: colors.surfaceAlt,
-                borderRadius: radius.md,
-                border: `1px solid ${colors.border}`,
-              }}>
-                <span style={{ fontSize: '0.85rem', marginTop: '1px', flexShrink: 0 }}>☐</span>
-                <p style={{ fontSize: '0.8rem', color: colors.text, lineHeight: 1.5, margin: 0 }}>
-                  {m.suggestion}
-                </p>
-              </div>
-            ))}
-          </div>
-          {data.pendingMissions.length === 3 && (
-            <p style={{ fontSize: '0.7rem', color: colors.textSubtle, marginTop: '0.5rem' }}>
-              * 최근 3개만 표시됩니다
-            </p>
-          )}
-        </div>
+      {data.exposure.length > 0 && (
+        <ExposureList items={data.exposure} />
       )}
     </div>
   )
@@ -195,9 +215,9 @@ const accentMap: Record<Accent, { bg: string; border: string; color: string; cou
 }
 
 function TodoCard({
-  emoji, title, subtitle, done, estimatedMin, count, onClick, accent,
+  code, title, subtitle, done, estimatedMin, count, onClick, accent,
 }: {
-  emoji: string
+  code: string
   title: string
   subtitle: string
   done: boolean
@@ -227,7 +247,6 @@ function TodoCard({
         opacity: done ? 0.7 : 1,
       }}
     >
-      {/* 이모지 배경 */}
       <div style={{
         width: '2.5rem',
         height: '2.5rem',
@@ -236,11 +255,14 @@ function TodoCard({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '1.2rem',
+        fontSize: '0.66rem',
+        fontWeight: 800,
+        color: done ? colors.textSubtle : a.color,
+        letterSpacing: '0',
         flexShrink: 0,
         border: `1px solid ${done ? colors.border : a.border}`,
       }}>
-        {done ? '✅' : emoji}
+        {done ? 'DONE' : code}
       </div>
 
       {/* 텍스트 */}
@@ -283,5 +305,58 @@ function TodoCard({
         {!done && <span style={{ fontSize: '0.8rem', color: colors.textSubtle }}>›</span>}
       </div>
     </button>
+  )
+}
+
+function ExposureList({ items }: { items: ExposureItem[] }) {
+  return (
+    <div style={styles.card}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '1rem', marginBottom: '0.75rem' }}>
+        <div>
+          <h2 style={styles.sectionTitle}>오늘 노출할 표현</h2>
+          <p style={{ ...styles.subtitle, margin: '0.15rem 0 0' }}>미출제 또는 최근 추가된 표현을 먼저 보여줍니다.</p>
+        </div>
+        <span style={{
+          fontSize: '0.68rem',
+          color: colors.amber,
+          background: colors.amberBg,
+          border: `1px solid ${colors.amberBorder}`,
+          borderRadius: radius.pill,
+          padding: '0.18rem 0.55rem',
+          fontWeight: 700,
+          whiteSpace: 'nowrap',
+        }}>
+          Daily 5
+        </span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+        {items.map(item => (
+          <div key={`${item.kind}:${item.text}`} style={{
+            display: 'grid',
+            gridTemplateColumns: '4rem 1fr',
+            gap: '0.65rem',
+            padding: '0.65rem 0',
+            borderTop: `1px solid ${colors.divider}`,
+          }}>
+            <span style={{
+              fontSize: '0.68rem',
+              color: item.kind === 'Phrase' ? colors.primary : colors.amber,
+              fontWeight: 800,
+              letterSpacing: '0',
+            }}>
+              {item.kind}
+            </span>
+            <div style={{ minWidth: 0 }}>
+              <p style={{ fontSize: '0.86rem', fontWeight: 700, color: colors.text, margin: 0, lineHeight: 1.35 }}>
+                {item.text}
+              </p>
+              <p style={{ fontSize: '0.75rem', color: colors.textMuted, margin: '0.15rem 0 0', lineHeight: 1.45 }}>
+                {item.meaning}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
