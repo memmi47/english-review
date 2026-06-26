@@ -225,7 +225,7 @@ export default function PracticeScreen() {
         <div style={localStyles.badgeRow}>
           <span style={localStyles.kindBadge}>{item.kind === 'correction' ? '교정' : 'Rewrite'}</span>
           <span style={localStyles.modeBadge}>
-            {item.mode === 'diff' ? '✍️ 재작성' : '🔲 빈칸'}
+            {item.mode === 'diff' ? '재작성' : '빈칸'}
           </span>
         </div>
       </div>
@@ -264,10 +264,10 @@ export default function PracticeScreen() {
       {isSubmitted && (
         <div style={localStyles.gradeRow}>
           <button style={localStyles.againButton} onClick={() => handleGrade('again')}>
-            🔁 더 연습할게요
+            더 연습할게요
           </button>
           <button style={localStyles.goodButton} onClick={() => handleGrade('good')}>
-            😎 입에 붙었어요
+            입에 붙었어요
           </button>
         </div>
       )}
@@ -370,7 +370,7 @@ function DiffMode({
       {/* 힌트: 문법 설명 */}
       {item.context && (
         <button style={localStyles.hintToggle} onClick={() => setShowHint(!showHint)}>
-          {showHint ? '▲ 힌트 닫기' : '💬 힌트 보기'}
+          {showHint ? '힌트 닫기' : '힌트 보기'}
         </button>
       )}
       {showHint && item.context && (
@@ -463,7 +463,7 @@ function ClozeMode({
       ) : (
         <div style={clozeCorrect ? styles.resultBox : styles.errorBox}>
           <p style={clozeCorrect ? styles.resultTitle : styles.errorTitle}>
-            {clozeCorrect ? '✅ 정확해요!' : '❌ 다시 확인해보세요'}
+            {clozeCorrect ? '정확해요' : '다시 확인해보세요'}
           </p>
           <div style={localStyles.answerRow}>
             <p style={localStyles.answerText}>정답: <strong>{item.clozeAnswer}</strong></p>
@@ -476,7 +476,7 @@ function ClozeMode({
       {/* 힌트 */}
       {item.context && (
         <button style={localStyles.hintToggle} onClick={() => setShowHint(!showHint)}>
-          {showHint ? '▲ 힌트 닫기' : '💬 힌트 보기'}
+          {showHint ? '힌트 닫기' : '힌트 보기'}
         </button>
       )}
       {showHint && item.context && (

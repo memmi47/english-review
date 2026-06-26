@@ -5,7 +5,7 @@ import { styles, colors, radius } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
 // 복습 탭은 phrase/vocab(의미 암기)만 담당한다.
-// correction/rewrite 문장 훈련은 ✍️ 연습 탭이 전담한다.
+// correction/rewrite 문장 훈련은 연습 탭이 전담한다.
 type CardItem =
   | { kind: 'phrase'; row: PhraseRow }
   | { kind: 'vocab'; row: VocabRow }
@@ -81,7 +81,6 @@ export default function ReviewScreen() {
     return (
       <div style={styles.card} className="animate-pop-in">
         <div style={{ textAlign: 'center', padding: '0.5rem 0 1rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎊</div>
           <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.5rem' }}>복습 완료!</h2>
           <p style={{ ...styles.subtitle, textAlign: 'center', margin: '0 0 1.25rem' }}>
             총 {gradedCount}개 카드를 완료했어요. 잘했어요!
@@ -143,7 +142,7 @@ export default function ReviewScreen() {
         ) : (
           <div style={localStyles.back}>
             <p style={localStyles.meaning}>{meaning}</p>
-            {note && <p style={localStyles.note}>💡 {note}</p>}
+            {note && <p style={localStyles.note}>{note}</p>}
             {example && (
               <div style={localStyles.frontStack}>
                 {splitVariants(example).map((part, i) => (
@@ -161,10 +160,10 @@ export default function ReviewScreen() {
       {flipped && (
         <div style={localStyles.gradeRow}>
           <button style={localStyles.againButton} onClick={() => handleGrade('again')}>
-            🔁 다시
+            다시
           </button>
           <button style={localStyles.goodButton} onClick={() => handleGrade('good')}>
-            ✅ 알아요
+            알아요
           </button>
         </div>
       )}

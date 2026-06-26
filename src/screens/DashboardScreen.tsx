@@ -47,7 +47,7 @@ export default function DashboardScreen({ onGoReview }: { onGoReview: () => void
               boxShadow: seg === s ? 'var(--shadow-card)' : 'none',
             }}
           >
-            {s === 'analytics' ? '📊 분석' : '📜 기록'}
+            {s === 'analytics' ? '분석' : '기록'}
           </button>
         ))}
       </div>
@@ -106,23 +106,23 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
 
       {/* 오늘 할 일 */}
       <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>📅 오늘 할 일</h2>
+        <h2 style={styles.sectionTitle}>오늘 할 일</h2>
         <div style={localStyles.todayRow}>
-          <TodayBlock label="🎯 복습" num={data.review.phrases + data.review.vocab}
+          <TodayBlock label="복습" num={data.review.phrases + data.review.vocab}
             sub={`Phrase ${data.review.phrases} · 어휘 ${data.review.vocab}`} />
           <div style={localStyles.todayDivider} />
-          <TodayBlock label="✍️ 연습" num={data.practice.corrections + data.practice.rewrites}
+          <TodayBlock label="연습" num={data.practice.corrections + data.practice.rewrites}
             sub={`교정 ${data.practice.corrections} · Rewrite ${data.practice.rewrites}`} />
         </div>
         <button style={styles.button} onClick={onGoReview}
           disabled={data.review.phrases + data.review.vocab === 0}>
-          {data.review.phrases + data.review.vocab === 0 ? '오늘 복습 완료 ✅' : '복습 시작하기 →'}
+          {data.review.phrases + data.review.vocab === 0 ? '오늘 복습 완료' : '복습 시작하기 →'}
         </button>
       </div>
 
       {/* 마스터리 진행도 */}
       <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>🏆 마스터리 진행도</h2>
+        <h2 style={styles.sectionTitle}>마스터리 진행도</h2>
         <p style={styles.subtitle}>
           전체 {totalMastery}개 중 <strong>{masterItems}개</strong> 마스터 (Box 4-5)
         </p>
@@ -132,7 +132,7 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
       {/* 교정 트렌드 */}
       {data.trend.length > 1 && (
         <div style={styles.card}>
-          <h2 style={styles.sectionTitle}>📈 교정 건수 추이</h2>
+          <h2 style={styles.sectionTitle}>교정 건수 추이</h2>
           <p style={styles.subtitle}>최근 {data.trend.length}세션 · 줄어들수록 성장 중이에요</p>
           <TrendChart points={data.trend} />
         </div>
@@ -141,7 +141,7 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
       {/* 약점 재발 순위 */}
       {data.tags.length > 0 && (
         <div style={styles.card}>
-          <h2 style={styles.sectionTitle}>⚠️ 약점 재발 순위</h2>
+          <h2 style={styles.sectionTitle}>약점 재발 순위</h2>
           <p style={styles.subtitle}>교정/약점 패턴에서 자주 등장한 태그예요.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {data.tags.slice(0, 5).map((t, i) => (
@@ -153,7 +153,7 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
 
       {/* 능동 어휘 추적 */}
       <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>🔁 Phrase 내재화 현황</h2>
+        <h2 style={styles.sectionTitle}>Phrase 내재화 현황</h2>
         <p style={styles.subtitle}>추천받은 Phrase를 실제 대화에서 얼마나 사용했는지예요.</p>
         <AdoptionSection unadopted={data.unadopted} />
       </div>
@@ -174,7 +174,6 @@ function HistoryTab({ onSelectSession }: { onSelectSession: (id: string) => void
   if (sessions.length === 0) {
     return (
       <div style={{ ...styles.card, textAlign: 'center', padding: '2rem 1.25rem' }}>
-        <p style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📭</p>
         <h2 style={{ ...styles.sectionTitle, textAlign: 'center' }}>아직 기록이 없어요</h2>
         <p style={{ ...styles.subtitle, textAlign: 'center', margin: '0.25rem 0 0' }}>
           리포트를 입력하면 여기에 세션 기록이 쌓여요.
@@ -288,21 +287,21 @@ function SessionDetailView({ sessionId, onBack }: { sessionId: string; onBack: (
 
       {/* 교정 */}
       {corrections.length > 0 && (
-        <DetailSection title="❌ 교정 사항">
+        <DetailSection title="교정 사항">
           {corrections.map(c => <CorrectionCard key={c.id} c={c} />)}
         </DetailSection>
       )}
 
       {/* Native Rewrites */}
       {rewrites.length > 0 && (
-        <DetailSection title="✨ Native-like Rewrites">
+        <DetailSection title="Native-like Rewrites">
           {rewrites.map(r => <RewriteCard key={r.id} r={r} />)}
         </DetailSection>
       )}
 
       {/* 패턴 */}
       {(strengths.length > 0 || weaknesses.length > 0) && (
-        <DetailSection title="🔄 반복 패턴">
+        <DetailSection title="반복 패턴">
           {strengths.length > 0 && (
             <div style={{ marginBottom: '0.5rem' }}>
               <p style={{ fontSize: '0.72rem', fontWeight: 700, color: colors.green, margin: '0 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>강점</p>
@@ -333,14 +332,14 @@ function SessionDetailView({ sessionId, onBack }: { sessionId: string; onBack: (
 
       {/* 추천 Phrase */}
       {phrases.length > 0 && (
-        <DetailSection title="💡 추천 Phrase">
+        <DetailSection title="추천 Phrase">
           {phrases.map(p => <PhraseCard key={p.id} p={p} />)}
         </DetailSection>
       )}
 
       {/* 능동 어휘 */}
       {vocab.length > 0 && (
-        <DetailSection title="📖 능동 어휘">
+        <DetailSection title="능동 어휘">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
             {vocab.map(v => (
               <div key={v.id} style={{
@@ -357,13 +356,13 @@ function SessionDetailView({ sessionId, onBack }: { sessionId: string; onBack: (
 
       {/* Next Session */}
       {actions.length > 0 && (
-        <DetailSection title="🎯 Next Session 미션">
+        <DetailSection title="Next Session 미션">
           {actions.map(a => (
             <div key={a.id} style={{
               display: 'flex', gap: '0.5rem', alignItems: 'flex-start',
               padding: '0.4rem 0', borderBottom: `1px solid ${colors.divider}`,
             }}>
-              <span style={{ fontSize: '0.85rem', flexShrink: 0 }}>{a.completed ? '✅' : '☐'}</span>
+              <span style={{ fontSize: '0.85rem', flexShrink: 0 }}>{a.completed ? '완료' : '대기'}</span>
               <p style={{ fontSize: '0.82rem', color: a.completed ? colors.textSubtle : colors.text, margin: 0,
                 textDecoration: a.completed ? 'line-through' : 'none', lineHeight: 1.5 }}>
                 {a.suggestion}
@@ -458,7 +457,7 @@ function TrendChart({ points }: { points: SessionTrendPoint[] }) {
           borderRadius: radius.md, padding: '0.5rem 0.75rem', marginBottom: '0.75rem',
           display: 'flex', alignItems: 'center', gap: '0.4rem',
         }}>
-          <span style={{ fontSize: '0.9rem' }}>{improving ? '📉' : '📊'}</span>
+          <span style={{ fontSize: '0.9rem' }}>{improving ? '개선' : '유지'}</span>
           <p style={{ fontSize: '0.78rem', color: improving ? colors.green : colors.amber, margin: 0, fontWeight: 600 }}>
             {improving
               ? `최근 세션 교정이 줄어드는 추세예요! (${Math.round(avgFirst)}→${Math.round(avgLast)}건)`
@@ -519,7 +518,7 @@ function AdoptionSection({ unadopted: u }: { unadopted: Awaited<ReturnType<typeo
       {u.unadopted.length > 0 && (
         <div style={{ marginTop: '0.875rem' }}>
           <p style={{ fontSize: '0.75rem', fontWeight: 700, color: colors.amber, margin: '0 0 0.4rem' }}>
-            💤 아직 사용하지 않은 Phrase ({u.unadoptedCount}개)
+            아직 사용하지 않은 Phrase ({u.unadoptedCount}개)
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
             {u.unadopted.slice(0, 5).map(p => (
@@ -542,7 +541,7 @@ function AdoptionSection({ unadopted: u }: { unadopted: Awaited<ReturnType<typeo
       {u.topAdopted.length > 0 && (
         <div style={{ marginTop: '0.75rem' }}>
           <p style={{ fontSize: '0.75rem', fontWeight: 700, color: colors.green, margin: '0 0 0.4rem' }}>
-            🌟 가장 많이 사용한 Phrase
+            가장 많이 사용한 Phrase
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             {u.topAdopted.map(p => (
@@ -676,7 +675,7 @@ function PhraseCard({ p }: { p: PhraseRow }) {
       )}
       {p.used_later_count > 0 && (
         <p style={{ fontSize: '0.68rem', color: colors.green, margin: '0.3rem 0 0', fontWeight: 600 }}>
-          ✅ 이후 {p.used_later_count}회 사용됨
+          이후 {p.used_later_count}회 사용됨
         </p>
       )}
     </div>

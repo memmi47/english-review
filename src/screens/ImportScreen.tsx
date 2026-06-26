@@ -93,7 +93,7 @@ export default function ImportScreen({ onGoReview }: Props) {
   return (
     <>
       <div style={styles.card}>
-        <h1 style={styles.title}>📋 리포트 가져오기 (JSON)</h1>
+        <h1 style={styles.title}>리포트 가져오기 (JSON)</h1>
         <p style={styles.subtitle}>코치가 작성해준 JSON 리포트 블록(```json ... ```)을 그대로 붙여넣으세요.</p>
 
         <textarea
@@ -116,7 +116,7 @@ export default function ImportScreen({ onGoReview }: Props) {
 
         {status.kind === 'error' && (
           <div style={styles.errorBox}>
-            <p style={styles.errorTitle}>⛔ 저장 실패</p>
+            <p style={styles.errorTitle}>저장 실패</p>
             {status.messages.map((m, i) => (
               <p key={i} style={styles.errorMsg}>{m}</p>
             ))}
@@ -137,7 +137,7 @@ export default function ImportScreen({ onGoReview }: Props) {
       </div>
 
       <div style={{ ...styles.card, marginTop: '1rem' }}>
-        <h2 style={styles.sectionTitle}>📊 저장된 데이터 현황</h2>
+        <h2 style={styles.sectionTitle}>저장된 데이터 현황</h2>
         <p style={styles.subtitle}>새로고침해도 이 숫자가 유지되면 정상 저장된 거예요.</p>
         {counts ? (
           <div style={styles.counts}>
@@ -152,7 +152,7 @@ export default function ImportScreen({ onGoReview }: Props) {
       </div>
 
       <div style={{ ...styles.card, marginTop: '1rem' }}>
-        <h2 style={styles.sectionTitle}>💾 백업</h2>
+        <h2 style={styles.sectionTitle}>백업</h2>
         <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요. 연습 완료 이력도 함께 저장됩니다.</p>
 
         <button
@@ -160,7 +160,7 @@ export default function ImportScreen({ onGoReview }: Props) {
           onClick={handleExport}
           disabled={backupStatus.kind === 'exporting'}
         >
-          {backupStatus.kind === 'exporting' ? '내보내는 중...' : '⬇️ 백업 내보내기'}
+          {backupStatus.kind === 'exporting' ? '내보내는 중...' : '백업 내보내기'}
         </button>
 
         <div style={styles.divider} />
@@ -197,19 +197,19 @@ export default function ImportScreen({ onGoReview }: Props) {
           onClick={() => fileInputRef.current?.click()}
           disabled={backupStatus.kind === 'importing'}
         >
-          {backupStatus.kind === 'importing' ? '가져오는 중...' : '⬆️ 백업 가져오기'}
+          {backupStatus.kind === 'importing' ? '가져오는 중...' : '백업 가져오기'}
         </button>
 
         {backupStatus.kind === 'error' && (
           <div style={styles.errorBox}>
-            <p style={styles.errorTitle}>⛔ 실패</p>
+            <p style={styles.errorTitle}>실패</p>
             <p style={styles.errorMsg}>{backupStatus.message}</p>
           </div>
         )}
 
         {backupStatus.kind === 'imported' && (
           <div style={styles.resultBox}>
-            <p style={styles.resultTitle}>✅ 가져오기 완료</p>
+            <p style={styles.resultTitle}>가져오기 완료</p>
             <div style={styles.counts}>
               {Object.entries(backupStatus.counts).map(([table, n]) => (
                 <CountBadge key={table} label={table} value={n} />
@@ -293,7 +293,6 @@ function SessionHighlight({
     }}>
       {/* 헤더 */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
-        <span style={{ fontSize: '1.25rem' }}>✅</span>
         <div>
           <p style={{ fontSize: '0.9rem', fontWeight: 700, color: colors.text, margin: 0 }}>리포트 저장 완료</p>
           {(date || topic) && (
@@ -346,7 +345,7 @@ function SessionHighlight({
       {/* 약점 태그 */}
       {topWeakness && (
         <div style={{ marginBottom: '0.5rem' }}>
-          <p style={{ fontSize: '0.72rem', color: colors.textSubtle, margin: '0 0 0.25rem' }}>⚠️ 주요 약점: <strong style={{ color: colors.amber }}>[{topWeakness.canonical_tag ?? 'N/A'}]</strong></p>
+          <p style={{ fontSize: '0.72rem', color: colors.textSubtle, margin: '0 0 0.25rem' }}>주요 약점: <strong style={{ color: colors.amber }}>[{topWeakness.canonical_tag ?? 'N/A'}]</strong></p>
           <p style={{ fontSize: '0.78rem', color: colors.textMuted, margin: 0 }}>{topWeakness.description}</p>
         </div>
       )}
@@ -354,7 +353,7 @@ function SessionHighlight({
       {/* 경고 */}
       {warnings.length > 0 && (
         <div style={{ ...styles.warnBox, marginTop: '0.5rem' }}>
-          <p style={styles.warnTitle}>⚠️ 경고 ({warnings.length}건)</p>
+          <p style={styles.warnTitle}>경고 ({warnings.length}건)</p>
           {warnings.slice(0, 2).map((w, i) => <p key={i} style={styles.warnMsg}>{w}</p>)}
         </div>
       )}

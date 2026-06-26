@@ -155,7 +155,6 @@ export default function HomeScreen({ onNavigate }: Props) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {/* 리포트 입력 */}
         <TodoCard
-          code="DOC"
           title="리포트 입력"
           subtitle={data.hasSessionToday ? '오늘 리포트 입력 완료' : '오늘 대화 리포트를 붙여넣으세요'}
           done={data.hasSessionToday}
@@ -166,7 +165,6 @@ export default function HomeScreen({ onNavigate }: Props) {
 
         {/* 복습 */}
         <TodoCard
-          code="RVW"
           title="단어 복습"
           subtitle={
             data.reviewCount === 0
@@ -182,7 +180,6 @@ export default function HomeScreen({ onNavigate }: Props) {
 
         {/* 연습 */}
         <TodoCard
-          code="PRC"
           title="문장 연습"
           subtitle={
             data.practiceCount === 0
@@ -215,9 +212,8 @@ const accentMap: Record<Accent, { bg: string; border: string; color: string; cou
 }
 
 function TodoCard({
-  code, title, subtitle, done, estimatedMin, count, onClick, accent,
+  title, subtitle, done, estimatedMin, count, onClick, accent,
 }: {
-  code: string
   title: string
   subtitle: string
   done: boolean
@@ -234,8 +230,8 @@ function TodoCard({
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.875rem',
-        padding: '0.875rem 1rem',
+        gap: '0.75rem',
+        padding: '0.875rem 1rem 0.875rem 0.85rem',
         background: done ? colors.surfaceAlt : colors.surface,
         border: `1px solid ${done ? colors.border : a.border}`,
         borderRadius: radius.lg,
@@ -248,22 +244,14 @@ function TodoCard({
       }}
     >
       <div style={{
-        width: '2.5rem',
-        height: '2.5rem',
-        borderRadius: radius.md,
-        background: done ? colors.surfaceAlt : a.bg,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '0.66rem',
-        fontWeight: 800,
-        color: done ? colors.textSubtle : a.color,
-        letterSpacing: '0',
+        width: '3px',
+        alignSelf: 'stretch',
+        minHeight: '2.4rem',
+        borderRadius: radius.pill,
+        background: done ? colors.borderStrong : a.color,
+        opacity: done ? 0.35 : 1,
         flexShrink: 0,
-        border: `1px solid ${done ? colors.border : a.border}`,
-      }}>
-        {done ? 'DONE' : code}
-      </div>
+      }} />
 
       {/* 텍스트 */}
       <div style={{ flex: 1, minWidth: 0 }}>

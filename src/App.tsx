@@ -46,22 +46,7 @@ export default function App() {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{
-              width: '1.7rem',
-              height: '1.7rem',
-              borderRadius: radius.sm,
-              background: colors.primary,
-              color: '#fff',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.68rem',
-              fontWeight: 800,
-              letterSpacing: '0',
-            }}>
-              ER
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <span style={{
               fontSize: '0.95rem',
               fontWeight: 700,
@@ -126,15 +111,14 @@ export default function App() {
         boxShadow: '0 -1px 0 var(--border), 0 -4px 16px rgba(0,0,0,0.06)',
       }}>
         {([
-          { id: 'home',      icon: 'HM', label: '홈' },
-          { id: 'review',    icon: 'RV', label: '복습' },
-          { id: 'practice',  icon: 'PR', label: '연습' },
-          { id: 'dashboard', icon: 'IN', label: '분석' },
-          { id: 'import',    icon: 'IM', label: '입력' },
-        ] as { id: Tab; icon: string; label: string }[]).map(({ id, icon, label }) => (
+          { id: 'home',      label: '홈' },
+          { id: 'review',    label: '복습' },
+          { id: 'practice',  label: '연습' },
+          { id: 'dashboard', label: '분석' },
+          { id: 'import',    label: '입력' },
+        ] as { id: Tab; label: string }[]).map(({ id, label }) => (
           <TabButton
             key={id}
-            icon={icon}
             label={label}
             active={tab === id}
             onClick={() => setTab(id)}
@@ -146,9 +130,8 @@ export default function App() {
 }
 
 function TabButton({
-  icon, label, active, onClick,
+  label, active, onClick,
 }: {
-  icon: string
   label: string
   active: boolean
   onClick: () => void
@@ -162,8 +145,7 @@ function TabButton({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '2px',
-        padding: '0.5rem 0.25rem',
+        padding: '0.65rem 0.25rem',
         background: 'none',
         border: 'none',
         cursor: 'pointer',
@@ -188,17 +170,10 @@ function TabButton({
         }} />
       )}
       <span style={{
-        fontSize: '0.62rem',
-        lineHeight: 1,
-        fontWeight: 800,
-        letterSpacing: '0',
-        color: active ? colors.primary : colors.textSubtle,
-      }}>{icon}</span>
-      <span style={{
-        fontSize: '0.62rem',
+        fontSize: '0.86rem',
         fontWeight: active ? 700 : 500,
         color: active ? colors.primary : colors.textSubtle,
-        letterSpacing: '-0.01em',
+        letterSpacing: '0',
         transition: 'color 0.15s, font-weight 0.15s',
       }}>
         {label}
