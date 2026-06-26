@@ -50,7 +50,7 @@
   --radius-pill: 999px;
 
   /* 하단 탭 바 높이 (safe area 포함) */
-  --tab-bar-height: 64px;
+  --tab-bar-height: 76px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 

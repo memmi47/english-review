@@ -8,6 +8,14 @@ import { colors, radius } from './shared/styles'
 
 type Tab = 'home' | 'review' | 'practice' | 'dashboard' | 'import'
 
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'home',      label: '홈' },
+  { id: 'review',    label: '복습' },
+  { id: 'practice',  label: '연습' },
+  { id: 'dashboard', label: '분석' },
+  { id: 'import',    label: '입력' },
+]
+
 // 다크모드: localStorage 기반 영속성
 function useDarkMode(): [boolean, () => void] {
   const [dark, setDark] = useState<boolean>(() => {
@@ -24,7 +32,9 @@ function useDarkMode(): [boolean, () => void] {
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home')
+  const [pressedTab, setPressedTab] = useState<Tab | null>(null)
   const [dark, toggleDark] = useDarkMode()
+  const activeIndex = TABS.findIndex(t => t.id === tab)
 
   return (
     <div style={{ minHeight: '100dvh', background: colors.bg, display: 'flex', flexDirection: 'column' }}>
@@ -41,17 +51,28 @@ export default function App() {
         <div style={{
           maxWidth: '480px',
           margin: '0 auto',
-          padding: '0.6rem 1rem',
+          padding: '0.8rem 1rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+            <img
+              src="/favicon.svg"
+              alt=""
+              aria-hidden="true"
+              style={{
+                width: '1.55rem',
+                height: '1.55rem',
+                display: 'block',
+                flexShrink: 0,
+              }}
+            />
             <span style={{
-              fontSize: '0.95rem',
+              fontSize: '1.08rem',
               fontWeight: 700,
               color: colors.text,
-              letterSpacing: '-0.02em',
+              letterSpacing: '0',
             }}>
               English Review
             </span>
@@ -108,19 +129,28 @@ export default function App() {
         alignItems: 'stretch',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         zIndex: 50,
-        boxShadow: '0 -1px 0 var(--border), 0 -4px 16px rgba(0,0,0,0.06)',
+        overflow: 'hidden',
+        boxShadow: '0 -1px 0 var(--border), 0 -8px 24px rgba(15,23,42,0.06)',
       }}>
-        {([
-          { id: 'home',      label: '홈' },
-          { id: 'review',    label: '복습' },
-          { id: 'practice',  label: '연습' },
-          { id: 'dashboard', label: '분석' },
-          { id: 'import',    label: '입력' },
-        ] as { id: Tab; label: string }[]).map(({ id, label }) => (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: `${(Math.max(activeIndex, 0) + 0.5) * (100 / TABS.length)}%`,
+          transform: 'translateX(-50%)',
+          width: '2.25rem',
+          height: '3px',
+          background: colors.primary,
+          borderRadius: '0 0 2px 2px',
+          transition: 'left 0.24s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.18s ease',
+        }} />
+        {TABS.map(({ id, label }) => (
           <TabButton
             key={id}
             label={label}
             active={tab === id}
+            pressed={pressedTab === id}
+            onPressStart={() => setPressedTab(id)}
+            onPressEnd={() => setPressedTab(current => current === id ? null : current)}
             onClick={() => setTab(id)}
           />
         ))}
@@ -130,47 +160,51 @@ export default function App() {
 }
 
 function TabButton({
-  label, active, onClick,
+  label, active, pressed, onPressStart, onPressEnd, onClick,
 }: {
   label: string
   active: boolean
+  pressed: boolean
+  onPressStart: () => void
+  onPressEnd: () => void
   onClick: () => void
 }) {
   return (
     <button
       onClick={onClick}
+      onPointerDown={onPressStart}
+      onPointerUp={onPressEnd}
+      onPointerCancel={onPressEnd}
+      onPointerLeave={onPressEnd}
       style={{
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '0.65rem 0.25rem',
+        gap: '0.35rem',
+        padding: '0.75rem 0.25rem 0.85rem',
         background: 'none',
         border: 'none',
         cursor: 'pointer',
-        minHeight: '56px',
+        minHeight: '68px',
         position: 'relative',
         fontFamily: 'inherit',
         WebkitTapHighlightColor: 'transparent',
+        transform: pressed ? 'translateY(1px) scale(0.97)' : active ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'transform 0.12s ease, background 0.16s ease',
       }}
     >
-      {/* 활성 인디케이터 */}
-      {active && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '32px',
-          height: '2.5px',
-          background: colors.primary,
-          borderRadius: '0 0 2px 2px',
-          transition: 'width 0.2s',
-        }} />
-      )}
       <span style={{
-        fontSize: '0.86rem',
+        width: '6px',
+        height: '6px',
+        borderRadius: radius.pill,
+        background: active ? colors.primary : 'transparent',
+        transform: active ? 'scale(1)' : 'scale(0.45)',
+        transition: 'background 0.18s ease, transform 0.18s ease',
+      }} />
+      <span style={{
+        fontSize: '0.96rem',
         fontWeight: active ? 700 : 500,
         color: active ? colors.primary : colors.textSubtle,
         letterSpacing: '0',
