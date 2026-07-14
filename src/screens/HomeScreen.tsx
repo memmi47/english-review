@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { dueForReview } from '../db'
 import { dueStudyItems } from '../db/study'
+import { dueDrillCount } from '../db/drills'
 import { getStreakInfo, getStudyHeatmap, hasSessionToday } from '../db/streak'
 import { db } from '../db/schema'
 import type { PhraseRow, VocabRow } from '../db/schema'
@@ -18,7 +19,8 @@ interface HomeData {
   studiedToday: boolean
   heatmap: Record<string, boolean>
   reviewCount: number   // phrase + vocab
-  practiceCount: number // correction + rewrite
+  practiceCount: number // correction + rewrite + 문제은행 드릴
+  drillCount: number    // 문제은행 드릴만
   hasSessionToday: boolean
   stats: {
     studyDays: number
@@ -78,12 +80,13 @@ export default function HomeScreen({ onNavigate }: Props) {
 
   useEffect(() => {
     ; (async () => {
-      const [streakInfo, heatmap, { phrases, vocab }, studyItems, todayDone, sessions, allPhrases, allVocab, corrections] =
+      const [streakInfo, heatmap, { phrases, vocab }, studyItems, drillsDue, todayDone, sessions, allPhrases, allVocab, corrections] =
         await Promise.all([
           getStreakInfo(),
           getStudyHeatmap(70),
           dueForReview(),
           dueStudyItems(),
+          dueDrillCount(),
           hasSessionToday(),
           db.sessions.toArray(),
           db.phrases.toArray(),
@@ -98,7 +101,8 @@ export default function HomeScreen({ onNavigate }: Props) {
         studiedToday: streakInfo.studiedToday,
         heatmap,
         reviewCount: phrases.length + vocab.length,
-        practiceCount: studyItems.length,
+        practiceCount: studyItems.length + drillsDue,
+        drillCount: drillsDue,
         hasSessionToday: todayDone,
         stats: {
           studyDays,
@@ -184,7 +188,9 @@ export default function HomeScreen({ onNavigate }: Props) {
           subtitle={
             data.practiceCount === 0
               ? '오늘 연습할 문장 없음'
-              : `교정 & Rewrite 총 ${data.practiceCount}개`
+              : data.drillCount > 0
+                ? `문제은행 ${data.drillCount} · 재작성 ${data.practiceCount - data.drillCount}개`
+                : `교정 & Rewrite 총 ${data.practiceCount}개`
           }
           done={data.practiceCount === 0}
           estimatedMin={Math.ceil(data.practiceCount * 0.7)}

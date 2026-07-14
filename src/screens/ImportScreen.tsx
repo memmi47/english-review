@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { parseReport, ingestReport, downloadBackup, importAll, db } from '../db'
 import type { IngestResult } from '../db'
 import type { ParsedReport } from '../db/parser'
+import { importDrillBank, totalDrillCount } from '../db/drills'
+import {
+  TTS_VOICES, getTtsApiKey, setTtsApiKey, getTtsVoice, setTtsVoice,
+  neuralTtsEnabled, testNeuralTts, ttsCacheStats, clearTtsCache,
+} from '../shared/tts'
 import { styles, colors, radius } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
 
@@ -218,7 +223,183 @@ export default function ImportScreen({ onGoReview }: Props) {
           </div>
         )}
       </div>
+
+      <DrillBankCard />
+
+      <TtsSettingsCard />
     </>
+  )
+}
+
+// ── 문제은행(드릴) 가져오기 카드 ──
+
+type DrillImportStatus =
+  | { kind: 'idle' }
+  | { kind: 'importing' }
+  | { kind: 'error'; message: string }
+  | { kind: 'done'; added: number; updated: number }
+
+function DrillBankCard() {
+  const [status, setStatus] = useState<DrillImportStatus>({ kind: 'idle' })
+  const [total, setTotal] = useState<number | null>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => { void totalDrillCount().then(setTotal) }, [])
+
+  async function handleFile(file: File) {
+    setStatus({ kind: 'importing' })
+    try {
+      const text = await file.text()
+      const { added, updated } = await importDrillBank(text)
+      setStatus({ kind: 'done', added, updated })
+      setTotal(await totalDrillCount())
+    } catch (e) {
+      setStatus({ kind: 'error', message: e instanceof Error ? e.message : String(e) })
+    } finally {
+      if (fileRef.current) fileRef.current.value = ''
+    }
+  }
+
+  return (
+    <div style={{ ...styles.card, marginTop: '1rem' }}>
+      <h2 style={styles.sectionTitle}>문제은행 가져오기</h2>
+      <p style={styles.subtitle}>
+        Claude 정제 세션에서 만들어진 문제은행 파일(.json)을 가져오면 연습 탭에
+        3지선다·패턴 드릴·한→영 표현하기 문제가 추가됩니다.
+        {total != null && total > 0 && <> 현재 저장된 문제: <strong>{total}개</strong></>}
+      </p>
+
+      <input
+        ref={fileRef}
+        type="file"
+        accept="application/json"
+        style={{ display: 'none' }}
+        onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
+      />
+      <button
+        style={{ ...styles.button, opacity: status.kind === 'importing' ? 0.6 : 1 }}
+        onClick={() => fileRef.current?.click()}
+        disabled={status.kind === 'importing'}
+      >
+        {status.kind === 'importing' ? '가져오는 중...' : '문제은행 파일 선택'}
+      </button>
+
+      {status.kind === 'error' && (
+        <div style={styles.errorBox}>
+          <p style={styles.errorTitle}>가져오기 실패</p>
+          <p style={styles.errorMsg}>{status.message}</p>
+        </div>
+      )}
+      {status.kind === 'done' && (
+        <div style={styles.resultBox}>
+          <p style={styles.resultTitle}>가져오기 완료</p>
+          <div style={styles.counts}>
+            <CountBadge label="새 문제" value={status.added} />
+            <CountBadge label="갱신" value={status.updated} />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── 발음 음성 설정 카드 (OpenRouter TTS) ──
+
+function TtsSettingsCard() {
+  const [apiKey, setApiKey] = useState(() => getTtsApiKey())
+  const [voice, setVoice] = useState(() => getTtsVoice())
+  const [testState, setTestState] = useState<{ kind: 'idle' } | { kind: 'testing' } | { kind: 'result'; ok: boolean; message: string }>({ kind: 'idle' })
+  const [cache, setCache] = useState<{ count: number; mb: number } | null>(null)
+
+  useEffect(() => { void ttsCacheStats().then(setCache) }, [])
+
+  function handleKeyChange(v: string) {
+    setApiKey(v)
+    setTtsApiKey(v)
+    setTestState({ kind: 'idle' })
+  }
+
+  function handleVoiceChange(v: string) {
+    setVoice(v)
+    setTtsVoice(v)
+    setTestState({ kind: 'idle' })
+  }
+
+  async function handleTest() {
+    setTestState({ kind: 'testing' })
+    const result = await testNeuralTts('Hello! This is your new pronunciation voice. How does it sound?')
+    setTestState({ kind: 'result', ok: result.ok, message: result.message })
+    setCache(await ttsCacheStats())
+  }
+
+  async function handleClearCache() {
+    await clearTtsCache()
+    setCache(await ttsCacheStats())
+  }
+
+  return (
+    <div style={{ ...styles.card, marginTop: '1rem' }}>
+      <h2 style={styles.sectionTitle}>발음 음성 설정</h2>
+      <p style={styles.subtitle}>
+        OpenRouter API 키를 입력하면 발음 버튼이 사람 수준의 자연스러운 AI 음성으로 바뀝니다.
+        한 번 들은 문장은 기기에 저장되어 다시 비용이 들지 않아요 (문장당 약 1~2원).
+        키가 없으면 기기 기본 음성을 사용합니다.
+      </p>
+
+      <p style={localStyles.modeLabel}>OpenRouter API 키 <span style={{ fontWeight: 400 }}>(openrouter.ai/keys 에서 발급)</span></p>
+      <input
+        type="password"
+        style={localStyles.keyInput}
+        placeholder="sk-or-v1-..."
+        value={apiKey}
+        onChange={e => handleKeyChange(e.target.value)}
+        autoComplete="off"
+      />
+
+      <p style={{ ...localStyles.modeLabel, marginTop: '0.75rem' }}>목소리</p>
+      <select
+        style={localStyles.voiceSelect}
+        value={voice}
+        onChange={e => handleVoiceChange(e.target.value)}
+      >
+        {TTS_VOICES.map(v => (
+          <option key={v.id} value={v.id}>{v.label}</option>
+        ))}
+      </select>
+
+      <button
+        style={{ ...styles.button, opacity: !neuralTtsEnabled() || testState.kind === 'testing' ? 0.5 : 1 }}
+        onClick={handleTest}
+        disabled={!neuralTtsEnabled() || testState.kind === 'testing'}
+      >
+        {testState.kind === 'testing' ? '재생 중...' : '이 목소리로 테스트'}
+      </button>
+
+      {testState.kind === 'result' && (
+        <div style={testState.ok ? styles.resultBox : styles.errorBox}>
+          <p style={testState.ok ? styles.resultTitle : styles.errorTitle}>
+            {testState.ok ? '연결 성공' : '연결 실패'}
+          </p>
+          <p style={testState.ok ? { ...styles.errorMsg, color: colors.green } : styles.errorMsg}>
+            {testState.message}
+          </p>
+        </div>
+      )}
+
+      {cache && cache.count > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.75rem' }}>
+          <span style={{ fontSize: '0.75rem', color: colors.textSubtle }}>
+            저장된 발음 {cache.count}개 · {cache.mb}MB
+          </span>
+          <button
+            style={{ background: 'none', border: 'none', color: colors.textMuted, fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' }}
+            onClick={handleClearCache}
+          >
+            캐시 비우기
+          </button>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -263,6 +444,30 @@ const localStyles = {
     gap: '0.5rem',
     fontSize: '0.825rem',
     color: '#555',
+  },
+  keyInput: {
+    width: '100%',
+    padding: '0.65rem 0.75rem',
+    borderRadius: '0.625rem',
+    border: '1.5px solid var(--border)',
+    fontSize: '0.875rem',
+    fontFamily: 'monospace',
+    boxSizing: 'border-box' as const,
+    outline: 'none',
+    color: 'var(--text)',
+    background: 'var(--surface)',
+  },
+  voiceSelect: {
+    width: '100%',
+    padding: '0.65rem 0.75rem',
+    borderRadius: '0.625rem',
+    border: '1.5px solid var(--border)',
+    fontSize: '0.875rem',
+    fontFamily: 'inherit',
+    boxSizing: 'border-box' as const,
+    outline: 'none',
+    color: 'var(--text)',
+    background: 'var(--surface)',
   },
 } as const
 

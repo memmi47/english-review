@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { CorrectionRow, RewriteRow, Grade } from '../db'
 import { dueStudyItems, reviewStudyItem } from '../db/study'
 import type { StudyKind } from '../db/study'
+import { dueDrills, reviewDrill, answerMatches, totalDrillCount } from '../db/drills'
+import type { DrillRow } from '../db/drills'
 import { styles, colors, radius } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 import { wordDiff, generateCloze, clozeMatch } from '../shared/wordDiff'
@@ -80,9 +82,74 @@ function DiffView({ userAttempt, target }: { userAttempt: string; target: string
   )
 }
 
-// ── 메인 화면 ─────────────────────────────────────────
+// ── 메인 화면: 문제은행 | 재작성 세그먼트 ─────────────
+
+type PracticeSeg = 'drills' | 'legacy'
 
 export default function PracticeScreen() {
+  const [seg, setSeg] = useState<PracticeSeg | null>(null)
+  const [hasDrills, setHasDrills] = useState(false)
+
+  useEffect(() => {
+    (async () => {
+      const total = await totalDrillCount()
+      setHasDrills(total > 0)
+      // 문제은행이 있으면 문제은행 모드를 기본으로
+      setSeg(total > 0 ? 'drills' : 'legacy')
+    })()
+  }, [])
+
+  if (seg === null) {
+    return (
+      <div style={styles.card}>
+        <p style={styles.subtitle}>불러오는 중...</p>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      {hasDrills && (
+        <div style={{
+          display: 'flex',
+          background: colors.surfaceAlt,
+          borderRadius: radius.lg,
+          padding: '3px',
+          border: `1px solid ${colors.border}`,
+        }}>
+          {(['drills', 'legacy'] as PracticeSeg[]).map(s => (
+            <button
+              key={s}
+              onClick={() => setSeg(s)}
+              style={{
+                flex: 1,
+                padding: '0.5rem',
+                borderRadius: radius.md,
+                border: 'none',
+                fontFamily: 'inherit',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'background 0.2s, color 0.15s, box-shadow 0.2s',
+                background: seg === s ? colors.surface : 'transparent',
+                color: seg === s ? colors.primary : colors.textMuted,
+                boxShadow: seg === s ? 'var(--shadow-card)' : 'none',
+              }}
+            >
+              {s === 'drills' ? '문제은행' : '문장 재작성'}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {seg === 'drills' ? <DrillSession /> : <LegacyPractice />}
+    </div>
+  )
+}
+
+// ── 문장 재작성 (기존 교정/Rewrite 연습) ──────────────
+
+function LegacyPractice() {
   const [items, setItems] = useState<PracticeItem[] | null>(null)
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>({ tag: 'active' })
@@ -274,6 +341,321 @@ export default function PracticeScreen() {
     </div>
   )
 }
+
+// ── 문제은행 세션 (choice / pattern / produce) ────────
+
+const DRILL_TYPE_LABEL: Record<DrillRow['type'], string> = {
+  choice: '3지선다',
+  pattern: '패턴 드릴',
+  produce: '한→영 표현',
+}
+
+// '_____' 빈칸을 채운 완성 문장 (발음 듣기용)
+function filledSentence(drill: DrillRow): string {
+  return drill.question.includes('_____')
+    ? drill.question.replace('_____', drill.answer)
+    : drill.answer
+}
+
+// 빈칸 문장을 시각적으로 렌더링. answered면 정답/오답 표시로 채운다.
+function BlankSentence({ drill, answered, userAnswer, correct }: {
+  drill: DrillRow
+  answered: boolean
+  userAnswer: string
+  correct: boolean
+}) {
+  const parts = drill.question.split('_____')
+  return (
+    <div style={localStyles.clozeBox}>
+      <p style={localStyles.clozeText}>
+        {parts[0]}
+        <span style={answered
+          ? (correct ? localStyles.clozeFillCorrect : localStyles.clozeFillWrong)
+          : localStyles.clozeBlank}>
+          {answered ? (userAnswer || drill.answer) : '_____'}
+        </span>
+        {parts[1]}
+      </p>
+      {answered && !correct && (
+        <p style={{ ...localStyles.clozeHelp, color: colors.green, fontWeight: 700 }}>
+          정답: {drill.answer}
+        </p>
+      )}
+    </div>
+  )
+}
+
+type DrillPhase =
+  | { tag: 'active' }
+  | { tag: 'answered'; userAnswer: string; correct: boolean; revealed: boolean }
+
+function DrillSession() {
+  const [queue, setQueue] = useState<DrillRow[] | null>(null)
+  const [index, setIndex] = useState(0)
+  const [phase, setPhase] = useState<DrillPhase>({ tag: 'active' })
+  const [userInput, setUserInput] = useState('')
+  const [doneCount, setDoneCount] = useState(0)
+  const [showHint, setShowHint] = useState(false)
+
+  useEffect(() => {
+    (async () => setQueue(await dueDrills(20)))()
+  }, [])
+
+  function answerChoice(choice: string) {
+    if (!queue || phase.tag !== 'active') return
+    const drill = queue[index]
+    setPhase({ tag: 'answered', userAnswer: choice, correct: choice === drill.answer, revealed: false })
+  }
+
+  function answerTyped() {
+    if (!queue) return
+    const trimmed = userInput.trim()
+    if (!trimmed) return
+    const drill = queue[index]
+    setPhase({ tag: 'answered', userAnswer: trimmed, correct: answerMatches(trimmed, drill), revealed: false })
+  }
+
+  function reveal() {
+    if (!queue) return
+    setPhase({ tag: 'answered', userAnswer: '', correct: false, revealed: true })
+    setShowHint(true)
+  }
+
+  async function next(grade: Grade) {
+    if (!queue) return
+    await reviewDrill(queue[index].id, grade)
+    setDoneCount(c => c + 1)
+    setPhase({ tag: 'active' })
+    setUserInput('')
+    setShowHint(false)
+    setIndex(i => i + 1)
+  }
+
+  if (!queue) {
+    return (
+      <div style={styles.card}>
+        <p style={styles.subtitle}>불러오는 중...</p>
+      </div>
+    )
+  }
+
+  if (queue.length === 0 || index >= queue.length) {
+    const finished = queue.length > 0
+    return (
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{finished ? '🎊' : '🎉'}</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.4rem' }}>
+            {finished ? '오늘 문제은행 완료!' : '오늘 풀 문제가 없어요'}
+          </h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: 0 }}>
+            {finished
+              ? `${doneCount}문제를 풀었어요. 잘했어요!`
+              : '문제은행의 모든 문제가 다음 복습일을 기다리고 있어요.'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  const drill = queue[index]
+  const answered = phase.tag === 'answered'
+  const correct = answered && phase.correct
+  const revealed = answered && phase.revealed
+
+  return (
+    <div style={styles.card}>
+      {/* 헤더 */}
+      <div style={localStyles.headerRow}>
+        <p style={styles.subtitle}>{index + 1} / {queue.length}</p>
+        <div style={localStyles.badgeRow}>
+          {drill.severity && (
+            <span style={{
+              ...localStyles.modeBadge,
+              color: drill.severity === '화석화' ? colors.red : colors.textMuted,
+              background: drill.severity === '화석화' ? colors.redBg : colors.surfaceAlt,
+            }}>
+              {drill.severity}
+            </span>
+          )}
+          {drill.tag && <span style={localStyles.modeBadge}>{drill.tag}</span>}
+          <span style={localStyles.kindBadge}>{DRILL_TYPE_LABEL[drill.type]}</span>
+        </div>
+      </div>
+
+      <div style={localStyles.body}>
+        {/* ── produce: 한국어 의도 제시 ── */}
+        {drill.type === 'produce' ? (
+          <>
+            <div style={{ ...localStyles.sourceBox, background: colors.primaryLight, borderColor: colors.primary, borderStyle: 'solid' }}>
+              <p style={{ ...localStyles.sourceLabel, color: colors.primary }}>이 말을 영어로 해보세요</p>
+              <p style={{ ...localStyles.sourceText, color: colors.primary, fontWeight: 700, fontSize: '1.05rem', fontStyle: 'normal' }}>
+                {drill.question}
+              </p>
+            </div>
+
+            {!answered ? (
+              <>
+                <textarea
+                  style={localStyles.textarea}
+                  placeholder="영어로 입력해보세요... (소리 내어 말한 뒤 적으면 더 좋아요)"
+                  value={userInput}
+                  onChange={e => setUserInput(e.target.value)}
+                  rows={3}
+                />
+                <div style={localStyles.actionRow}>
+                  <button
+                    style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+                    onClick={answerTyped}
+                    disabled={!userInput.trim()}
+                  >
+                    제출하고 비교하기
+                  </button>
+                  <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={reveal}>
+                    정답 보기
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {!revealed && phase.userAnswer && (
+                  <DiffView userAttempt={phase.userAnswer} target={drill.answer} />
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  {[drill.answer, ...drill.accept].map((ans, i) => (
+                    <div key={i} style={localStyles.targetRow}>
+                      <SpeakerButton text={ans} />
+                      <p style={localStyles.targetText}>{ans}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            {/* ── choice / pattern: 빈칸 문장 ── */}
+            <p style={localStyles.instruction}>
+              {drill.type === 'choice' ? '빈칸에 맞는 표현을 골라보세요' : '빈칸에 들어갈 표현을 직접 입력해보세요'}
+            </p>
+
+            <BlankSentence
+              drill={drill}
+              answered={answered}
+              userAnswer={answered ? phase.userAnswer : ''}
+              correct={correct}
+            />
+
+            {drill.type === 'choice' && !answered && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {drill.choices.map(choice => (
+                  <button
+                    key={choice}
+                    style={drillStyles.choiceButton}
+                    onClick={() => answerChoice(choice)}
+                  >
+                    {choice}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {drill.type === 'pattern' && !answered && (
+              <>
+                <textarea
+                  style={{ ...localStyles.textarea, minHeight: '60px' }}
+                  placeholder="빈칸에 들어갈 표현..."
+                  value={userInput}
+                  onChange={e => setUserInput(e.target.value)}
+                  rows={2}
+                />
+                <div style={localStyles.actionRow}>
+                  <button
+                    style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+                    onClick={answerTyped}
+                    disabled={!userInput.trim()}
+                  >
+                    확인
+                  </button>
+                  <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={reveal}>
+                    정답 보기
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* 채점 결과 + 발음 듣기 */}
+            {answered && (
+              <div style={correct ? styles.resultBox : styles.errorBox}>
+                <p style={correct ? styles.resultTitle : styles.errorTitle}>
+                  {revealed ? '정답을 확인했어요' : correct ? '정확해요' : '아쉬워요'}
+                </p>
+                <div style={localStyles.answerRow}>
+                  <p style={localStyles.answerText}>완성 문장을 들어보세요:</p>
+                  <SpeakerButton text={filledSentence(drill)} size="small" />
+                </div>
+                <p style={localStyles.fullSentence}>{filledSentence(drill)}</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* 해설 */}
+        {answered && drill.explain && (
+          <p style={localStyles.hint}>{drill.explain}</p>
+        )}
+
+        {/* 힌트 (답하기 전) */}
+        {!answered && drill.hint && (
+          <>
+            <button style={localStyles.hintToggle} onClick={() => setShowHint(!showHint)}>
+              {showHint ? '힌트 닫기' : '힌트 보기'}
+            </button>
+            {showHint && <p style={localStyles.hint}>{drill.hint}</p>}
+          </>
+        )}
+      </div>
+
+      {/* 다음 문제 / 자기평가 */}
+      {answered && (
+        drill.type === 'produce' ? (
+          <div style={localStyles.gradeRow}>
+            <button style={localStyles.againButton} onClick={() => next('again')}>
+              더 연습할게요
+            </button>
+            <button style={localStyles.goodButton} onClick={() => next('good')}>
+              입에 붙었어요
+            </button>
+          </div>
+        ) : (
+          <button
+            style={{ ...styles.button, marginTop: '1rem' }}
+            onClick={() => next(correct ? 'good' : 'again')}
+          >
+            다음 문제 →
+          </button>
+        )
+      )}
+    </div>
+  )
+}
+
+const drillStyles = {
+  choiceButton: {
+    width: '100%',
+    padding: '0.8rem 1rem',
+    background: colors.surface,
+    color: colors.text,
+    border: `1.5px solid ${colors.border}`,
+    borderRadius: radius.md,
+    fontSize: '0.95rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    textAlign: 'left' as const,
+    fontFamily: 'inherit',
+    transition: 'border-color 0.15s, background 0.15s',
+  },
+} as const
 
 // ── Diff 재작성 모드 ──────────────────────────────────
 
