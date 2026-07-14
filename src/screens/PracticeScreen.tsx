@@ -82,24 +82,21 @@ function DiffView({ userAttempt, target }: { userAttempt: string; target: string
   )
 }
 
-// ── 메인 화면: 문제은행 | 재작성 세그먼트 ─────────────
-
-type PracticeSeg = 'drills' | 'legacy'
+// ── 메인 화면 ─────────────────────────────────────────
+//
+// 문제은행(drills)이 있으면 문제은행만 보여준다. 정제되지 않은 원본
+// 교정/Rewrite(LegacyPractice)는 문제은행이 아직 하나도 없을 때만
+// 임시로 노출된다 — 정제된 문제와 미정제 원본이 섞여 보이면 문제은행을
+// 만든 의미가 없어지기 때문에, 수동으로 전환할 방법은 두지 않는다.
 
 export default function PracticeScreen() {
-  const [seg, setSeg] = useState<PracticeSeg | null>(null)
-  const [hasDrills, setHasDrills] = useState(false)
+  const [hasDrills, setHasDrills] = useState<boolean | null>(null)
 
   useEffect(() => {
-    (async () => {
-      const total = await totalDrillCount()
-      setHasDrills(total > 0)
-      // 문제은행이 있으면 문제은행 모드를 기본으로
-      setSeg(total > 0 ? 'drills' : 'legacy')
-    })()
+    (async () => setHasDrills((await totalDrillCount()) > 0))()
   }, [])
 
-  if (seg === null) {
+  if (hasDrills === null) {
     return (
       <div style={styles.card}>
         <p style={styles.subtitle}>불러오는 중...</p>
@@ -107,44 +104,7 @@ export default function PracticeScreen() {
     )
   }
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-      {hasDrills && (
-        <div style={{
-          display: 'flex',
-          background: colors.surfaceAlt,
-          borderRadius: radius.lg,
-          padding: '3px',
-          border: `1px solid ${colors.border}`,
-        }}>
-          {(['drills', 'legacy'] as PracticeSeg[]).map(s => (
-            <button
-              key={s}
-              onClick={() => setSeg(s)}
-              style={{
-                flex: 1,
-                padding: '0.5rem',
-                borderRadius: radius.md,
-                border: 'none',
-                fontFamily: 'inherit',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'background 0.2s, color 0.15s, box-shadow 0.2s',
-                background: seg === s ? colors.surface : 'transparent',
-                color: seg === s ? colors.primary : colors.textMuted,
-                boxShadow: seg === s ? 'var(--shadow-card)' : 'none',
-              }}
-            >
-              {s === 'drills' ? '문제은행' : '문장 재작성'}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {seg === 'drills' ? <DrillSession /> : <LegacyPractice />}
-    </div>
-  )
+  return hasDrills ? <DrillSession /> : <LegacyPractice />
 }
 
 // ── 문장 재작성 (기존 교정/Rewrite 연습) ──────────────

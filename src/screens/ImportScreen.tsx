@@ -3,10 +3,7 @@ import { parseReport, ingestReport, downloadBackup, importAll, db } from '../db'
 import type { IngestResult } from '../db'
 import type { ParsedReport } from '../db/parser'
 import { importDrillBank, totalDrillCount } from '../db/drills'
-import {
-  TTS_VOICES, getManualTtsApiKey, setTtsApiKey, getTtsVoice, setTtsVoice,
-  neuralTtsEnabled, testNeuralTts, ttsCacheStats, clearTtsCache, hasBuiltinKey,
-} from '../shared/tts'
+import { TTS_VOICES, getTtsVoice, setTtsVoice } from '../shared/tts'
 import { styles, colors, radius } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
 
@@ -303,65 +300,21 @@ function DrillBankCard() {
   )
 }
 
-// ── 발음 음성 설정 카드 (OpenRouter TTS) ──
+// ── 발음 목소리 선택 ──
 
 function TtsSettingsCard() {
-  const [apiKey, setApiKey] = useState(() => getManualTtsApiKey())
   const [voice, setVoice] = useState(() => getTtsVoice())
-  const [testState, setTestState] = useState<{ kind: 'idle' } | { kind: 'testing' } | { kind: 'result'; ok: boolean; message: string }>({ kind: 'idle' })
-  const [cache, setCache] = useState<{ count: number; mb: number } | null>(null)
-
-  useEffect(() => { void ttsCacheStats().then(setCache) }, [])
-
-  function handleKeyChange(v: string) {
-    setApiKey(v)
-    setTtsApiKey(v)
-    setTestState({ kind: 'idle' })
-  }
 
   function handleVoiceChange(v: string) {
     setVoice(v)
     setTtsVoice(v)
-    setTestState({ kind: 'idle' })
-  }
-
-  async function handleTest() {
-    setTestState({ kind: 'testing' })
-    const result = await testNeuralTts('Hello! This is your new pronunciation voice. How does it sound?')
-    setTestState({ kind: 'result', ok: result.ok, message: result.message })
-    setCache(await ttsCacheStats())
-  }
-
-  async function handleClearCache() {
-    await clearTtsCache()
-    setCache(await ttsCacheStats())
   }
 
   return (
     <div style={{ ...styles.card, marginTop: '1rem' }}>
-      <h2 style={styles.sectionTitle}>발음 음성 설정</h2>
-      <p style={styles.subtitle}>
-        OpenRouter API 키를 입력하면 발음 버튼이 사람 수준의 자연스러운 AI 음성으로 바뀝니다.
-        한 번 들은 문장은 기기에 저장되어 다시 비용이 들지 않아요 (문장당 약 1~2원).
-        키가 없으면 기기 기본 음성을 사용합니다.
-      </p>
+      <h2 style={styles.sectionTitle}>발음 목소리</h2>
+      <p style={styles.subtitle}>AI 음성이 자동으로 적용됩니다. 원하는 목소리를 선택하세요.</p>
 
-      <p style={localStyles.modeLabel}>OpenRouter API 키 <span style={{ fontWeight: 400 }}>(openrouter.ai/keys 에서 발급)</span></p>
-      <input
-        type="password"
-        style={localStyles.keyInput}
-        placeholder={hasBuiltinKey() ? '내장 키 사용 중 — 다른 키를 쓰려면 입력' : 'sk-or-v1-...'}
-        value={apiKey}
-        onChange={e => handleKeyChange(e.target.value)}
-        autoComplete="off"
-      />
-      {hasBuiltinKey() && !apiKey && (
-        <p style={{ fontSize: '0.72rem', color: colors.green, margin: '0.35rem 0 0' }}>
-          앱에 내장된 키가 있어 별도 입력 없이 AI 음성이 작동합니다.
-        </p>
-      )}
-
-      <p style={{ ...localStyles.modeLabel, marginTop: '0.75rem' }}>목소리</p>
       <select
         style={localStyles.voiceSelect}
         value={voice}
@@ -371,39 +324,6 @@ function TtsSettingsCard() {
           <option key={v.id} value={v.id}>{v.label}</option>
         ))}
       </select>
-
-      <button
-        style={{ ...styles.button, opacity: !neuralTtsEnabled() || testState.kind === 'testing' ? 0.5 : 1 }}
-        onClick={handleTest}
-        disabled={!neuralTtsEnabled() || testState.kind === 'testing'}
-      >
-        {testState.kind === 'testing' ? '재생 중...' : '이 목소리로 테스트'}
-      </button>
-
-      {testState.kind === 'result' && (
-        <div style={testState.ok ? styles.resultBox : styles.errorBox}>
-          <p style={testState.ok ? styles.resultTitle : styles.errorTitle}>
-            {testState.ok ? '연결 성공' : '연결 실패'}
-          </p>
-          <p style={testState.ok ? { ...styles.errorMsg, color: colors.green } : styles.errorMsg}>
-            {testState.message}
-          </p>
-        </div>
-      )}
-
-      {cache && cache.count > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.75rem' }}>
-          <span style={{ fontSize: '0.75rem', color: colors.textSubtle }}>
-            저장된 발음 {cache.count}개 · {cache.mb}MB
-          </span>
-          <button
-            style={{ background: 'none', border: 'none', color: colors.textMuted, fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' }}
-            onClick={handleClearCache}
-          >
-            캐시 비우기
-          </button>
-        </div>
-      )}
     </div>
   )
 }
@@ -449,18 +369,6 @@ const localStyles = {
     gap: '0.5rem',
     fontSize: '0.825rem',
     color: '#555',
-  },
-  keyInput: {
-    width: '100%',
-    padding: '0.65rem 0.75rem',
-    borderRadius: '0.625rem',
-    border: '1.5px solid var(--border)',
-    fontSize: '0.875rem',
-    fontFamily: 'monospace',
-    boxSizing: 'border-box' as const,
-    outline: 'none',
-    color: 'var(--text)',
-    background: 'var(--surface)',
   },
   voiceSelect: {
     width: '100%',

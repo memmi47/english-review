@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { dueForReview } from '../db'
 import { dueStudyItems } from '../db/study'
-import { dueDrillCount } from '../db/drills'
+import { dueDrillCount, totalDrillCount } from '../db/drills'
 import { getStreakInfo, getStudyHeatmap, hasSessionToday } from '../db/streak'
 import { db } from '../db/schema'
 import type { PhraseRow, VocabRow } from '../db/schema'
@@ -80,13 +80,14 @@ export default function HomeScreen({ onNavigate }: Props) {
 
   useEffect(() => {
     ; (async () => {
-      const [streakInfo, heatmap, { phrases, vocab }, studyItems, drillsDue, todayDone, sessions, allPhrases, allVocab, corrections] =
+      const [streakInfo, heatmap, { phrases, vocab }, studyItems, drillsDue, hasDrillBank, todayDone, sessions, allPhrases, allVocab, corrections] =
         await Promise.all([
           getStreakInfo(),
           getStudyHeatmap(70),
           dueForReview(),
           dueStudyItems(),
           dueDrillCount(),
+          totalDrillCount().then(n => n > 0),
           hasSessionToday(),
           db.sessions.toArray(),
           db.phrases.toArray(),
@@ -95,14 +96,16 @@ export default function HomeScreen({ onNavigate }: Props) {
         ])
       const studyDays = new Set(sessions.map(s => s.date)).size
 
+      // 문제은행이 있으면 연습 탭에서 정제 안 된 재작성(studyItems)은 더 이상
+      // 보이지 않으므로(PracticeScreen 참고), 카운트에도 포함하지 않는다.
       setData({
         streak: streakInfo.streak,
         longestStreak: streakInfo.longestStreak,
         studiedToday: streakInfo.studiedToday,
         heatmap,
         reviewCount: phrases.length + vocab.length,
-        practiceCount: studyItems.length + drillsDue,
-        drillCount: drillsDue,
+        practiceCount: hasDrillBank ? drillsDue : studyItems.length,
+        drillCount: hasDrillBank ? drillsDue : 0,
         hasSessionToday: todayDone,
         stats: {
           studyDays,
@@ -189,7 +192,7 @@ export default function HomeScreen({ onNavigate }: Props) {
             data.practiceCount === 0
               ? '오늘 연습할 문장 없음'
               : data.drillCount > 0
-                ? `문제은행 ${data.drillCount} · 재작성 ${data.practiceCount - data.drillCount}개`
+                ? `문제은행 총 ${data.drillCount}개`
                 : `교정 & Rewrite 총 ${data.practiceCount}개`
           }
           done={data.practiceCount === 0}
