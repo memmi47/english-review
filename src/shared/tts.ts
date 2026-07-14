@@ -30,7 +30,21 @@ export const TTS_VOICES: { id: string; label: string }[] = [
   { id: 'fable',   label: 'Fable — 영국식 억양' },
 ];
 
+// 빌드 시 Vercel 환경변수로 내장된 키 (소스 코드/GitHub에는 올라가지 않음)
+const BUILTIN_KEY: string =
+  (import.meta.env.VITE_OPENROUTER_API_KEY as string | undefined) ?? '';
+
+export function hasBuiltinKey(): boolean {
+  return BUILTIN_KEY.length > 0;
+}
+
+// 우선순위: 설정 화면에서 직접 입력한 키 > 빌드에 내장된 키
 export function getTtsApiKey(): string {
+  try { return localStorage.getItem(KEY_API) || BUILTIN_KEY } catch { return BUILTIN_KEY }
+}
+
+// 설정 화면 표시용: 직접 입력한 키만 (내장 키는 노출하지 않음)
+export function getManualTtsApiKey(): string {
   try { return localStorage.getItem(KEY_API) ?? '' } catch { return '' }
 }
 export function setTtsApiKey(key: string): void {

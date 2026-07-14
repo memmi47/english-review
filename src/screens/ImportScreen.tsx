@@ -4,8 +4,8 @@ import type { IngestResult } from '../db'
 import type { ParsedReport } from '../db/parser'
 import { importDrillBank, totalDrillCount } from '../db/drills'
 import {
-  TTS_VOICES, getTtsApiKey, setTtsApiKey, getTtsVoice, setTtsVoice,
-  neuralTtsEnabled, testNeuralTts, ttsCacheStats, clearTtsCache,
+  TTS_VOICES, getManualTtsApiKey, setTtsApiKey, getTtsVoice, setTtsVoice,
+  neuralTtsEnabled, testNeuralTts, ttsCacheStats, clearTtsCache, hasBuiltinKey,
 } from '../shared/tts'
 import { styles, colors, radius } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
@@ -306,7 +306,7 @@ function DrillBankCard() {
 // ── 발음 음성 설정 카드 (OpenRouter TTS) ──
 
 function TtsSettingsCard() {
-  const [apiKey, setApiKey] = useState(() => getTtsApiKey())
+  const [apiKey, setApiKey] = useState(() => getManualTtsApiKey())
   const [voice, setVoice] = useState(() => getTtsVoice())
   const [testState, setTestState] = useState<{ kind: 'idle' } | { kind: 'testing' } | { kind: 'result'; ok: boolean; message: string }>({ kind: 'idle' })
   const [cache, setCache] = useState<{ count: number; mb: number } | null>(null)
@@ -350,11 +350,16 @@ function TtsSettingsCard() {
       <input
         type="password"
         style={localStyles.keyInput}
-        placeholder="sk-or-v1-..."
+        placeholder={hasBuiltinKey() ? '내장 키 사용 중 — 다른 키를 쓰려면 입력' : 'sk-or-v1-...'}
         value={apiKey}
         onChange={e => handleKeyChange(e.target.value)}
         autoComplete="off"
       />
+      {hasBuiltinKey() && !apiKey && (
+        <p style={{ fontSize: '0.72rem', color: colors.green, margin: '0.35rem 0 0' }}>
+          앱에 내장된 키가 있어 별도 입력 없이 AI 음성이 작동합니다.
+        </p>
+      )}
 
       <p style={{ ...localStyles.modeLabel, marginTop: '0.75rem' }}>목소리</p>
       <select
