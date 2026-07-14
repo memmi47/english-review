@@ -1,0 +1,368 @@
+다음은 한국인 영어 학습자가 말했던 어색한 영어 표현(Original)과 원어민의 교정/개선 표현(Target) 목록입니다.
+각 항목을 보고, 학습자가 당시에 원래 표현하려고 의도했던 **"자연스러운 한국어 의미(문맥)"**를 추론해 주세요.
+번역투가 아닌, 한국인이 일상/비즈니스에서 자연스럽게 쓰는 한국어 문장으로 작성해 주세요. (예: "나는 어제 학교에 갔다" 대신 "나 어제 학교 갔어")
+
+출력 형식은 반드시 아래와 같은 순수 JSON이어야 합니다:
+```json
+{
+  "아이디1": "한국어 의도 1",
+  "아이디2": "한국어 의도 2"
+}
+```
+
+목록 (총 89개):
+- ID: 034fd71b-ef7d-48f6-9d47-cd0f21087498
+  Original: "Is there anything that Buddhism influence you"
+  Target: "Is there anything about Buddhism that has influenced you?"
+
+- ID: 10f662ae-25a7-4d0f-adb6-2f232d022ce0
+  Original: "I'm not good at speaking that is not have purpose"
+  Target: "I struggle with making small talk when there's no clear purpose"
+
+- ID: 125efdd3-b406-471e-88fc-82a2e2885041
+  Original: "Buddhism didn't ask people to do more aggressively"
+  Target: "Buddhism doesn't ask people to act more aggressively"
+
+- ID: 1491de35-b6ba-491f-9b31-04f0e5ce2f6a
+  Original: "the talking about the stock market"
+  Target: "talking about the stock market"
+
+- ID: 15cd0fbc-75a3-4cc0-8695-4a5c83c4e969
+  Original: "every employees"
+  Target: "every employee / all employees"
+
+- ID: 1865f15a-5af1-476c-9ca3-613aada2a0a1
+  Original: "I should choose better place to talk"
+  Target: "I should choose a better place to talk"
+
+- ID: 2463c446-f64b-40fc-80eb-bb89d005923d
+  Original: "we cannot hardly expect the substitute player play that well."
+  Target: "we can hardly expect the substitute player to play that well."
+
+- ID: 27b02e31-b527-4519-8687-a411d79f2853
+  Original: "in my instinct"
+  Target: "my instinct tells me / intuitively"
+
+- ID: 28d319f6-1e13-4bef-8064-5a2f5cac2882
+  Original: "the people don't think he's prominent"
+  Target: "people didn't think he was prominent"
+
+- ID: 2bfca073-a499-45ba-8a99-cad8736d653f
+  Original: "I'm not good at speaking that is not have purpose"
+  Target: "I struggle with making small talk when there's no clear purpose"
+
+- ID: 2f63d08e-345a-409e-8f81-5ee5da906e48
+  Original: "our company reaches one trillion dollar"
+  Target: "our company reached one trillion dollars"
+
+- ID: 3123dff1-74f4-46b6-995c-42edadfa9d42
+  Original: "I'm trying to gathering"
+  Target: "I'm trying to gather"
+
+- ID: 316a15b7-95b1-4b44-a526-cdd331c8d130
+  Original: "head coach decided to change Son Heung-Min to other player."
+  Target: "the head coach decided to replace Son Heung-min with another player."
+
+- ID: 37404c31-5ea4-4654-a9f2-5a9f3455850f
+  Original: "Which club they are playing in?"
+  Target: "Which clubs do they play for?"
+
+- ID: 3968303c-a8b6-4175-9bc2-c4316e74d9ae
+  Original: "I felt that our team leader be frustrated"
+  Target: "I felt that our team leader was frustrated"
+
+- ID: 3b168cb1-46bd-4291-8879-41cca629f15a
+  Original: "how they mislead the users?"
+  Target: "how do they mislead users?"
+
+- ID: 5ca249cd-b6e7-42b9-a396-48febf4a2309
+  Original: "they required to"
+  Target: "they're required to"
+
+- ID: 5f96010a-9696-49a4-98cd-5524fe071f06
+  Original: "many of people believes"
+  Target: "many people believe"
+
+- ID: 6081eb53-1c04-48bb-9ef9-0e87c779a1f7
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along"
+
+- ID: 636cde58-657f-40e2-85fe-efa0d22b5886
+  Original: "I'm not good at speaking that is not have purpose"
+  Target: "I struggle with making small talk when there's no clear purpose"
+
+- ID: 66b0368a-f5cd-406c-841e-ea15a37e121b
+  Original: "I will decide that how to"
+  Target: "I will decide how to"
+
+- ID: 66fa2cbb-0407-4f0b-9a27-8d24d5303e58
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along"
+
+- ID: 67b34980-59aa-4b61-abc4-ac9fd48d5615
+  Original: "you spend your time very valuable"
+  Target: "you spend your time valuably"
+
+- ID: 6993e41e-1529-480f-818d-bcb184e4ccb7
+  Original: "it was a successful to change the new to a new attacker"
+  Target: "it was a successful substitution of the new attacker"
+
+- ID: 6c4ff103-a5ba-4b92-a05c-2d51645be31e
+  Original: "many of people in Korea believes"
+  Target: "many people in Korea believe"
+
+- ID: 6fa87e99-8115-4a45-89e7-4793d0cc6b74
+  Original: "Korea was not good at depend."
+  Target: "Korea has not been good at defending."
+
+- ID: 83150a87-ee70-4623-acc8-f72dd3f46270
+  Original: "managed by government"
+  Target: "managed by the government"
+
+- ID: 85d8927f-46f1-4888-a8e1-e6f998e0ce2b
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along"
+
+- ID: 863b01a3-b4db-43e5-8474-8ce5e4a244e9
+  Original: "That's very important one"
+  Target: "That's a very important point"
+
+- ID: 8ae91572-29c2-4f16-a670-a99db47cf5da
+  Original: "I got additional task to deal with it"
+  Target: "I ended up with an additional task to deal with"
+
+- ID: 8e3ded2d-0157-4eb5-9d27-1e7ddfa07736
+  Original: "Let's to do some easier talk"
+  Target: "Let's have a lighter conversation"
+
+- ID: 9ec6c61f-116e-473c-9128-049386676d61
+  Original: "Korea is qualified as a user?"
+  Target: "Korea qualified as a participant?"
+
+- ID: ae3931c0-b64d-4812-b95e-f944d18a198f
+  Original: "I'm not good at speaking that is not have purpose"
+  Target: "I struggle with making small talk when there's no clear purpose"
+
+- ID: af9b7acc-b4f2-446c-98aa-703384e50a48
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along"
+
+- ID: b3639d14-6bd0-4866-8683-4fe0b879b088
+  Original: "How do you think?"
+  Target: "What do you think?"
+
+- ID: b9c8db90-2d8a-4a0e-8805-ac83db1ee694
+  Original: "Jungdo only left one wins"
+  Target: "San Antonio only needed one more win"
+
+- ID: bc3595b9-c902-4469-9700-7e051955996d
+  Original: "How does the other nations assessment to head coach Hong Myung-bo?"
+  Target: "What is the assessment of other nations regarding head coach Hong Myung-bo?"
+
+- ID: c2429974-15a9-4b6f-90a9-84c3405c8b9c
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along"
+
+- ID: c5414e55-0d2e-49bc-bf15-ef3ec64a0830
+  Original: "I go to school yesterday"
+  Target: "I went to school yesterday"
+
+- ID: c58c1e94-604c-4357-8c05-1fa8a289267c
+  Original: "It's get used to it"
+  Target: "People just get used to it"
+
+- ID: c82f9130-064b-42c5-9c86-11836b9ba23e
+  Original: "I am not in Jungdo"
+  Target: "I am Jungdo"
+
+- ID: ce09beeb-3e42-4972-8e60-9288ea9684ba
+  Original: "to improving my English skills"
+  Target: "to improve my English skills"
+
+- ID: d16e029f-5119-4ba7-919e-8c0240ff2a57
+  Original: "bond (단수)"
+  Target: "bonds"
+
+- ID: d242a77b-4ad8-42ad-9553-1648638567e7
+  Original: "everyone wants earn more money"
+  Target: "everyone wants to earn more money"
+
+- ID: d3f12384-1b06-48de-b38e-0d49c542f0f5
+  Original: "human resource"
+  Target: "human resources"
+
+- ID: d5fa76b3-66bf-43e8-b6e6-ef8522e44ee2
+  Original: "to make it efficient our work"
+  Target: "to make our work more efficient"
+
+- ID: d6a318a8-7fb8-41a6-a6a8-a26745d9ccc0
+  Original: "gathering as many as companies possible"
+  Target: "gathering as many companies as possible"
+
+- ID: e0694f2b-5382-49aa-ab28-2196f9c40a13
+  Original: "how do we use that data (내포절)"
+  Target: "how to use that data / how we could use that data"
+
+- ID: e1b125f4-6067-4700-bcd4-61940b2f2b5a
+  Original: "it's not a great work"
+  Target: "it's not great work"
+
+- ID: e4211a3b-4858-4cd6-aa42-69e2df2b5984
+  Original: "I'm not good at speaking that is not have purpose"
+  Target: "I struggle with making small talk when there's no clear purpose"
+
+- ID: e9ca7cae-5377-4daa-90b9-f9d405f78693
+  Original: "when they are in the downtown"
+  Target: "when the company was going through a downturn"
+
+- ID: f484f091-537f-4bae-9027-4e82936c97c0
+  Original: "we can't have a quality discussion"
+  Target: "we can have a quality discussion"
+
+- ID: f982c5d2-4160-4107-9c4a-8c3931499fc4
+  Original: "all of the cars equipped at three points play"
+  Target: "all of the teams adopted a three-point-heavy style"
+
+- ID: fd11e616-8216-41bf-8c07-d3dd5022cac8
+  Original: "because that we haven't paid back"
+  Target: "because we hadn't paid back"
+
+- ID: 148657f4-c071-429a-98d0-6d629d155706
+  Original: "he had a room to move around"
+  Target: "he had space to exploit / operate"
+
+- ID: 1f5bebde-41b5-419d-8b13-9e16e8fde78c
+  Original: "show off my comments to everyone"
+  Target: "air my views in front of the whole team / voice my concerns publicly"
+
+- ID: 2060ba2a-8432-4e37-8999-55dcfe936b5a
+  Original: "I start to sharing the New York Knicks"
+  Target: "I started rooting for the Knicks / I jumped on the Knicks' bandwagon"
+
+- ID: 28792378-b5af-4f43-9ad3-c858a127ffc0
+  Original: "the main sense of the books"
+  Target: "the key takeaways / the gist of the books"
+
+- ID: 2a2dd709-3b07-4a47-85cd-1f6cfd5c0850
+  Original: "I have been working for SK Hynix"
+  Target: "I'm with SK Hynix / I've been at SK Hynix for X years"
+
+- ID: 332e5548-d679-47d5-9778-09d0e15f9861
+  Original: "it sounds astonishing that I can make something useful for my life"
+  Target: "What's remarkable is that I can actually build something practical — no engineering background required"
+
+- ID: 35b2693b-a66b-4365-89ff-aec367cc33f0
+  Original: "give the opportunity AI to enjoy that success"
+  Target: "hand AI the credit for those wins / let AI claim the glory"
+
+- ID: 39a35a49-c6cb-49b0-bf30-9d083855dcfb
+  Original: "he's a clutch player"
+  Target: "he's got ice in his veins / he thrives under pressure"
+
+- ID: 3ac70cc4-7684-407d-ab89-168c503fbe07
+  Original: "I must ask about this to my agents"
+  Target: "I'll put this to my agents / I'll run this by my agents"
+
+- ID: 3cffcf7e-248d-4839-a11f-14dda9afc608
+  Original: "I didn't have to get into that conversation"
+  Target: "I shouldn't have inserted myself into that discussion / That wasn't my place to weigh in"
+
+- ID: 41d1338e-4626-4d1c-af30-cc7fbfcd8fc7
+  Original: "That's insane. Doesn't make any sense."
+  Target: "That's completely unrealistic / That fundamentally misses the point"
+
+- ID: 44ecec9b-18ce-48a7-9a5a-221b37169e85
+  Original: "they cover big extent of the coverage"
+  Target: "their coverage is impressively broad / they cast a remarkably wide net"
+
+- ID: 477d576b-22e8-4ea8-a63e-098ae392b0fa
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along? / How is your latest venture going?"
+
+- ID: 540348eb-0005-433e-b3b1-fe34480ec0b1
+  Original: "the order from the top"
+  Target: "the directive from leadership / instructions from above"
+
+- ID: 55841225-cb9c-4ab1-981b-c99c00efcd22
+  Original: "the order from the top"
+  Target: "directive from leadership"
+
+- ID: 5b861b95-c883-4987-92cf-37bcfc2bd07b
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along? / How is your latest venture going?"
+
+- ID: 5ee51ad7-6cea-4dcd-9960-414385278c15
+  Original: "the basketball was the game for the tour guys"
+  Target: "basketball used to be dominated by big men / it was a big man's game"
+
+- ID: 6542be46-1ae4-4ab8-81b6-b04bd0287a71
+  Original: "Hynix has survived by today"
+  Target: "Hynix has come this far / Hynix has made it to where it is today"
+
+- ID: 68b9097f-619d-4a3a-8ef8-b73529d5ae27
+  Original: "we are highly big expectation on him."
+  Target: "expectations are running high for him / we have high hopes for him."
+
+- ID: 7087ad74-48b5-4fd6-a0d4-e98c1ae2cc53
+  Original: "under the surveillance of the government"
+  Target: "under government receivership / under state oversight"
+
+- ID: 7290d70e-67f6-44be-acef-7609cbf380da
+  Original: "individual investor as a one whole group"
+  Target: "retail investors as a monolithic group"
+
+- ID: 7bbd4103-8fe2-4923-8718-9c4ab97a62ca
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along? / How is your latest venture going?"
+
+- ID: 7dbf7029-9a1f-47dd-a6f2-b5c61460f8a6
+  Original: "stock price went up at least five times"
+  Target: "shares surged anywhere from five to tenfold / the stock has at least quintupled"
+
+- ID: 8e7ce3f2-5c48-49bc-9164-37e834b47da1
+  Original: "not stable ball handler"
+  Target: "not a reliable distributor / his playmaking is inconsistent"
+
+- ID: 92669265-1cc1-4123-a106-6f8931b7bc4f
+  Original: "life of circulation"
+  Target: "the cycle of rebirth / samsara"
+
+- ID: 94f19408-abeb-4f66-9d4a-fd71bb88578f
+  Original: "one of the biggest memory manufacturer in the world"
+  Target: "one of the world's leading memory chip manufacturers"
+
+- ID: 9eb03fea-fd3e-424b-a2c5-92d4f2a382b8
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along? / How is your latest venture going?"
+
+- ID: b1655823-0f80-47c5-b882-6c28e9123cfa
+  Original: "Buddhism didn't ask people to do more aggressively"
+  Target: "Buddhism doesn't push people toward relentless accumulation"
+
+- ID: b5f6b2a4-6480-4aa6-b29d-1ba59ad77763
+  Original: "books for laborers"
+  Target: "reference books / foundational texts on the subject"
+
+- ID: c07d4110-42cc-459e-a156-5e88195dcbde
+  Original: "Thank you for having me"
+  Target: "Thank you for your time. / Great talking to you."
+
+- ID: c179eb8f-d1b0-4b07-bb70-ea680260dbbd
+  Original: "tech service already adopt AI to trade the bundle stocks"
+  Target: "tech-savvy investors already use AI to trade baskets of stocks"
+
+- ID: c66b2139-2ffb-401b-8eca-e98a088de9b7
+  Original: "change of the player"
+  Target: "tactical substitution / making a sub"
+
+- ID: c88d389f-277e-42a3-88cb-725d04f50418
+  Original: "find a ball handler and make the fox focus on scoring"
+  Target: "they need a floor general to take the playmaking burden off Fox"
+
+- ID: f50c55c2-8aa7-4b9b-b6db-ec90907cf60e
+  Original: "frankly speaking"
+  Target: "frankly / to be frank / if I'm being honest"
+
+- ID: fd091993-8572-4b0a-b18d-c4ae6ff23a1a
+  Original: "how's your learning project re-going"
+  Target: "How's that learning project of yours coming along? / How is your latest venture going?"

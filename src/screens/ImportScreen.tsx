@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { parseReport, ingestReport, downloadBackup, importAll, db } from '../db'
 import type { IngestResult } from '../db'
-import { styles } from '../shared/styles'
+import type { ParsedReport } from '../db/parser'
+import { styles, colors, radius } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
 
 type Status =
   | { kind: 'idle' }
   | { kind: 'loading' }
   | { kind: 'error'; messages: string[] }
-  | { kind: 'done'; result: IngestResult; warnings: string[] }
+  | { kind: 'done'; result: IngestResult; warnings: string[]; parsed: ParsedReport }
+
+interface Props {
+  onGoReview?: () => void
+}
 
 type BackupStatus =
   | { kind: 'idle' }
@@ -24,7 +29,7 @@ interface Counts {
   corrections: number
 }
 
-export default function ImportScreen() {
+export default function ImportScreen({ onGoReview }: Props) {
   const [text, setText] = useState('')
   const [status, setStatus] = useState<Status>({ kind: 'idle' })
   const [backupStatus, setBackupStatus] = useState<BackupStatus>({ kind: 'idle' })
@@ -54,7 +59,7 @@ export default function ImportScreen() {
         return
       }
       const result = await ingestReport(parsed.data)
-      setStatus({ kind: 'done', result, warnings: parsed.warnings })
+      setStatus({ kind: 'done', result, warnings: parsed.warnings, parsed: parsed.data })
       await refreshCounts()
     } catch (e) {
       setStatus({ kind: 'error', messages: [String(e)] })
@@ -88,12 +93,12 @@ export default function ImportScreen() {
   return (
     <>
       <div style={styles.card}>
-        <h1 style={styles.title}>📋 리포트 가져오기</h1>
-        <p style={styles.subtitle}>코치 리포트를 아래에 붙여넣고 저장하세요.</p>
+        <h1 style={styles.title}>리포트 가져오기 (JSON)</h1>
+        <p style={styles.subtitle}>코치가 작성해준 JSON 리포트 블록(```json ... ```)을 그대로 붙여넣으세요.</p>
 
         <textarea
           style={localStyles.textarea}
-          placeholder="리포트 전문을 여기에 붙여넣으세요..."
+          placeholder="```json&#10;{&#10;  ...&#10;}&#10;```"
           value={text}
           onChange={e => { setText(e.target.value); setStatus({ kind: 'idle' }) }}
         />
@@ -111,7 +116,7 @@ export default function ImportScreen() {
 
         {status.kind === 'error' && (
           <div style={styles.errorBox}>
-            <p style={styles.errorTitle}>⛔ 저장 실패</p>
+            <p style={styles.errorTitle}>저장 실패</p>
             {status.messages.map((m, i) => (
               <p key={i} style={styles.errorMsg}>{m}</p>
             ))}
@@ -119,34 +124,20 @@ export default function ImportScreen() {
         )}
 
         {status.kind === 'done' && (
-          <div style={styles.resultBox}>
-            <p style={styles.resultTitle}>✅ 저장 완료</p>
-            <div style={styles.counts}>
-              <CountBadge label="Phrase" value={status.result.added.phrases} />
-              <CountBadge label="어휘" value={status.result.added.vocab} />
-              <CountBadge label="교정" value={status.result.added.corrections} />
-              <CountBadge label="Rewrite" value={status.result.added.rewrites} />
-              <CountBadge label="액션" value={status.result.added.actions} />
-            </div>
-            {status.result.missionsClosed > 0 && (
-              <p style={localStyles.missionNote}>
-                미션 {status.result.missionsClosed}개 이행 완료 처리됨
-              </p>
-            )}
-            {status.warnings.length > 0 && (
-              <div style={styles.warnBox}>
-                <p style={styles.warnTitle}>⚠️ 경고 ({status.warnings.length}건)</p>
-                {status.warnings.map((w, i) => (
-                  <p key={i} style={styles.warnMsg}>{w}</p>
-                ))}
-              </div>
-            )}
+          <div className="animate-slide-up">
+            {/* 세션 하이라이트 카드 */}
+            <SessionHighlight
+              result={status.result}
+              parsed={status.parsed}
+              warnings={status.warnings}
+              onGoReview={onGoReview}
+            />
           </div>
         )}
       </div>
 
       <div style={{ ...styles.card, marginTop: '1rem' }}>
-        <h2 style={styles.sectionTitle}>📊 저장된 데이터 현황</h2>
+        <h2 style={styles.sectionTitle}>저장된 데이터 현황</h2>
         <p style={styles.subtitle}>새로고침해도 이 숫자가 유지되면 정상 저장된 거예요.</p>
         {counts ? (
           <div style={styles.counts}>
@@ -161,15 +152,15 @@ export default function ImportScreen() {
       </div>
 
       <div style={{ ...styles.card, marginTop: '1rem' }}>
-        <h2 style={styles.sectionTitle}>💾 백업</h2>
-        <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요.</p>
+        <h2 style={styles.sectionTitle}>백업</h2>
+        <p style={styles.subtitle}>기기 변경/삭제에 대비해 백업 파일을 보관하세요. 연습 완료 이력도 함께 저장됩니다.</p>
 
         <button
           style={{ ...styles.button, opacity: backupStatus.kind === 'exporting' ? 0.6 : 1 }}
           onClick={handleExport}
           disabled={backupStatus.kind === 'exporting'}
         >
-          {backupStatus.kind === 'exporting' ? '내보내는 중...' : '⬇️ 백업 내보내기'}
+          {backupStatus.kind === 'exporting' ? '내보내는 중...' : '백업 내보내기'}
         </button>
 
         <div style={styles.divider} />
@@ -190,7 +181,7 @@ export default function ImportScreen() {
               checked={importMode === 'replace'}
               onChange={() => setImportMode('replace')}
             />
-            전체 교체(replace) — 기존 삭제 후 덮어쓰기
+            전체 교체(replace) — 학습 데이터 덮어쓰기, 백업에 없으면 연습 이력 유지
           </label>
         </div>
 
@@ -206,19 +197,19 @@ export default function ImportScreen() {
           onClick={() => fileInputRef.current?.click()}
           disabled={backupStatus.kind === 'importing'}
         >
-          {backupStatus.kind === 'importing' ? '가져오는 중...' : '⬆️ 백업 가져오기'}
+          {backupStatus.kind === 'importing' ? '가져오는 중...' : '백업 가져오기'}
         </button>
 
         {backupStatus.kind === 'error' && (
           <div style={styles.errorBox}>
-            <p style={styles.errorTitle}>⛔ 실패</p>
+            <p style={styles.errorTitle}>실패</p>
             <p style={styles.errorMsg}>{backupStatus.message}</p>
           </div>
         )}
 
         {backupStatus.kind === 'imported' && (
           <div style={styles.resultBox}>
-            <p style={styles.resultTitle}>✅ 가져오기 완료</p>
+            <p style={styles.resultTitle}>가져오기 완료</p>
             <div style={styles.counts}>
               {Object.entries(backupStatus.counts).map(([table, n]) => (
                 <CountBadge key={table} label={table} value={n} />
@@ -237,26 +228,26 @@ const localStyles = {
     minHeight: '220px',
     padding: '0.75rem',
     borderRadius: '0.75rem',
-    border: '1.5px solid #e0e0f0',
+    border: '1.5px solid var(--border)',
     fontSize: '0.875rem',
     fontFamily: 'monospace',
     resize: 'vertical' as const,
     boxSizing: 'border-box' as const,
     outline: 'none',
-    color: '#333',
-    background: '#ffffff',
+    color: 'var(--text)',
+    background: 'var(--surface)',
     colorScheme: 'light' as const,
     lineHeight: 1.5,
   },
   missionNote: {
     fontSize: '0.8rem',
-    color: '#15803d',
+    color: 'var(--green)',
     margin: '0.75rem 0 0',
   },
   modeLabel: {
     fontSize: '0.85rem',
     fontWeight: 600,
-    color: '#444',
+    color: 'var(--text-muted)',
     margin: '0 0 0.5rem',
   },
   radioRow: {
@@ -265,6 +256,7 @@ const localStyles = {
     gap: '0.5rem',
     marginBottom: '0.25rem',
   },
+
   radioLabel: {
     display: 'flex',
     alignItems: 'center',
@@ -273,3 +265,131 @@ const localStyles = {
     color: '#555',
   },
 } as const
+
+// ── Session Highlight Card ──
+
+function SessionHighlight({
+  result, parsed, warnings, onGoReview,
+}: {
+  result: IngestResult
+  parsed: ParsedReport
+  warnings: string[]
+  onGoReview?: () => void
+}) {
+  const topic = parsed.meta.topic ?? ''
+  const date = parsed.meta.date ?? ''
+  const firstCorrection = parsed.corrections[0]
+  const firstPhrase = parsed.phrases[0]
+  const topWeakness = parsed.patterns.find(p => p.type === 'weakness')
+
+  return (
+    <div style={{
+      marginTop: '1rem',
+      background: colors.surface,
+      border: `1px solid ${colors.greenBorder}`,
+      borderRadius: radius.lg,
+      padding: '1rem 1.25rem',
+      boxShadow: 'var(--shadow-card)',
+    }}>
+      {/* 헤더 */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
+        <div>
+          <p style={{ fontSize: '0.9rem', fontWeight: 700, color: colors.text, margin: 0 }}>리포트 저장 완료</p>
+          {(date || topic) && (
+            <p style={{ fontSize: '0.72rem', color: colors.textSubtle, margin: '1px 0 0' }}>
+              {date}{topic ? ` · ${topic}` : ''}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* 새로 추가된 항목 요약 */}
+      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.875rem' }}>
+        {result.added.corrections > 0 && <Chip label={`교정 ${result.added.corrections}`} color="red" />}
+        {result.added.phrases > 0 && <Chip label={`Phrase +${result.added.phrases}`} color="blue" />}
+        {result.added.vocab > 0 && <Chip label={`어휘 +${result.added.vocab}`} color="green" />}
+        {result.added.rewrites > 0 && <Chip label={`Rewrite ${result.added.rewrites}`} color="purple" />}
+        {result.missionsClosed > 0 && <Chip label={`미션 ${result.missionsClosed}개 완료`} color="green" />}
+      </div>
+
+      {/* 하이라이트: 첫 번째 교정 */}
+      {firstCorrection && (
+        <div style={{
+          background: colors.surfaceAlt,
+          border: `1px solid ${colors.border}`,
+          borderRadius: radius.md,
+          padding: '0.7rem 0.875rem',
+          marginBottom: '0.5rem',
+        }}>
+          <p style={{ fontSize: '0.65rem', fontWeight: 700, color: colors.textSubtle, margin: '0 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>이번 세션 핵심 교정</p>
+          <p style={{ fontSize: '0.8rem', color: colors.red, margin: '0 0 2px', textDecoration: 'line-through' }}>"{firstCorrection.original}"</p>
+          <p style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.green, margin: 0 }}>→ "{firstCorrection.corrected}"</p>
+        </div>
+      )}
+
+      {/* 하이라이트: 첫 번째 추천 Phrase */}
+      {firstPhrase && (
+        <div style={{
+          background: colors.primaryLight,
+          border: `1px solid var(--primary)`,
+          borderRadius: radius.md,
+          padding: '0.7rem 0.875rem',
+          marginBottom: '0.5rem',
+        }}>
+          <p style={{ fontSize: '0.65rem', fontWeight: 700, color: colors.textSubtle, margin: '0 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>새 추천 Phrase</p>
+          <p style={{ fontSize: '0.9rem', fontWeight: 700, color: colors.primary, margin: '0 0 2px' }}>{firstPhrase.phrase}</p>
+          <p style={{ fontSize: '0.78rem', color: colors.textMuted, margin: 0 }}>{firstPhrase.meaning}</p>
+        </div>
+      )}
+
+      {/* 약점 태그 */}
+      {topWeakness && (
+        <div style={{ marginBottom: '0.5rem' }}>
+          <p style={{ fontSize: '0.72rem', color: colors.textSubtle, margin: '0 0 0.25rem' }}>주요 약점: <strong style={{ color: colors.amber }}>[{topWeakness.canonical_tag ?? 'N/A'}]</strong></p>
+          <p style={{ fontSize: '0.78rem', color: colors.textMuted, margin: 0 }}>{topWeakness.description}</p>
+        </div>
+      )}
+
+      {/* 경고 */}
+      {warnings.length > 0 && (
+        <div style={{ ...styles.warnBox, marginTop: '0.5rem' }}>
+          <p style={styles.warnTitle}>경고 ({warnings.length}건)</p>
+          {warnings.slice(0, 2).map((w, i) => <p key={i} style={styles.warnMsg}>{w}</p>)}
+        </div>
+      )}
+
+      {/* 복습 시작 CTA */}
+      {onGoReview && (
+        <button
+          onClick={onGoReview}
+          style={{
+            ...styles.button,
+            background: 'var(--primary)',
+            marginTop: '0.875rem',
+          }}
+        >
+          복습 시작하기 →
+        </button>
+      )}
+    </div>
+  )
+}
+
+function Chip({ label, color }: { label: string; color: 'red' | 'blue' | 'green' | 'purple' }) {
+  const map = {
+    red:    { bg: colors.redBg, border: colors.redBorder, text: colors.red },
+    blue:   { bg: colors.primaryLight, border: 'var(--primary)', text: colors.primary },
+    green:  { bg: colors.greenBg, border: colors.greenBorder, text: colors.green },
+    purple: { bg: colors.purpleBg, border: colors.purpleBorder, text: colors.purple },
+  }
+  const c = map[color]
+  return (
+    <span style={{
+      fontSize: '0.7rem', fontWeight: 600,
+      background: c.bg, border: `1px solid ${c.border}`, color: c.text,
+      borderRadius: radius.pill, padding: '0.2rem 0.55rem',
+    }}>
+      {label}
+    </span>
+  )
+}

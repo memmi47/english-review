@@ -1,27 +1,31 @@
 import { useEffect, useState } from 'react'
 import { dueForReview, reviewPhrase, reviewVocab } from '../db'
 import type { PhraseRow, VocabRow, Grade } from '../db'
-import { styles, colors } from '../shared/styles'
+import { styles, colors, radius } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
 // 복습 탭은 phrase/vocab(의미 암기)만 담당한다.
-// correction/rewrite 문장 훈련은 ✍️ 연습 탭이 전담한다.
+// correction/rewrite 문장 훈련은 연습 탭이 전담한다.
 type CardItem =
   | { kind: 'phrase'; row: PhraseRow }
   | { kind: 'vocab'; row: VocabRow }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
 // "A / B" 처럼 슬래시로 묶인 대체 표현들을 각각 줄바꿈으로 분리한다.
 function splitVariants(text: string): string[] {
   return text.split('/').map(s => s.trim()).filter(s => s.length > 0)
+}
+
+function reviewCount(row: PhraseRow | VocabRow): number {
+  if ('reps' in row && typeof row.reps === 'number') return row.reps
+  return row.srs_box === 1 ? 0 : 1
+}
+
+function orderCards(items: CardItem[]): CardItem[] {
+  return [...items].sort((a, b) => {
+    const repsDiff = reviewCount(a.row) - reviewCount(b.row)
+    if (repsDiff !== 0) return repsDiff
+    return a.row.created_at.localeCompare(b.row.created_at)
+  })
 }
 
 export default function ReviewScreen() {
@@ -37,7 +41,7 @@ export default function ReviewScreen() {
         ...phrases.map(row => ({ kind: 'phrase' as const, row })),
         ...vocab.map(row => ({ kind: 'vocab' as const, row })),
       ]
-      setQueue(shuffle(items))
+      setQueue(orderCards(items))
     })()
   }, [])
 
@@ -61,18 +65,47 @@ export default function ReviewScreen() {
 
   if (queue.length === 0) {
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>🎉 오늘 복습할 항목이 없어요</h2>
-        <p style={styles.subtitle}>모든 카드가 완료됐어요. 내일 다시 와주세요!</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🎉</div>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.4rem' }}>오늘 복습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: 0 }}>모든 카드가 완료됐어요. 내일 다시 와주세요!</p>
+        </div>
       </div>
     )
   }
 
   if (index >= queue.length) {
+    const phrasesDone = queue.filter(i => i.kind === 'phrase').length
+    const vocabDone = queue.filter(i => i.kind === 'vocab').length
     return (
-      <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>✅ 오늘 복습 끝!</h2>
-        <p style={styles.subtitle}>{gradedCount}개 카드를 복습했어요. 잘했어요!</p>
+      <div style={styles.card} className="animate-pop-in">
+        <div style={{ textAlign: 'center', padding: '0.5rem 0 1rem' }}>
+          <h2 style={{ ...styles.sectionTitle, textAlign: 'center', marginBottom: '0.5rem' }}>복습 완료!</h2>
+          <p style={{ ...styles.subtitle, textAlign: 'center', margin: '0 0 1.25rem' }}>
+            총 {gradedCount}개 카드를 완료했어요. 잘했어요!
+          </p>
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+            {phrasesDone > 0 && (
+              <div style={{
+                background: colors.primaryLight, border: `1px solid ${colors.primary}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.primary }}>{phrasesDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>Phrase</div>
+              </div>
+            )}
+            {vocabDone > 0 && (
+              <div style={{
+                background: colors.greenBg, border: `1px solid ${colors.greenBorder}`,
+                borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.green }}>{vocabDone}</div>
+                <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>어휘</div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     )
   }
@@ -109,7 +142,7 @@ export default function ReviewScreen() {
         ) : (
           <div style={localStyles.back}>
             <p style={localStyles.meaning}>{meaning}</p>
-            {note && <p style={localStyles.note}>💡 {note}</p>}
+            {note && <p style={localStyles.note}>{note}</p>}
             {example && (
               <div style={localStyles.frontStack}>
                 {splitVariants(example).map((part, i) => (
@@ -127,10 +160,10 @@ export default function ReviewScreen() {
       {flipped && (
         <div style={localStyles.gradeRow}>
           <button style={localStyles.againButton} onClick={() => handleGrade('again')}>
-            🔁 다시
+            다시
           </button>
           <button style={localStyles.goodButton} onClick={() => handleGrade('good')}>
-            ✅ 알아요
+            알아요
           </button>
         </div>
       )}

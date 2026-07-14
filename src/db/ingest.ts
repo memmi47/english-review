@@ -74,7 +74,7 @@ export async function ingestReport(parsed: ParsedReport): Promise<IngestResult> 
       if (dup) continue;
       await db.vocab.add({
         id: newId(), norm: n, word: v.word, meaning: v.meaning, note: v.note, tags: v.tags,
-        first_seen_session_id: sessionId, srs_box: 1, due_date: today(), created_at: nowIso,
+        first_seen_session_id: sessionId, srs_box: 1, reps: 0, due_date: today(), created_at: nowIso,
       });
       addedVocab++;
     }

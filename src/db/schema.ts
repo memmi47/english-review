@@ -3,7 +3,7 @@
 
 import Dexie, { type Table } from 'dexie';
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 // --- Controlled Vocabulary (규격서 3절) ---
 export const CANONICAL_TAGS = [
@@ -52,6 +52,7 @@ export interface VocabRow {
   tags: (CanonicalTag | 'unmapped')[];
   first_seen_session_id: string;
   srs_box: number;
+  reps?: number;
   due_date: string;
   created_at: string;
 }
@@ -60,6 +61,7 @@ export interface RewriteRow {
   id: string;
   session_id: string;
   user_expr: string;
+  intended_meaning?: string;
   native_version: string;
   nuance: string;
   tag: TagValue;
@@ -69,6 +71,7 @@ export interface CorrectionRow {
   id: string;
   session_id: string;
   original: string;
+  intended_meaning?: string;
   corrected: string;
   rule: string;
   error_tag: TagValue;
@@ -122,6 +125,8 @@ export class ReviewDB extends Dexie {
       actions: 'id, session_id, completed, target_tag',
       transcription_suspects: 'id, session_id',
     });
+    // v2: intended_meaning 추가 (인덱스 불필요하여 스토어 정의는 동일)
+    this.version(2).stores({});
   }
 }
 
