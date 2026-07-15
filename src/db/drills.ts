@@ -133,9 +133,14 @@ export async function importDrillBank(jsonText: string): Promise<{ added: number
 
 const SEVERITY_WEIGHT: Record<string, number> = { '화석화': 0, '반복': 1, '일회성': 2 };
 
+// 하루 세션 상한 — 미뤄둔 문제가 아무리 많아도(예: 문제은행 첫 도입 시 100개+)
+// 한 번에 다 풀게 하지 않는다. 홈 화면 카운트도 반드시 이 값과 맞춰야 한다
+// (그렇지 않으면 "오늘의 140문제"처럼 실제 세션에서 볼 수 없는 숫자가 표시됨).
+export const DAILY_DRILL_LIMIT = 20;
+
 // 오늘 풀 문제 목록: 심각도(화석화 우선) → 예정일 순.
 // 같은 group_id(패턴 세트)는 연속으로 묶어서 출제한다.
-export async function dueDrills(limit = 20): Promise<DrillRow[]> {
+export async function dueDrills(limit = DAILY_DRILL_LIMIT): Promise<DrillRow[]> {
   const t = today();
   const due = await drillsDB.drills.where('due_date').belowOrEqual(t).toArray();
 

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { dueForReview } from '../db'
 import { dueStudyItems } from '../db/study'
-import { dueDrillCount, totalDrillCount } from '../db/drills'
+import { dueDrills, dueDrillCount, totalDrillCount } from '../db/drills'
 import { getStreakInfo, hasSessionToday } from '../db/streak'
 import { styles, colors, radius, type } from '../shared/styles'
 
@@ -11,7 +11,8 @@ interface HomeData {
   studiedToday: boolean
   reviewCount: number   // phrase + vocab
   practiceCount: number // correction + rewrite + 문제은행 드릴
-  drillCount: number    // 문제은행 드릴만
+  drillCount: number    // 문제은행 드릴만 (오늘 세션 상한 적용된 값)
+  drillBacklog: number  // 오늘 상한을 넘어 대기 중인 문제 수 (0이면 표시 안 함)
   hasSessionToday: boolean
 }
 
@@ -33,15 +34,20 @@ export default function HomeScreen({ onNavigate }: Props) {
 
   useEffect(() => {
     ; (async () => {
-      const [streakInfo, { phrases, vocab }, studyItems, drillsDue, hasDrillBank, todayDone] =
+      const [streakInfo, { phrases, vocab }, studyItems, todaysDrills, drillTotalDue, hasDrillBank, todayDone] =
         await Promise.all([
           getStreakInfo(),
           dueForReview(),
           dueStudyItems(),
+          // PracticeScreen이 실제로 보여줄 오늘의 문제 수와 반드시 같은 값이어야
+          // 한다 — 미착수 문제 전체 개수를 그대로 쓰면 "오늘의 140문제"처럼
+          // 실제 세션에서 볼 수 없는 숫자가 표시된다.
+          dueDrills(),
           dueDrillCount(),
           totalDrillCount().then(n => n > 0),
           hasSessionToday(),
         ])
+      const drillsDue = todaysDrills.length
 
       // 문제은행이 있으면 연습 탭에서 정제 안 된 재작성(studyItems)은 더 이상
       // 보이지 않으므로(PracticeScreen 참고), 카운트에도 포함하지 않는다.
@@ -51,6 +57,7 @@ export default function HomeScreen({ onNavigate }: Props) {
         reviewCount: phrases.length + vocab.length,
         practiceCount: hasDrillBank ? drillsDue : studyItems.length,
         drillCount: hasDrillBank ? drillsDue : 0,
+        drillBacklog: hasDrillBank ? Math.max(0, drillTotalDue - drillsDue) : 0,
         hasSessionToday: todayDone,
       })
     })()
@@ -121,7 +128,7 @@ export default function HomeScreen({ onNavigate }: Props) {
             practiceDone
               ? '오늘 연습할 문장 없음'
               : data.drillCount > 0
-                ? `오늘의 ${data.drillCount}문제`
+                ? `오늘의 ${data.drillCount}문제${data.drillBacklog > 0 ? ` (대기 ${data.drillBacklog}개 더)` : ''}`
                 : `교정 · Rewrite ${data.practiceCount}개`
           }
           done={practiceDone}

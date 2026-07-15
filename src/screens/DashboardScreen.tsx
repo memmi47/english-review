@@ -7,6 +7,7 @@ import {
 import type { TagStat, SessionTrendPoint, MasteryDist } from '../db'
 import type { SessionRow, CorrectionRow, RewriteRow, PhraseRow } from '../db/schema'
 import { dueStudyItems } from '../db/study'
+import { dueDrills, totalDrillCount } from '../db/drills'
 import { styles, colors, radius, type } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
@@ -80,17 +81,22 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
 
   useEffect(() => {
     ;(async () => {
-      const [tags, adoption, due, studyItems, trend, mastery, una] = await Promise.all([
+      const [tags, adoption, due, studyItems, todaysDrills, hasDrillBank, trend, mastery, una] = await Promise.all([
         tagRecurrence(), phraseAdoption(), dueForReview(),
-        dueStudyItems(), sessionTrend(10), masteryDistribution(), unadoptedPhrases(),
+        dueStudyItems(), dueDrills(), totalDrillCount().then(n => n > 0),
+        sessionTrend(10), masteryDistribution(), unadoptedPhrases(),
       ])
+      // 문제은행이 있으면 연습 탭엔 정제 안 된 재작성이 더 이상 보이지 않으므로
+      // (PracticeScreen 참고) 여기서도 문제은행 오늘분 개수로 대체한다.
       setData({
         tags, adoption,
         review: { phrases: due.phrases.length, vocab: due.vocab.length },
-        practice: {
-          corrections: studyItems.filter(i => i.kind === 'correction').length,
-          rewrites: studyItems.filter(i => i.kind === 'rewrite').length,
-        },
+        practice: hasDrillBank
+          ? { corrections: todaysDrills.length, rewrites: 0 }
+          : {
+              corrections: studyItems.filter(i => i.kind === 'correction').length,
+              rewrites: studyItems.filter(i => i.kind === 'rewrite').length,
+            },
         trend, mastery, unadopted: una,
       })
     })()
