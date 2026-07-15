@@ -345,9 +345,16 @@ function reportTtsError(message: string): void {
 // 제스처 콜스택 안에서 즉시(동기) 재생하고, 신경망 음성은 백그라운드에서 받아
 // 캐시만 해둔다. 이미 캐시된 문장은 신경망 음성으로 재생하되, Web Audio는
 // AudioContext를 한 번 unlock해두면 비동기 재생도 안전하다.
+let missingKeyWarned = false;
+
 export function speakEnglish(text: string): void {
   const trimmed = text.trim();
   if (!trimmed) return;
+
+  if (!neuralTtsEnabled() && !missingKeyWarned) {
+    missingKeyWarned = true;
+    reportTtsError('Gemini API 키가 설정되어 있지 않아 브라우저 기본 음성을 사용합니다. Vercel에 VITE_GEMINI_API_KEY가 등록·배포됐는지 확인해주세요.');
+  }
 
   if (neuralTtsEnabled()) {
     // 제스처 콜스택 안에서 AudioContext를 먼저 확보/해제 (Web Audio unlock)
