@@ -156,19 +156,29 @@ async function playMp3(ctx: AudioContext, mp3: ArrayBuffer): Promise<void> {
 // id를 찾아본다. TTS_MODEL_CANDIDATES를 문서 기준으로 하드코딩해봐야 다음에
 // 또 만료되면 같은 문제가 반복되므로, 최후의 수단으로 계정에 실제로 열려
 // 있는 모델을 계정 스스로 확인하게 한다.
-async function discoverTtsModelIds(apiKey: string): Promise<string[]> {
+interface TtsModelDiscovery {
+  ttsIds: string[];
+  totalModels: number; // 키 자체가 유효한지 확인용 — 0이면 목록 조회 자체가 안 된 것
+  fetchError: string | null; // 목록 조회 자체가 실패한 이유 (키 오류인지 tts 모델만 없는건지 구분)
+}
+
+async function discoverTtsModelIds(apiKey: string): Promise<TtsModelDiscovery> {
   try {
     const res = await fetch('https://openrouter.ai/api/v1/models', {
       headers: { 'Authorization': `Bearer ${apiKey}` },
     });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      return { ttsIds: [], totalModels: 0, fetchError: `모델 목록 조회 ${res.status}: ${body.slice(0, 150)}` };
+    }
     const data = await res.json();
     const models: unknown[] = Array.isArray(data?.data) ? data.data : [];
-    return models
+    const ttsIds = models
       .map(m => (m as { id?: unknown })?.id)
       .filter((id): id is string => typeof id === 'string' && /tts|speech/i.test(id));
-  } catch {
-    return [];
+    return { ttsIds, totalModels: models.length, fetchError: null };
+  } catch (err) {
+    return { ttsIds: [], totalModels: 0, fetchError: err instanceof Error ? err.message : String(err) };
   }
 }
 
@@ -211,7 +221,8 @@ async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Pr
   // 고정 후보가 전부 "모델 없음"으로 실패한 경우에만 실제 계정의 모델
   // 목록에서 후보를 찾아 재시도 (키 오류/네트워크 오류 등은 재시도해봐야 소용없음)
   if (allMissing && !resolvedTtsModel) {
-    const discovered = (await discoverTtsModelIds(apiKey)).filter(id => !(candidates as string[]).includes(id));
+    const { ttsIds, totalModels, fetchError } = await discoverTtsModelIds(apiKey);
+    const discovered = ttsIds.filter(id => !(candidates as string[]).includes(id));
     for (const model of discovered) {
       const res = await tryModel(model, text, voice, apiKey);
       if (res.ok) {
@@ -222,7 +233,14 @@ async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Pr
       lastError = new Error(`TTS API ${res.status} (모델: ${model}, 계정 목록에서 발견): ${body.slice(0, 200)}`);
     }
     if (discovered.length === 0) {
-      lastError = new Error(`${lastError.message} | 계정에서 사용 가능한 음성 모델을 찾지 못했습니다.`);
+      // totalModels로 API 키 자체가 유효한지(모델 목록 조회 성공 여부)와
+      // "키는 되는데 TTS 모델만 없는지"를 구분한다.
+      const diag = fetchError
+        ? `모델 목록 조회 실패(키 오류 가능성): ${fetchError}`
+        : totalModels === 0
+          ? '모델 목록이 비어 있음(키가 유효하지 않을 가능성)'
+          : `계정에 사용 가능한 모델 ${totalModels}개 확인됐지만 그중 음성(tts/speech) 모델은 없음`;
+      lastError = new Error(`${lastError.message} | ${diag}`);
     }
   }
 
