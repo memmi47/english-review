@@ -305,10 +305,23 @@ function LegacyPractice() {
 
 // ── 문제은행 세션 (choice / pattern / produce) ────────
 
-// '_____' 빈칸을 채운 완성 문장 (발음 듣기용)
+// pattern 문제의 question은 끝에 " (pass)"처럼 빈칸에 쓸 핵심 단어를 괄호로
+// 덧붙여둔다(정제 시 원본 문장을 그대로 빈칸화하지 않고 새 맥락으로 만들다 보니,
+// 문장만 봐서는 어떤 단어를 활용해야 할지 알 수 없기 때문). 문장에 섞여 있으면
+// 놓치기 쉬우므로 분리해서 별도 배지로 눈에 띄게 보여준다.
+const WORD_HINT_RE = /\s*\(([a-zA-Z][a-zA-Z /]*)\)\s*$/
+
+function splitWordHint(question: string): { sentence: string; wordHint: string | null } {
+  const m = question.match(WORD_HINT_RE)
+  if (!m) return { sentence: question, wordHint: null }
+  return { sentence: question.slice(0, m.index), wordHint: m[1] }
+}
+
+// '_____' 빈칸을 채운 완성 문장 (발음 듣기용) — 핵심 단어 괄호 힌트는 제외
 function filledSentence(drill: DrillRow): string {
-  return drill.question.includes('_____')
-    ? drill.question.replace('_____', drill.answer)
+  const { sentence } = drill.type === 'pattern' ? splitWordHint(drill.question) : { sentence: drill.question }
+  return sentence.includes('_____')
+    ? sentence.replace('_____', drill.answer)
     : drill.answer
 }
 
@@ -321,9 +334,15 @@ function QuestionCard({ drill, answered, userAnswer, correct, revealed }: {
   correct: boolean
   revealed: boolean
 }) {
-  const parts = drill.question.split('_____')
+  const { sentence, wordHint } = drill.type === 'pattern' ? splitWordHint(drill.question) : { sentence: drill.question, wordHint: null }
+  const parts = sentence.split('_____')
   return (
     <div style={drillStyles.questionCard}>
+      {wordHint && (
+        <p style={drillStyles.wordHintBadge}>
+          🔑 이 단어를 활용해서 빈칸을 채워보세요: <strong>{wordHint}</strong>
+        </p>
+      )}
       <p style={drillStyles.questionText}>
         {parts[0]}
         {!answered ? (
@@ -639,6 +658,16 @@ const drillStyles = {
     lineHeight: 1.5,
     color: colors.text,
     margin: 0,
+  },
+  wordHintBadge: {
+    fontSize: type.sm,
+    fontWeight: 700,
+    color: colors.primaryStrong,
+    background: colors.primarySoft,
+    borderRadius: radius.md,
+    padding: '0.5rem 0.75rem',
+    margin: '0 0 0.75rem',
+    lineHeight: 1.5,
   },
   blank: {
     display: 'inline-block',
