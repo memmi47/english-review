@@ -16,9 +16,16 @@ import Dexie, { type Table } from 'dexie';
 const KEY_API = 'tts_openrouter_key';
 const KEY_VOICE = 'tts_voice';
 
-// OpenRouter는 날짜가 붙은 정확한 모델 슬러그를 요구한다 ('openai/gpt-4o-mini-tts'
-// 같은 짧은 별칭은 "model not found" 오류로 항상 실패함).
-export const TTS_MODEL = 'openai/gpt-4o-mini-tts-2025-12-15';
+// OpenRouter의 gpt-4o-mini-tts 모델 슬러그는 시점에 따라 날짜가 붙은 스냅샷
+// (예: openai/gpt-4o-mini-tts-2025-12-15)이 필요하기도 하고, 그 스냅샷이
+// 만료되면 "model does not exist"로 실패하기도 한다. 문서만 보고 하나를
+// 고정해두면 다음 만료 때 또 무음이 되므로, 후보를 순서대로 시도해서 실제로
+// 성공하는 슬러그를 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
+const TTS_MODEL_CANDIDATES = [
+  'openai/gpt-4o-mini-tts-2025-12-15',
+  'openai/gpt-4o-mini-tts',
+] as const;
+let resolvedTtsModel: string | null = null;
 
 // gpt-4o-mini-tts 지원 음성 중 학습용으로 추천할 만한 것들
 export const TTS_VOICES: { id: string; label: string }[] = [
@@ -145,30 +152,40 @@ async function playMp3(ctx: AudioContext, mp3: ArrayBuffer): Promise<void> {
 // ── OpenRouter 신경망 TTS ─────────────────────────────
 
 async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Promise<ArrayBuffer> {
-  const res = await fetch('https://openrouter.ai/api/v1/audio/speech', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: TTS_MODEL,
-      input: text,
-      voice,
-      response_format: 'mp3',
-    }),
-  });
-  if (!res.ok) {
+  const candidates = resolvedTtsModel ? [resolvedTtsModel] : TTS_MODEL_CANDIDATES;
+  let lastError: Error = new Error('TTS 모델 후보가 없습니다.');
+
+  for (const model of candidates) {
+    const res = await fetch('https://openrouter.ai/api/v1/audio/speech', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        input: text,
+        voice,
+        response_format: 'mp3',
+      }),
+    });
+    if (res.ok) {
+      resolvedTtsModel = model;
+      return res.arrayBuffer();
+    }
     const body = await res.text().catch(() => '');
-    throw new Error(`TTS API ${res.status}: ${body.slice(0, 200)}`);
+    lastError = new Error(`TTS API ${res.status}: ${body.slice(0, 200)}`);
+    // "모델이 존재하지 않음" 류의 오류가 아니면(예: 키 오류, 네트워크 문제)
+    // 다른 후보를 더 시도해봐야 소용없으므로 바로 중단한다.
+    if (res.status !== 400 || !/does not exist|not found/i.test(body)) break;
   }
-  return res.arrayBuffer();
+  throw lastError;
 }
 
 async function speakNeural(text: string, ctx: AudioContext): Promise<void> {
   const voice = getTtsVoice();
   const apiKey = getTtsApiKey();
-  const key = `${TTS_MODEL}|${voice}|${text}`;
+  const key = `tts|${voice}|${text}`;
 
   const cached = await cacheDB.clips.get(key);
   if (cached) {
@@ -295,7 +312,7 @@ export function speakEnglish(text: string): void {
     if (ctx) {
       const voice = getTtsVoice();
       const apiKey = getTtsApiKey();
-      const key = `${TTS_MODEL}|${voice}|${trimmed}`;
+      const key = `tts|${voice}|${trimmed}`;
 
       if (cachedKeys.has(key)) {
         // 캐시 재생: AudioContext는 이미 unlock되어 있어 비동기여도 안전
