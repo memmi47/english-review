@@ -16,15 +16,18 @@ import Dexie, { type Table } from 'dexie';
 const KEY_API = 'tts_openrouter_key';
 const KEY_VOICE = 'tts_voice';
 
-// openai/gpt-4o-mini-tts(-날짜)는 OpenRouter 모델 페이지에서 직접
-// "not available"로 확인됨 — 이 계정에서 아예 접근 불가한 모델이라 슬러그를
-// 아무리 바꿔도 소용없었다. 실제로 되는 건 openai/gpt-audio. 그래도 또
-// 모델이 바뀔 수 있으니 후보를 순서대로 시도해서 실제로 성공하는 슬러그를
-// 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
+// 어떤 모델이 "왜" 막혀 있는지 계속 알아내려 하기보다, 실제로 되는 모델을
+// 여러 제조사에 걸쳐 넉넉히 후보로 두고 되는 것을 자동으로 찾아 쓰는 쪽이
+// 더 튼튼하다. openai/gpt-4o-mini-tts(-날짜)는 이 계정에서 OpenRouter 모델
+// 페이지 기준 "not available"로 확인되어 목록에서 뺐다. 후보를 순서대로
+// 시도해서 실제로 성공하는 슬러그를 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
+// voice 파라미터는 제조사마다 이름 체계가 달라서(google/xai/오픈웨이트 등),
+// openai 계열이 아닌 후보는 voice를 생략해 제조사 기본 음성으로 시도한다.
 const TTS_MODEL_CANDIDATES = [
   'openai/gpt-audio',
-  'openai/gpt-4o-mini-tts-2025-12-15',
-  'openai/gpt-4o-mini-tts',
+  'google/gemini-3.1-flash-tts-preview',
+  'x-ai/grok-voice-tts-1.0',
+  'hexgrad/kokoro-82m',
 ] as const;
 let resolvedTtsModel: string | null = null;
 
@@ -183,49 +186,54 @@ async function discoverTtsModelIds(apiKey: string): Promise<TtsModelDiscovery> {
   }
 }
 
-async function tryModel(model: string, text: string, voice: string, apiKey: string): Promise<Response> {
+// openai 계열이 아닌 후보는 voice를 생략한다(제조사마다 음성 이름 체계가
+// 달라 잘못된 값을 보내면 그 자체로 실패 원인이 되어버리므로).
+function voiceFor(model: string, selectedVoice: string): string | undefined {
+  return model.startsWith('openai/') ? selectedVoice : undefined;
+}
+
+async function tryModel(model: string, text: string, voice: string | undefined, apiKey: string): Promise<Response> {
+  const body: Record<string, unknown> = { model, input: text, response_format: 'mp3' };
+  if (voice) body.voice = voice;
   return fetch('https://openrouter.ai/api/v1/audio/speech', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      model,
-      input: text,
-      voice,
-      response_format: 'mp3',
-    }),
+    body: JSON.stringify(body),
   });
 }
 
-function isModelMissing(status: number, body: string): boolean {
-  return status === 400 && /does not exist|not found/i.test(body);
+// 401/403/429는 모델이 아니라 키/계정 단위 문제라 다른 모델을 더 시도해도
+// 소용없다. 그 외(400 등)는 모델마다 사유가 다를 수 있으니 다음 후보로 넘어간다.
+function isAccountLevelError(status: number): boolean {
+  return status === 401 || status === 403 || status === 429;
 }
 
 async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Promise<ArrayBuffer> {
   const candidates = resolvedTtsModel ? [resolvedTtsModel] : [...TTS_MODEL_CANDIDATES];
   let lastError: Error = new Error('TTS 모델 후보가 없습니다.');
-  let allMissing = true;
+  let accountError = false;
 
   for (const model of candidates) {
-    const res = await tryModel(model, text, voice, apiKey);
+    const res = await tryModel(model, text, voiceFor(model, voice), apiKey);
     if (res.ok) {
       resolvedTtsModel = model;
       return res.arrayBuffer();
     }
     const body = await res.text().catch(() => '');
     lastError = new Error(`TTS API ${res.status} (모델: ${model}): ${body.slice(0, 200)}`);
-    if (!isModelMissing(res.status, body)) { allMissing = false; break; }
+    if (isAccountLevelError(res.status)) { accountError = true; break; }
   }
 
-  // 고정 후보가 전부 "모델 없음"으로 실패한 경우에만 실제 계정의 모델
-  // 목록에서 후보를 찾아 재시도 (키 오류/네트워크 오류 등은 재시도해봐야 소용없음)
-  if (allMissing && !resolvedTtsModel) {
+  // 고정 후보가 전부 실패했고 키/계정 문제가 아니라면, 계정의 실제 모델
+  // 목록에서 미처 후보에 없던 음성 모델을 찾아 추가로 시도한다.
+  if (!accountError && !resolvedTtsModel) {
     const { ttsIds, totalModels, fetchError } = await discoverTtsModelIds(apiKey);
     const discovered = ttsIds.filter(id => !(candidates as string[]).includes(id));
     for (const model of discovered) {
-      const res = await tryModel(model, text, voice, apiKey);
+      const res = await tryModel(model, text, voiceFor(model, voice), apiKey);
       if (res.ok) {
         resolvedTtsModel = model;
         return res.arrayBuffer();
@@ -240,7 +248,7 @@ async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Pr
         ? `모델 목록 조회 실패(키 오류 가능성): ${fetchError}`
         : totalModels === 0
           ? '모델 목록이 비어 있음(키가 유효하지 않을 가능성)'
-          : `계정에 사용 가능한 모델 ${totalModels}개 확인됐지만 그중 음성(tts/speech) 모델은 없음`;
+          : `계정에 사용 가능한 모델 ${totalModels}개 확인됐지만 그중 음성 모델은 없음`;
       lastError = new Error(`${lastError.message} | ${diag}`);
     }
   }
