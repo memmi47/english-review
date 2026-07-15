@@ -228,7 +228,7 @@ function pickEnglishVoice(): SpeechSynthesisVoice | undefined {
 
 function speakWithBrowser(text: string): void {
   if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
+  stopCurrentAudio(); // 재생 중인 Web Audio 소스·기존 발화를 함께 정지 (겹침 방지)
   const utter = new SpeechSynthesisUtterance(text);
   const voice = pickEnglishVoice();
   if (voice) utter.voice = voice;
@@ -242,18 +242,45 @@ function speakWithBrowser(text: string): void {
 
 // 영어 텍스트를 읽어준다. 반드시 버튼 클릭 등 사용자 제스처 핸들러에서
 // 동기적으로 호출할 것 (iOS 오디오 정책).
+//
+// iOS Safari는 speechSynthesis.speak()를 "제스처 콜스택 밖(비동기)"에서
+// 호출하면 에러 없이 조용히 무시한다. 예전엔 "신경망 음성 시도 → 실패하면
+// 비동기로 브라우저 음성 폴백" 구조였는데, 바로 이 폴백 호출이 비동기라서
+// 신경망 음성이 조금이라도 실패하면(키 없음/네트워크 오류 등) 완전한
+// 무음이 되는 문제가 있었다.
+//
+// 그래서 순서를 뒤집는다: 이미 캐시된 문장(재생 이력 있음)만 신경망 음성으로
+// 재생하고 — Web Audio는 AudioContext를 한 번 unlock해두면 이후 비동기
+// 재생도 안전하다 — 처음 듣는 문장은 항상 브라우저 음성을 제스처 안에서
+// 즉시 재생하고, 신경망 음성은 백그라운드에서 캐시만 해둔다(다음에 같은
+// 문장을 들을 때부터 신경망 음성으로 들림).
 export function speakEnglish(text: string): void {
   const trimmed = text.trim();
   if (!trimmed) return;
 
   if (neuralTtsEnabled()) {
-    // 제스처 콜스택 안에서 AudioContext를 먼저 확보/해제
+    // 제스처 콜스택 안에서 AudioContext를 먼저 확보/해제 (Web Audio unlock)
     const ctx = ensureAudioContext();
     if (ctx) {
-      speakNeural(trimmed, ctx).catch(err => {
-        console.warn('신경망 TTS 실패, 기본 음성으로 폴백:', err);
+      const voice = getTtsVoice();
+      const apiKey = getTtsApiKey();
+      const key = `${TTS_MODEL}|${voice}|${trimmed}`;
+
+      cacheDB.clips.get(key).then(cached => {
+        if (cached) {
+          // 캐시 재생: AudioContext는 이미 unlock되어 있어 비동기여도 안전
+          playMp3(ctx, cached.audio).catch(() => speakWithBrowser(trimmed));
+          return;
+        }
+        // 최초 재생: 무음 방지를 위해 브라우저 음성을 즉시(동기적으로) 재생
         speakWithBrowser(trimmed);
-      });
+        // 신경망 음성은 백그라운드에서 받아 캐시만 해둔다 (재생하지 않음)
+        fetchNeuralAudio(trimmed, voice, apiKey)
+          .then(audio => cacheDB.clips.put({
+            key, audio, bytes: audio.byteLength, created_at: new Date().toISOString(),
+          }))
+          .catch(err => console.warn('신경망 TTS 백그라운드 캐시 실패:', err));
+      }).catch(() => speakWithBrowser(trimmed));
       return;
     }
   }
