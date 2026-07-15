@@ -138,18 +138,29 @@ const SEVERITY_WEIGHT: Record<string, number> = { '화석화': 0, '반복': 1, '
 // (그렇지 않으면 "오늘의 140문제"처럼 실제 세션에서 볼 수 없는 숫자가 표시됨).
 export const DAILY_DRILL_LIMIT = 20;
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 // 오늘 풀 문제 목록: 심각도(화석화 우선) → 예정일 순.
 // 같은 group_id(패턴 세트)는 연속으로 묶어서 출제한다.
 export async function dueDrills(limit = DAILY_DRILL_LIMIT): Promise<DrillRow[]> {
   const t = today();
-  const due = await drillsDB.drills.where('due_date').belowOrEqual(t).toArray();
+  const due = shuffle(await drillsDB.drills.where('due_date').belowOrEqual(t).toArray());
 
+  // 우선순위(심각도·예정일)는 유지하되, 같은 우선순위 안에서는 매번 순서가
+  // 바뀌도록 미리 섞어둔 배열을 안정 정렬(stable sort)한다 — 그래야 같은
+  // id 순서로 매번 똑같은 20개만 반복해서 나오지 않는다.
   due.sort((a, b) => {
     const wa = SEVERITY_WEIGHT[a.severity ?? ''] ?? 3;
     const wb = SEVERITY_WEIGHT[b.severity ?? ''] ?? 3;
     if (wa !== wb) return wa - wb;
-    if (a.due_date !== b.due_date) return a.due_date.localeCompare(b.due_date);
-    return a.id.localeCompare(b.id);
+    return a.due_date.localeCompare(b.due_date);
   });
 
   // group_id 단위로 묶기: 먼저 등장한 그룹 순서를 유지하며 멤버를 이어붙인다.

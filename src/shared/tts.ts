@@ -84,6 +84,17 @@ class TtsCacheDB extends Dexie {
 
 const cacheDB = new TtsCacheDB();
 
+// IndexedDB 조회는 항상 비동기(Promise)라서, "이 문장이 이미 캐시돼 있는지"를
+// 제스처 콜스택 안에서 동기적으로 알 방법이 없다. 그런데 speechSynthesis.speak()는
+// 반드시 동기 호출이어야 하므로, 캐시 여부를 미리 메모리에 올려두고 동기적으로
+// 확인한다 (앱 시작 시 키 목록만 가볍게 불러옴 — 오디오 바이트는 그대로 IndexedDB에).
+const cachedKeys = new Set<string>();
+if (typeof window !== 'undefined') {
+  cacheDB.clips.toCollection().primaryKeys()
+    .then(keys => { for (const k of keys) cachedKeys.add(String(k)) })
+    .catch(() => { /* noop */ });
+}
+
 export async function ttsCacheStats(): Promise<{ count: number; mb: number }> {
   const clips = await cacheDB.clips.toArray();
   const bytes = clips.reduce((s, c) => s + (c.bytes ?? 0), 0);
@@ -92,6 +103,7 @@ export async function ttsCacheStats(): Promise<{ count: number; mb: number }> {
 
 export async function clearTtsCache(): Promise<void> {
   await cacheDB.clips.clear();
+  cachedKeys.clear();
 }
 
 // ── Web Audio 재생 (iOS 제스처 정책 대응) ─────────────
@@ -240,22 +252,39 @@ function speakWithBrowser(text: string): void {
   window.speechSynthesis.speak(utter);
 }
 
+// ── 에러 알림 (원격 기기라 콘솔을 볼 수 없으므로 화면에 잠깐 보여주기 위함) ──
+
+type TtsErrorListener = (message: string) => void;
+const errorListeners = new Set<TtsErrorListener>();
+
+export function onTtsError(listener: TtsErrorListener): () => void {
+  errorListeners.add(listener);
+  return () => errorListeners.delete(listener);
+}
+
+function reportTtsError(message: string): void {
+  console.warn(message);
+  for (const listener of errorListeners) listener(message);
+}
+
 // ── 공개 API ──────────────────────────────────────────
 
 // 영어 텍스트를 읽어준다. 반드시 버튼 클릭 등 사용자 제스처 핸들러에서
 // 동기적으로 호출할 것 (iOS 오디오 정책).
 //
 // iOS Safari는 speechSynthesis.speak()를 "제스처 콜스택 밖(비동기)"에서
-// 호출하면 에러 없이 조용히 무시한다. 예전엔 "신경망 음성 시도 → 실패하면
-// 비동기로 브라우저 음성 폴백" 구조였는데, 바로 이 폴백 호출이 비동기라서
-// 신경망 음성이 조금이라도 실패하면(키 없음/네트워크 오류 등) 완전한
-// 무음이 되는 문제가 있었다.
+// 호출하면 에러 없이 조용히 무시한다 — 심지어 Promise.then() 콜백 안이어도
+// 마찬가지다(마이크로태스크도 "제스처 밖"으로 취급됨). 이전 구현은 IndexedDB
+// 캐시 조회(`cacheDB.clips.get(key)`, 항상 비동기)의 `.then()` 콜백 안에서
+// 브라우저 음성 폴백을 호출하고 있어서, 신경망 키가 설정된 상태(현재 기본
+// 내장 키가 있음)에서는 처음 듣는 모든 문장이 조용히 무시되는 완전 무음
+// 버그가 있었다.
 //
-// 그래서 순서를 뒤집는다: 이미 캐시된 문장(재생 이력 있음)만 신경망 음성으로
-// 재생하고 — Web Audio는 AudioContext를 한 번 unlock해두면 이후 비동기
-// 재생도 안전하다 — 처음 듣는 문장은 항상 브라우저 음성을 제스처 안에서
-// 즉시 재생하고, 신경망 음성은 백그라운드에서 캐시만 해둔다(다음에 같은
-// 문장을 들을 때부터 신경망 음성으로 들림).
+// 그래서 "이미 캐시됐는지"를 IndexedDB 조회 없이 메모리(cachedKeys, 앱 시작 시
+// 키 목록만 동기 로드)로 먼저 확인한다: 캐시된 적 없는 문장은 브라우저 음성을
+// 제스처 콜스택 안에서 즉시(동기) 재생하고, 신경망 음성은 백그라운드에서 받아
+// 캐시만 해둔다. 이미 캐시된 문장은 신경망 음성으로 재생하되, Web Audio는
+// AudioContext를 한 번 unlock해두면 비동기 재생도 안전하다.
 export function speakEnglish(text: string): void {
   const trimmed = text.trim();
   if (!trimmed) return;
@@ -268,21 +297,31 @@ export function speakEnglish(text: string): void {
       const apiKey = getTtsApiKey();
       const key = `${TTS_MODEL}|${voice}|${trimmed}`;
 
-      cacheDB.clips.get(key).then(cached => {
-        if (cached) {
-          // 캐시 재생: AudioContext는 이미 unlock되어 있어 비동기여도 안전
-          playMp3(ctx, cached.audio).catch(() => speakWithBrowser(trimmed));
-          return;
-        }
-        // 최초 재생: 무음 방지를 위해 브라우저 음성을 즉시(동기적으로) 재생
-        speakWithBrowser(trimmed);
-        // 신경망 음성은 백그라운드에서 받아 캐시만 해둔다 (재생하지 않음)
-        fetchNeuralAudio(trimmed, voice, apiKey)
-          .then(audio => cacheDB.clips.put({
+      if (cachedKeys.has(key)) {
+        // 캐시 재생: AudioContext는 이미 unlock되어 있어 비동기여도 안전
+        cacheDB.clips.get(key).then(cached => {
+          if (cached) {
+            playMp3(ctx, cached.audio).catch(() => speakWithBrowser(trimmed));
+          } else {
+            // 메모리 인덱스와 실제 DB가 어긋난 경우(캐시 삭제 등) 폴백
+            cachedKeys.delete(key);
+            speakWithBrowser(trimmed);
+          }
+        }).catch(() => speakWithBrowser(trimmed));
+        return;
+      }
+
+      // 처음 듣는 문장: speechSynthesis는 동기 호출이 필수이므로 여기서 바로 재생
+      speakWithBrowser(trimmed);
+      // 신경망 음성은 백그라운드에서 받아 캐시만 해둔다 (다음 재생부터 적용)
+      fetchNeuralAudio(trimmed, voice, apiKey)
+        .then(audio => {
+          cachedKeys.add(key);
+          return cacheDB.clips.put({
             key, audio, bytes: audio.byteLength, created_at: new Date().toISOString(),
-          }))
-          .catch(err => console.warn('신경망 TTS 백그라운드 캐시 실패:', err));
-      }).catch(() => speakWithBrowser(trimmed));
+          });
+        })
+        .catch(err => reportTtsError(`신경망 음성 준비 실패: ${err instanceof Error ? err.message : String(err)}`));
       return;
     }
   }
