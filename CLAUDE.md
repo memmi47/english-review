@@ -26,7 +26,7 @@
 
 ## TTS (발음 듣기)
 
-- `src/shared/tts.ts` — OpenRouter `/api/v1/audio/speech` (`openai/gpt-4o-mini-tts` 계열) 연동. OpenRouter가 날짜 붙은 모델 슬러그를 종종 만료시켜 "model does not exist"로 실패하는 일이 있어서, `TTS_MODEL_CANDIDATES` 후보를 순서대로 시도해 성공하는 슬러그를 그 세션 동안 기억해 쓴다. 문장별 오디오는 IndexedDB에 캐싱되어 재과금 없음
+- `src/shared/tts.ts` — OpenRouter `/api/v1/audio/speech` 연동. 현재 쓰는 모델은 `openai/gpt-audio`(`openai/gpt-4o-mini-tts`류는 이 계정에서 OpenRouter 모델 페이지 기준 "not available"로 확인되어 접근 불가). OpenRouter 모델 가용성이 계정/시점에 따라 또 바뀔 수 있어서, `TTS_MODEL_CANDIDATES` 후보를 순서대로 시도하고 그래도 다 실패하면 계정의 실제 모델 목록(`/api/v1/models`)에서 음성 모델을 찾아 재시도한다 — 성공한 슬러그는 그 세션 동안 기억해 쓴다. 문장별 오디오는 IndexedDB에 캐싱되어 재과금 없음
 - API 키 우선순위: 설정 화면에서 직접 입력한 키(`localStorage`) > 빌드 시 주입된 키(`VITE_OPENROUTER_API_KEY` 환경변수)
 - 저장소가 공개이므로 **키를 소스 코드에 절대 하드코딩하지 않음**. 내장하려면 Vercel 대시보드 → Settings → Environment Variables에 `VITE_OPENROUTER_API_KEY`를 등록하고 재배포
 - 키가 없거나 요청 실패 시 브라우저 기본 `SpeechSynthesis`로 자동 폴백

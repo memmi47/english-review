@@ -1,7 +1,7 @@
 // tts.ts — 발음 듣기 (2단 구조)
 //
 //   1) OpenRouter 신경망 TTS (설정에서 API 키 입력 시)
-//      - 모델: openai/gpt-4o-mini-tts — 사람 수준의 자연스러운 음성
+//      - 모델: openai/gpt-audio 등 (TTS_MODEL_CANDIDATES 참고) — 사람 수준의 자연스러운 음성
 //      - 같은 문장은 IndexedDB에 캐싱해 재생성 비용 없이 오프라인 재생
 //      - iOS 오디오 정책 대응: 버튼 탭(제스처) 시점에 AudioContext를 먼저
 //        resume하고, mp3는 Web Audio로 디코딩해 재생한다.
@@ -16,12 +16,13 @@ import Dexie, { type Table } from 'dexie';
 const KEY_API = 'tts_openrouter_key';
 const KEY_VOICE = 'tts_voice';
 
-// OpenRouter의 gpt-4o-mini-tts 모델 슬러그는 시점에 따라 날짜가 붙은 스냅샷
-// (예: openai/gpt-4o-mini-tts-2025-12-15)이 필요하기도 하고, 그 스냅샷이
-// 만료되면 "model does not exist"로 실패하기도 한다. 문서만 보고 하나를
-// 고정해두면 다음 만료 때 또 무음이 되므로, 후보를 순서대로 시도해서 실제로
-// 성공하는 슬러그를 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
+// openai/gpt-4o-mini-tts(-날짜)는 OpenRouter 모델 페이지에서 직접
+// "not available"로 확인됨 — 이 계정에서 아예 접근 불가한 모델이라 슬러그를
+// 아무리 바꿔도 소용없었다. 실제로 되는 건 openai/gpt-audio. 그래도 또
+// 모델이 바뀔 수 있으니 후보를 순서대로 시도해서 실제로 성공하는 슬러그를
+// 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
 const TTS_MODEL_CANDIDATES = [
+  'openai/gpt-audio',
   'openai/gpt-4o-mini-tts-2025-12-15',
   'openai/gpt-4o-mini-tts',
 ] as const;
@@ -175,7 +176,7 @@ async function discoverTtsModelIds(apiKey: string): Promise<TtsModelDiscovery> {
     const models: unknown[] = Array.isArray(data?.data) ? data.data : [];
     const ttsIds = models
       .map(m => (m as { id?: unknown })?.id)
-      .filter((id): id is string => typeof id === 'string' && /tts|speech/i.test(id));
+      .filter((id): id is string => typeof id === 'string' && /tts|speech|audio/i.test(id));
     return { ttsIds, totalModels: models.length, fetchError: null };
   } catch (err) {
     return { ttsIds: [], totalModels: 0, fetchError: err instanceof Error ? err.message : String(err) };
