@@ -291,9 +291,9 @@ const localStyles = {
   goodButton: {
     flex: 1,
     minHeight: '3.5rem',
-    background: colors.green,
-    color: '#08210f',
-    border: 'none',
+    background: colors.greenBg,
+    color: colors.green,
+    border: `1.5px solid ${colors.greenBorder}`,
     borderRadius: radius.lg,
     fontSize: type.base,
     fontWeight: 700,
