@@ -109,7 +109,7 @@ export default function App() {
         boxSizing: 'border-box',
       }}>
         {tab === 'home'      && <HomeScreen onNavigate={setTab} />}
-        {tab === 'review'    && <ReviewScreen />}
+        {tab === 'review'    && <ReviewScreen onGoPractice={() => setTab('practice')} />}
         {tab === 'practice'  && <PracticeScreen />}
         {tab === 'dashboard' && <DashboardScreen onGoReview={() => setTab('review')} />}
         {tab === 'import'    && <ImportScreen onGoReview={() => setTab('review')} />}

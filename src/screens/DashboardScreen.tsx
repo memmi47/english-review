@@ -7,7 +7,7 @@ import {
 import type { TagStat, SessionTrendPoint, MasteryDist } from '../db'
 import type { SessionRow, CorrectionRow, RewriteRow, PhraseRow } from '../db/schema'
 import { dueStudyItems } from '../db/study'
-import { styles, colors, radius } from '../shared/styles'
+import { styles, colors, radius, type } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 
 type Seg = 'analytics' | 'history'
@@ -106,15 +106,12 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
 
       {/* 오늘 할 일 */}
       <div style={styles.card}>
-        <h2 style={styles.sectionTitle}>오늘 할 일</h2>
+        <h2 style={{ ...styles.sectionTitle, fontSize: type.base, marginBottom: '0.875rem' }}>오늘 할 일</h2>
         <div style={localStyles.todayRow}>
-          <TodayBlock label="복습" num={data.review.phrases + data.review.vocab}
-            sub={`Phrase ${data.review.phrases} · 어휘 ${data.review.vocab}`} />
-          <div style={localStyles.todayDivider} />
-          <TodayBlock label="연습" num={data.practice.corrections + data.practice.rewrites}
-            sub={`교정 ${data.practice.corrections} · Rewrite ${data.practice.rewrites}`} />
+          <TodayBlock label="복습" num={data.review.phrases + data.review.vocab} />
+          <TodayBlock label="연습" num={data.practice.corrections + data.practice.rewrites} />
         </div>
-        <button style={styles.button} onClick={onGoReview}
+        <button style={{ ...styles.button, marginTop: '1rem' }} onClick={onGoReview}
           disabled={data.review.phrases + data.review.vocab === 0}>
           {data.review.phrases + data.review.vocab === 0 ? '오늘 복습 완료' : '복습 시작하기 →'}
         </button>
@@ -143,7 +140,7 @@ function AnalyticsTab({ onGoReview }: { onGoReview: () => void }) {
         <div style={styles.card}>
           <h2 style={styles.sectionTitle}>약점 재발 순위</h2>
           <p style={styles.subtitle}>교정/약점 패턴에서 자주 등장한 태그예요.</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
             {data.tags.slice(0, 5).map((t, i) => (
               <TagRankRow key={t.tag} rank={i + 1} stat={t} max={data.tags[0].count} />
             ))}
@@ -278,7 +275,7 @@ function SessionDetailView({ sessionId, onBack }: { sessionId: string; onBack: (
         </p>
         {/* 요약 칩 */}
         <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginTop: '0.75rem' }}>
-          {corrections.length > 0 && <InfoChip label={`교정 ${corrections.length}`} color="red" />}
+          {corrections.length > 0 && <InfoChip label={`교정 ${corrections.length}`} color="amber" />}
           {rewrites.length > 0 && <InfoChip label={`Rewrite ${rewrites.length}`} color="blue" />}
           {phrases.length > 0 && <InfoChip label={`Phrase +${phrases.length}`} color="green" />}
           {vocab.length > 0 && <InfoChip label={`어휘 +${vocab.length}`} color="purple" />}
@@ -314,12 +311,12 @@ function SessionDetailView({ sessionId, onBack }: { sessionId: string; onBack: (
           )}
           {weaknesses.length > 0 && (
             <div>
-              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: colors.red, margin: '0.5rem 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>약점</p>
+              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: colors.amber, margin: '0.5rem 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>약점</p>
               {weaknesses.map((p, i) => (
                 <div key={i} style={{
                   fontSize: '0.82rem', color: colors.text, padding: '0.35rem 0.5rem',
-                  borderLeft: `3px solid var(--red)`, marginBottom: '0.35rem',
-                  background: colors.redBg, borderRadius: `0 ${radius.sm} ${radius.sm} 0`,
+                  borderLeft: `3px solid var(--amber)`, marginBottom: '0.35rem',
+                  background: colors.amberBg, borderRadius: `0 ${radius.sm} ${radius.sm} 0`,
                 }}>
                   {p.description}
                   {p.canonical_tag && <span style={{ fontSize: '0.68rem', color: colors.textSubtle, marginLeft: '0.4rem' }}>[{p.canonical_tag}]</span>}
@@ -564,25 +561,18 @@ function AdoptionSection({ unadopted: u }: { unadopted: Awaited<ReturnType<typeo
 
 function TagRankRow({ rank, stat, max }: { rank: number; stat: TagStat; max: number }) {
   const pct = Math.round((stat.count / max) * 100)
+  const top = rank === 1
+  const barColor = top ? colors.amber : colors.textSubtle
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: colors.primary, minWidth: '1rem' }}>{rank}</span>
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 600, color: colors.text }}>[{stat.tag}]</span>
-          <span style={{ fontSize: '0.72rem', color: colors.red, fontWeight: 600 }}>{stat.count}회</span>
-        </div>
-        <div style={{ height: '5px', background: colors.surfaceAlt, borderRadius: '3px', overflow: 'hidden',
-          border: `1px solid ${colors.border}` }}>
-          <div style={{ height: '100%', width: `${pct}%`, background: colors.red, opacity: 0.7,
-            borderRadius: '3px', transition: 'width 0.4s ease' }} />
-        </div>
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+        <span style={{ fontSize: type.base, fontWeight: 700, color: colors.text }}>{rank}&nbsp;&nbsp;{stat.tag}</span>
+        <span style={{ fontSize: type.sm, fontWeight: 700, color: barColor }}>{stat.count}회</span>
       </div>
-      {stat.lastSeen && (
-        <span style={{ fontSize: '0.65rem', color: colors.textSubtle, minWidth: '3.5rem', textAlign: 'right' }}>
-          {stat.lastSeen.slice(5)}
-        </span>
-      )}
+      <div style={{ height: '6px', background: colors.surfaceSunken, borderRadius: '3px', overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${pct}%`, background: barColor,
+          borderRadius: '3px', transition: 'width 0.4s ease' }} />
+      </div>
     </div>
   )
 }
@@ -606,13 +596,14 @@ function RateBar({ value, sub }: { value: number; sub: string }) {
   )
 }
 
-function TodayBlock({ label, num, sub }: { label: string; num: number; sub: string }) {
+function TodayBlock({ label, num }: { label: string; num: number }) {
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
-      padding: '0.875rem 0.5rem', gap: '0.15rem' }}>
-      <span style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary, lineHeight: 1 }}>{num}</span>
-      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: colors.textMuted }}>{label}</span>
-      <span style={{ fontSize: '0.68rem', color: colors.textSubtle, textAlign: 'center' }}>{sub}</span>
+    <div style={{
+      flex: 1, textAlign: 'center', padding: '0.875rem 0',
+      borderRadius: radius.md, background: colors.surfaceSunken,
+    }}>
+      <div style={{ fontSize: type.xl, fontWeight: 800, color: colors.primary, lineHeight: 1 }}>{num}</div>
+      <div style={{ fontSize: type.xs, color: colors.textMuted, marginTop: '4px' }}>{label}</div>
     </div>
   )
 }
@@ -631,10 +622,10 @@ function CorrectionCard({ c }: { c: CorrectionRow }) {
     <div style={{ background: colors.surfaceAlt, border: `1px solid ${colors.border}`,
       borderRadius: radius.md, padding: '0.7rem 0.875rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-        <p style={{ fontSize: '0.8rem', color: colors.red, margin: 0, textDecoration: 'line-through', flex: 1 }}>
+        <p style={{ fontSize: '0.8rem', color: colors.textSubtle, margin: 0, textDecoration: 'line-through', flex: 1 }}>
           "{c.original}"
         </p>
-        {c.error_tag && <InfoChip label={c.error_tag} color="red" />}
+        {c.error_tag && <InfoChip label={c.error_tag} color="amber" />}
       </div>
       <p style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.green, margin: '0 0 0.3rem' }}>→ "{c.corrected}"</p>
       {c.rule && <p style={{ fontSize: '0.75rem', color: colors.textMuted, margin: 0, lineHeight: 1.4 }}>{c.rule}</p>}
@@ -682,9 +673,9 @@ function PhraseCard({ p }: { p: PhraseRow }) {
   )
 }
 
-function InfoChip({ label, color }: { label: string; color: 'red' | 'blue' | 'green' | 'purple' }) {
+function InfoChip({ label, color }: { label: string; color: 'amber' | 'blue' | 'green' | 'purple' }) {
   const map = {
-    red:    { bg: colors.redBg, border: colors.redBorder, text: colors.red },
+    amber:  { bg: colors.amberBg, border: colors.amberBorder, text: colors.amber },
     blue:   { bg: colors.primaryLight, border: 'var(--primary)', text: colors.primary },
     green:  { bg: colors.greenBg, border: colors.greenBorder, text: colors.green },
     purple: { bg: colors.purpleBg, border: colors.purpleBorder, text: colors.purple },
@@ -708,9 +699,6 @@ function LoadingCard() {
 
 const localStyles = {
   todayRow: {
-    display: 'flex', alignItems: 'stretch', margin: '0.5rem 0 0.75rem',
-    background: colors.surfaceAlt, borderRadius: '0.875rem', overflow: 'hidden' as const,
-    border: `1px solid ${colors.border}`,
+    display: 'flex', gap: '0.75rem',
   },
-  todayDivider: { width: '1px', background: colors.divider },
 } as const

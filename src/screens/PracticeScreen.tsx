@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import type { CorrectionRow, RewriteRow, Grade } from '../db'
 import { dueStudyItems, reviewStudyItem } from '../db/study'
 import type { StudyKind } from '../db/study'
 import { dueDrills, reviewDrill, answerMatches, totalDrillCount } from '../db/drills'
 import type { DrillRow } from '../db/drills'
-import { styles, colors, radius } from '../shared/styles'
+import { styles, colors, radius, type } from '../shared/styles'
 import { SpeakerButton } from '../shared/SpeakerButton'
 import { wordDiff, generateCloze, clozeMatch } from '../shared/wordDiff'
 import type { DiffToken } from '../shared/wordDiff'
@@ -212,10 +213,10 @@ function LegacyPractice() {
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
             {corrDone > 0 && (
               <div style={{
-                background: colors.redBg, border: `1px solid ${colors.redBorder}`,
+                background: colors.amberBg, border: `1px solid ${colors.amberBorder}`,
                 borderRadius: radius.md, padding: '0.5rem 0.875rem', textAlign: 'center',
               }}>
-                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.red }}>{corrDone}</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: colors.amber }}>{corrDone}</div>
                 <div style={{ fontSize: '0.68rem', color: colors.textMuted, marginTop: '1px' }}>교정</div>
               </div>
             )}
@@ -304,12 +305,6 @@ function LegacyPractice() {
 
 // ── 문제은행 세션 (choice / pattern / produce) ────────
 
-const DRILL_TYPE_LABEL: Record<DrillRow['type'], string> = {
-  choice: '3지선다',
-  pattern: '패턴 드릴',
-  produce: '한→영 표현',
-}
-
 // '_____' 빈칸을 채운 완성 문장 (발음 듣기용)
 function filledSentence(drill: DrillRow): string {
   return drill.question.includes('_____')
@@ -317,30 +312,48 @@ function filledSentence(drill: DrillRow): string {
     : drill.answer
 }
 
-// 빈칸 문장을 시각적으로 렌더링. answered면 정답/오답 표시로 채운다.
-function BlankSentence({ drill, answered, userAnswer, correct }: {
+// choice/pattern 공통: 문제 문장 카드. 답하기 전엔 빈칸, 정답이면 초록 텍스트,
+// 오답(직접 시도)이면 "취소선 내 답 → 초록 정답"을 문장 안에 그대로 보여준다.
+function QuestionCard({ drill, answered, userAnswer, correct, revealed }: {
   drill: DrillRow
   answered: boolean
   userAnswer: string
   correct: boolean
+  revealed: boolean
 }) {
   const parts = drill.question.split('_____')
   return (
-    <div style={localStyles.clozeBox}>
-      <p style={localStyles.clozeText}>
+    <div style={drillStyles.questionCard}>
+      <p style={drillStyles.questionText}>
         {parts[0]}
-        <span style={answered
-          ? (correct ? localStyles.clozeFillCorrect : localStyles.clozeFillWrong)
-          : localStyles.clozeBlank}>
-          {answered ? (userAnswer || drill.answer) : '_____'}
-        </span>
+        {!answered ? (
+          <span style={drillStyles.blank}>&nbsp;</span>
+        ) : correct ? (
+          <span style={{ color: colors.green, fontWeight: 700 }}>{drill.answer}</span>
+        ) : !revealed && userAnswer ? (
+          <>
+            <span style={{ textDecoration: 'line-through', color: colors.textSubtle }}>{userAnswer}</span>
+            {' → '}
+            <span style={{ color: colors.green, fontWeight: 700 }}>{drill.answer}</span>
+          </>
+        ) : (
+          <span style={{ color: colors.green, fontWeight: 700 }}>{drill.answer}</span>
+        )}
         {parts[1]}
       </p>
-      {answered && !correct && (
-        <p style={{ ...localStyles.clozeHelp, color: colors.green, fontWeight: 700 }}>
-          정답: {drill.answer}
-        </p>
-      )}
+    </div>
+  )
+}
+
+// 정답/배울 기회 피드백 배너 (title + 해설)
+function FeedbackBanner({ correct, revealed, explain }: { correct: boolean; revealed: boolean; explain: string }) {
+  const tone = correct ? 'green' : 'amber'
+  return (
+    <div style={tone === 'green' ? drillStyles.bannerGreen : drillStyles.bannerAmber}>
+      <p style={{ ...drillStyles.bannerTitle, color: tone === 'green' ? colors.green : colors.amber }}>
+        {revealed ? '정답을 확인했어요' : correct ? '정확해요' : '배울 기회예요'}
+      </p>
+      {explain && <p style={drillStyles.bannerBody}>{explain}</p>}
     </div>
   )
 }
@@ -381,9 +394,9 @@ function DrillSession() {
     setShowHint(true)
   }
 
-  async function next(grade: Grade) {
-    if (!queue) return
-    await reviewDrill(queue[index].id, grade)
+  async function next() {
+    if (!queue || phase.tag !== 'answered') return
+    await reviewDrill(queue[index].id, phase.correct ? 'good' : 'again')
     setDoneCount(c => c + 1)
     setPhase({ tag: 'active' })
     setUserInput('')
@@ -422,122 +435,140 @@ function DrillSession() {
   const answered = phase.tag === 'answered'
   const correct = answered && phase.correct
   const revealed = answered && phase.revealed
+  const userAnswer = answered ? phase.userAnswer : ''
 
   return (
     <div style={styles.card}>
       {/* 헤더 */}
       <div style={localStyles.headerRow}>
-        <p style={styles.subtitle}>{index + 1} / {queue.length}</p>
+        <p style={drillStyles.progress}>{index + 1} / {queue.length}</p>
         <div style={localStyles.badgeRow}>
           {drill.severity && (
-            <span style={{
-              ...localStyles.modeBadge,
-              color: drill.severity === '화석화' ? colors.red : colors.textMuted,
-              background: drill.severity === '화석화' ? colors.redBg : colors.surfaceAlt,
-            }}>
-              {drill.severity}
-            </span>
+            <span style={localStyles.modeBadge}>{drill.severity}</span>
           )}
           {drill.tag && <span style={localStyles.modeBadge}>{drill.tag}</span>}
-          <span style={localStyles.kindBadge}>{DRILL_TYPE_LABEL[drill.type]}</span>
         </div>
       </div>
 
-      <div style={localStyles.body}>
+      <div style={drillStyles.body}>
         {/* ── produce: 한국어 의도 제시 ── */}
         {drill.type === 'produce' ? (
           <>
-            <div style={{ ...localStyles.sourceBox, background: colors.primaryLight, borderColor: colors.primary, borderStyle: 'solid' }}>
-              <p style={{ ...localStyles.sourceLabel, color: colors.primary }}>이 말을 영어로 해보세요</p>
-              <p style={{ ...localStyles.sourceText, color: colors.primary, fontWeight: 700, fontSize: '1.05rem', fontStyle: 'normal' }}>
-                {drill.question}
-              </p>
+            <div style={drillStyles.promptCard}>
+              <p style={drillStyles.promptLabel}>이 말을 영어로 해보세요</p>
+              <p style={drillStyles.promptText}>{drill.question}</p>
             </div>
 
             {!answered ? (
               <>
                 <textarea
-                  style={localStyles.textarea}
+                  style={drillStyles.textarea}
                   placeholder="영어로 입력해보세요... (소리 내어 말한 뒤 적으면 더 좋아요)"
                   value={userInput}
                   onChange={e => setUserInput(e.target.value)}
                   rows={3}
                 />
-                <div style={localStyles.actionRow}>
+                <div style={drillStyles.actionRow}>
                   <button
-                    style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+                    style={{ ...drillStyles.primaryButton, opacity: userInput.trim() ? 1 : 0.55, flex: 1 }}
                     onClick={answerTyped}
                     disabled={!userInput.trim()}
                   >
                     제출하고 비교하기
                   </button>
-                  <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={reveal}>
+                  <button style={{ ...drillStyles.mutedButton, flex: 1 }} onClick={reveal}>
                     정답 보기
                   </button>
                 </div>
               </>
             ) : (
               <>
-                {!revealed && phase.userAnswer && (
-                  <DiffView userAttempt={phase.userAnswer} target={drill.answer} />
+                {!revealed && userAnswer && (
+                  <div style={drillStyles.myAnswerBox}>
+                    <p style={drillStyles.myAnswerLabel}>내 답안</p>
+                    <p style={drillStyles.myAnswerText}>{userAnswer}</p>
+                  </div>
                 )}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                   {[drill.answer, ...drill.accept].map((ans, i) => (
-                    <div key={i} style={localStyles.targetRow}>
-                      <SpeakerButton text={ans} />
-                      <p style={localStyles.targetText}>{ans}</p>
+                    <div key={i} style={drillStyles.bannerGreen}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                        <p style={{ ...drillStyles.answerLabel, color: colors.green }}>
+                          모범 답안{[drill.answer, ...drill.accept].length > 1 ? ` ${i + 1}` : ''}
+                        </p>
+                        <SpeakerButton text={ans} size="small" />
+                      </div>
+                      <p style={drillStyles.answerText}>{ans}</p>
                     </div>
                   ))}
                 </div>
+                <FeedbackBanner correct={correct} revealed={revealed} explain={drill.explain} />
               </>
             )}
           </>
         ) : (
           <>
             {/* ── choice / pattern: 빈칸 문장 ── */}
-            <p style={localStyles.instruction}>
+            <p style={drillStyles.instruction}>
               {drill.type === 'choice' ? '빈칸에 맞는 표현을 골라보세요' : '빈칸에 들어갈 표현을 직접 입력해보세요'}
             </p>
 
-            <BlankSentence
-              drill={drill}
-              answered={answered}
-              userAnswer={answered ? phase.userAnswer : ''}
-              correct={correct}
-            />
+            <QuestionCard drill={drill} answered={answered} userAnswer={userAnswer} correct={correct} revealed={revealed} />
 
-            {drill.type === 'choice' && !answered && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {drill.choices.map(choice => (
-                  <button
-                    key={choice}
-                    style={drillStyles.choiceButton}
-                    onClick={() => answerChoice(choice)}
-                  >
-                    {choice}
-                  </button>
-                ))}
+            {drill.type === 'choice' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                {drill.choices.map(choice => {
+                  const isCorrectChoice = choice === drill.answer
+                  const isSelected = answered && choice === userAnswer
+                  let choiceStyle: CSSProperties = drillStyles.choiceButton
+                  let className = ''
+                  let suffix: string | null = null
+                  if (answered) {
+                    if (isCorrectChoice) {
+                      choiceStyle = drillStyles.choiceCorrect
+                      suffix = isSelected ? '✓' : '✓ 정답'
+                      if (isSelected) className = 'fx-correct'
+                    } else if (isSelected) {
+                      choiceStyle = drillStyles.choiceWrong
+                      className = 'fx-wrong'
+                    } else {
+                      choiceStyle = drillStyles.choiceDisabled
+                    }
+                  }
+                  return (
+                    <button
+                      key={choice}
+                      className={className}
+                      style={choiceStyle}
+                      onClick={() => answerChoice(choice)}
+                      disabled={answered}
+                    >
+                      <span>{choice}</span>
+                      {suffix && <span>{suffix}</span>}
+                    </button>
+                  )
+                })}
               </div>
             )}
 
             {drill.type === 'pattern' && !answered && (
               <>
                 <textarea
-                  style={{ ...localStyles.textarea, minHeight: '60px' }}
+                  style={{ ...drillStyles.textarea, minHeight: '4rem' }}
                   placeholder="빈칸에 들어갈 표현..."
                   value={userInput}
                   onChange={e => setUserInput(e.target.value)}
                   rows={2}
                 />
-                <div style={localStyles.actionRow}>
+                <div style={drillStyles.actionRow}>
                   <button
-                    style={{ ...styles.button, opacity: userInput.trim() ? 1 : 0.4, flex: 1 }}
+                    style={{ ...drillStyles.softButton, opacity: userInput.trim() ? 1 : 0.55, flex: 1 }}
                     onClick={answerTyped}
                     disabled={!userInput.trim()}
                   >
                     확인
                   </button>
-                  <button style={{ ...styles.secondaryButton, flex: 1 }} onClick={reveal}>
+                  <button style={{ ...drillStyles.mutedButton, flex: 1 }} onClick={reveal}>
                     정답 보기
                   </button>
                 </div>
@@ -546,74 +577,303 @@ function DrillSession() {
 
             {/* 채점 결과 + 발음 듣기 */}
             {answered && (
-              <div style={correct ? styles.resultBox : styles.errorBox}>
-                <p style={correct ? styles.resultTitle : styles.errorTitle}>
-                  {revealed ? '정답을 확인했어요' : correct ? '정확해요' : '아쉬워요'}
-                </p>
-                <div style={localStyles.answerRow}>
-                  <p style={localStyles.answerText}>완성 문장을 들어보세요:</p>
+              <>
+                <FeedbackBanner correct={correct} revealed={revealed} explain={drill.explain} />
+                <div style={drillStyles.listenRow}>
                   <SpeakerButton text={filledSentence(drill)} size="small" />
+                  <p style={drillStyles.listenText}>{filledSentence(drill)}</p>
                 </div>
-                <p style={localStyles.fullSentence}>{filledSentence(drill)}</p>
-              </div>
+              </>
             )}
           </>
-        )}
-
-        {/* 해설 */}
-        {answered && drill.explain && (
-          <p style={localStyles.hint}>{drill.explain}</p>
         )}
 
         {/* 힌트 (답하기 전) */}
         {!answered && drill.hint && (
           <>
-            <button style={localStyles.hintToggle} onClick={() => setShowHint(!showHint)}>
-              {showHint ? '힌트 닫기' : '힌트 보기'}
+            <button style={drillStyles.hintToggle} onClick={() => setShowHint(!showHint)}>
+              💡 {showHint ? '힌트 닫기' : '힌트 보기'}
             </button>
-            {showHint && <p style={localStyles.hint}>{drill.hint}</p>}
+            {showHint && <p style={drillStyles.hintBody}>{drill.hint}</p>}
           </>
         )}
       </div>
 
-      {/* 다음 문제 / 자기평가 */}
+      {/* 다음 문제 */}
       {answered && (
-        drill.type === 'produce' ? (
-          <div style={localStyles.gradeRow}>
-            <button style={localStyles.againButton} onClick={() => next('again')}>
-              더 연습할게요
-            </button>
-            <button style={localStyles.goodButton} onClick={() => next('good')}>
-              입에 붙었어요
-            </button>
-          </div>
-        ) : (
-          <button
-            style={{ ...styles.button, marginTop: '1rem' }}
-            onClick={() => next(correct ? 'good' : 'again')}
-          >
-            다음 문제 →
-          </button>
-        )
+        <button style={{ ...drillStyles.primaryButton, marginTop: '1.25rem' }} onClick={next}>
+          다음 문제 →
+        </button>
       )}
     </div>
   )
 }
 
 const drillStyles = {
+  progress: {
+    fontSize: type.xs,
+    color: colors.textSubtle,
+    fontWeight: 600,
+    margin: 0,
+  },
+  body: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '1.25rem',
+  },
+  instruction: {
+    fontSize: type.sm,
+    color: colors.textMuted,
+    margin: 0,
+    fontWeight: 500,
+  },
+  questionCard: {
+    padding: '1.5rem 1.25rem',
+    borderRadius: radius.xl,
+    background: colors.surface,
+    boxShadow: 'var(--shadow-card)',
+  },
+  questionText: {
+    fontSize: type.lg,
+    fontWeight: 600,
+    lineHeight: 1.5,
+    color: colors.text,
+    margin: 0,
+  },
+  blank: {
+    display: 'inline-block',
+    minWidth: '5.5rem',
+    borderBottom: `2px solid ${colors.primary}`,
+  },
+  promptCard: {
+    padding: '1.25rem',
+    borderRadius: radius.xl,
+    background: colors.primarySoft,
+    border: `1px solid ${colors.border}`,
+  },
+  promptLabel: {
+    fontSize: type.sm,
+    color: colors.primary,
+    fontWeight: 600,
+    margin: '0 0 0.5rem',
+  },
+  promptText: {
+    fontSize: type.md,
+    fontWeight: 700,
+    lineHeight: 1.5,
+    color: colors.text,
+    margin: 0,
+  },
   choiceButton: {
     width: '100%',
-    padding: '0.8rem 1rem',
+    minHeight: '3.5rem',
+    padding: '0 1.125rem',
     background: colors.surface,
     color: colors.text,
     border: `1.5px solid ${colors.border}`,
-    borderRadius: radius.md,
-    fontSize: '0.95rem',
+    borderRadius: radius.lg,
+    fontSize: type.base,
     fontWeight: 600,
     cursor: 'pointer',
     textAlign: 'left' as const,
     fontFamily: 'inherit',
-    transition: 'border-color 0.15s, background 0.15s',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  },
+  choiceCorrect: {
+    width: '100%',
+    minHeight: '3.5rem',
+    padding: '0 1.125rem',
+    background: colors.greenBg,
+    color: colors.green,
+    border: `1.5px solid ${colors.greenBorder}`,
+    borderRadius: radius.lg,
+    fontSize: type.base,
+    fontWeight: 700,
+    cursor: 'default',
+    textAlign: 'left' as const,
+    fontFamily: 'inherit',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  },
+  choiceWrong: {
+    width: '100%',
+    minHeight: '3.5rem',
+    padding: '0 1.125rem',
+    background: colors.amberBg,
+    color: colors.amber,
+    border: `1.5px solid ${colors.amberBorder}`,
+    borderRadius: radius.lg,
+    fontSize: type.base,
+    fontWeight: 700,
+    cursor: 'default',
+    textAlign: 'left' as const,
+    fontFamily: 'inherit',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  },
+  choiceDisabled: {
+    width: '100%',
+    minHeight: '3.5rem',
+    padding: '0 1.125rem',
+    background: colors.surface,
+    color: colors.textSubtle,
+    border: `1.5px solid ${colors.border}`,
+    borderRadius: radius.lg,
+    fontSize: type.base,
+    fontWeight: 600,
+    cursor: 'default',
+    textAlign: 'left' as const,
+    fontFamily: 'inherit',
+    opacity: 0.6,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  },
+  textarea: {
+    width: '100%',
+    minHeight: '5.5rem',
+    padding: '0.875rem',
+    borderRadius: radius.md,
+    border: `1.5px solid ${colors.primary}`,
+    fontSize: type.base,
+    fontFamily: 'inherit',
+    resize: 'vertical' as const,
+    boxSizing: 'border-box' as const,
+    outline: 'none',
+    color: colors.text,
+    background: colors.surface,
+    colorScheme: 'light' as const,
+    lineHeight: 1.5,
+  },
+  actionRow: {
+    display: 'flex',
+    gap: '0.625rem',
+  },
+  primaryButton: {
+    minHeight: '3.5rem',
+    border: 'none',
+    borderRadius: radius.lg,
+    background: colors.primary,
+    color: '#fff',
+    fontSize: type.base,
+    fontWeight: 700,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    width: '100%',
+  },
+  softButton: {
+    minHeight: '3.25rem',
+    border: 'none',
+    borderRadius: radius.lg,
+    background: colors.primarySoft,
+    color: colors.primary,
+    fontSize: type.base,
+    fontWeight: 700,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+  },
+  mutedButton: {
+    minHeight: '3.25rem',
+    border: `1.5px solid ${colors.border}`,
+    borderRadius: radius.lg,
+    background: colors.surface,
+    color: colors.textMuted,
+    fontSize: type.base,
+    fontWeight: 600,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+  },
+  myAnswerBox: {
+    padding: '1rem',
+    borderRadius: radius.lg,
+    background: colors.surfaceSunken,
+    border: `1px solid ${colors.border}`,
+  },
+  myAnswerLabel: {
+    fontSize: type.xs,
+    color: colors.textSubtle,
+    fontWeight: 700,
+    margin: '0 0 0.4rem',
+  },
+  myAnswerText: {
+    fontSize: type.base,
+    lineHeight: 1.6,
+    color: colors.text,
+    margin: 0,
+  },
+  answerLabel: {
+    fontSize: type.xs,
+    fontWeight: 700,
+    margin: 0,
+  },
+  answerText: {
+    fontSize: type.base,
+    fontWeight: 600,
+    lineHeight: 1.6,
+    color: colors.text,
+    margin: '0.4rem 0 0',
+  },
+  bannerGreen: {
+    padding: '1rem',
+    borderRadius: radius.lg,
+    background: colors.greenBg,
+    border: `1px solid ${colors.greenBorder}`,
+  },
+  bannerAmber: {
+    padding: '1rem',
+    borderRadius: radius.lg,
+    background: colors.amberBg,
+    border: `1px solid ${colors.amberBorder}`,
+  },
+  bannerTitle: {
+    fontSize: type.md,
+    fontWeight: 700,
+    margin: '0 0 0.4rem',
+  },
+  bannerBody: {
+    fontSize: type.sm,
+    lineHeight: 1.6,
+    color: colors.textMuted,
+    margin: 0,
+  },
+  listenRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  listenText: {
+    fontSize: type.sm,
+    color: colors.textMuted,
+    fontStyle: 'italic' as const,
+    margin: 0,
+  },
+  hintToggle: {
+    background: 'none',
+    border: 'none',
+    color: colors.primary,
+    fontSize: type.sm,
+    cursor: 'pointer',
+    padding: '0.2rem 0',
+    textAlign: 'left' as const,
+    fontWeight: 600,
+    fontFamily: 'inherit',
+  },
+  hintBody: {
+    fontSize: type.sm,
+    color: colors.textMuted,
+    background: colors.surfaceSunken,
+    borderRadius: radius.md,
+    padding: '0.75rem 0.875rem',
+    margin: 0,
+    lineHeight: 1.6,
   },
 } as const
 
@@ -663,7 +923,7 @@ function DiffMode({
         <div style={localStyles.sourceBoxSmall}>
           <p style={localStyles.sourceLabel}>당시 내가 말했던 틀린 표현</p>
           {variants.map((v, i) => (
-            <p key={i} style={{...localStyles.sourceTextSmall, color: colors.red, textDecoration: 'line-through'}}>{v}</p>
+            <p key={i} style={{...localStyles.sourceTextSmall, color: colors.textSubtle, textDecoration: 'line-through'}}>{v}</p>
           ))}
         </div>
       )}
@@ -803,9 +1063,9 @@ function ClozeMode({
           </div>
         </>
       ) : (
-        <div style={clozeCorrect ? styles.resultBox : styles.errorBox}>
-          <p style={clozeCorrect ? styles.resultTitle : styles.errorTitle}>
-            {clozeCorrect ? '정확해요' : '다시 확인해보세요'}
+        <div style={clozeCorrect ? drillStyles.bannerGreen : drillStyles.bannerAmber}>
+          <p style={{ ...drillStyles.bannerTitle, color: clozeCorrect ? colors.green : colors.amber }}>
+            {clozeCorrect ? '정확해요' : '배울 기회예요'}
           </p>
           <div style={localStyles.answerRow}>
             <p style={localStyles.answerText}>정답: <strong>{item.clozeAnswer}</strong></p>
@@ -973,9 +1233,8 @@ const localStyles = {
     color: colors.text,
   },
   diffDel: {
-    color: colors.red,
+    color: colors.textSubtle,
     textDecoration: 'line-through' as const,
-    background: colors.redBg,
     borderRadius: '3px',
     padding: '0 2px',
   },
@@ -1044,8 +1303,8 @@ const localStyles = {
     display: 'inline-block',
     margin: '0 0.25rem',
     padding: '0 0.35rem',
-    background: colors.redBg,
-    color: colors.red,
+    background: colors.amberBg,
+    color: colors.amber,
     textDecoration: 'line-through' as const,
     borderRadius: '4px',
   },
@@ -1104,9 +1363,9 @@ const localStyles = {
   againButton: {
     flex: 1,
     padding: '0.875rem',
-    background: colors.redBg,
-    color: colors.red,
-    border: `1.5px solid ${colors.redBorder}`,
+    background: colors.amberBg,
+    color: colors.amber,
+    border: `1.5px solid ${colors.amberBorder}`,
     borderRadius: '0.75rem',
     fontSize: '0.95rem',
     fontWeight: 600,

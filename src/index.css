@@ -10,28 +10,31 @@
 /* ── 라이트 모드 토큰 ── */
 :root {
   --primary: #34538C;
-  --primary-hover: #26406E;
-  --primary-light: #EEF2F8;
+  --primary-strong: #28406B;   /* 버튼 눌림 상태 */
+  --primary-hover: var(--primary-strong);
+  --primary-light: #E7ECF5;    /* = primary-soft, 선택 상태 배경 */
+  --primary-soft: #E7ECF5;
   --primary-glow: rgba(52, 83, 140, 0.16);
 
   --bg: #F8FAFC;
   --surface: #ffffff;
   --surface-alt: #F1F5F9;
+  --surface-sunken: #EEF2F7;   /* 입력창/눌림 카드 배경 */
   --surface-hover: #E8EEF7;
 
   --text: #0F172A;
   --text-muted: #64748B;
   --text-subtle: #94A3B8;
 
-  --green: #166534;
-  --green-bg: #f0fdf4;
-  --green-border: #86efac;
-  --red: #991b1b;
-  --red-bg: #fef2f2;
-  --red-border: #fca5a5;
-  --amber: #C8843C;
-  --amber-bg: #F6EEE3;
-  --amber-border: #E4C09B;
+  --green: #15803D;
+  --green-bg: #EEFCF3;
+  --green-border: #BBF0D0;
+  --red: #B91C1C;              /* 파괴적 동작(삭제 등) 전용 — 오답 표시엔 amber 사용 */
+  --red-bg: #FDF0EF;
+  --red-border: #F3C6C2;
+  --amber: #B45309;            /* 오답("배울 기회") 시맨틱 컬러 */
+  --amber-bg: #FEF6E9;
+  --amber-border: #F6DFB2;
   --purple: #581c87;
   --purple-bg: #faf5ff;
   --purple-border: #d8b4fe;
@@ -40,7 +43,7 @@
   --border-strong: #CBD5E1;
   --divider: #E2E8F0;
 
-  --shadow-card: 0 8px 24px rgba(15,23,42,0.05), 0 0 0 1px rgba(15,23,42,0.04);
+  --shadow-card: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.06);
   --shadow-card-hover: 0 12px 32px rgba(15,23,42,0.08), 0 0 0 1px rgba(15,23,42,0.06);
 
   --radius-sm: 0.5rem;
@@ -49,6 +52,24 @@
   --radius-xl: 1rem;
   --radius-pill: 999px;
 
+  /* 타이포 스케일 — 본문 최소 17px (45+ 가독성) */
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 17px;
+  --text-md: 19px;
+  --text-lg: 22px;
+  --text-xl: 26px;
+  --text-display: 30px;
+
+  /* 간격 스케일 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
   /* 하단 탭 바 높이 (safe area 포함) */
   --tab-bar-height: 76px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -56,38 +77,41 @@
 
 /* ── 다크 모드 토큰 ── */
 [data-theme="dark"] {
-  --primary: #6ea8d8;
-  --primary-hover: #89bce2;
-  --primary-light: #1a2d3f;
-  --primary-glow: rgba(110, 168, 216, 0.2);
+  --primary: #7C97D1;
+  --primary-strong: #96AEDE;
+  --primary-hover: var(--primary-strong);
+  --primary-light: #1E2A42;
+  --primary-soft: #1E2A42;
+  --primary-glow: rgba(124, 151, 209, 0.2);
 
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface-alt: #1f2230;
-  --surface-hover: #252838;
+  --bg: #0B1220;
+  --surface: #131B2C;
+  --surface-alt: #1B2536;
+  --surface-sunken: #0F1728;
+  --surface-hover: #1B2536;
 
-  --text: #e8eaf0;
-  --text-muted: #9ca3af;
-  --text-subtle: #6b7280;
+  --text: #F1F5F9;
+  --text-muted: #93A1B7;
+  --text-subtle: #66748C;
 
-  --green: #4ade80;
-  --green-bg: #052e16;
-  --green-border: #166534;
-  --red: #f87171;
-  --red-bg: #2d0a0a;
-  --red-border: #7f1d1d;
-  --amber: #fbbf24;
-  --amber-bg: #1c1004;
-  --amber-border: #78350f;
+  --green: #4ADE80;
+  --green-bg: #12291D;
+  --green-border: #1F4430;
+  --red: #F2867E;
+  --red-bg: #2B1616;
+  --red-border: #4A2320;
+  --amber: #F4B860;
+  --amber-bg: #2C2210;
+  --amber-border: #4A3A1A;
   --purple: #c084fc;
   --purple-bg: #1a0a2e;
   --purple-border: #581c87;
 
-  --border: #2a2d3a;
-  --border-strong: #3d4155;
-  --divider: #242736;
+  --border: #232E44;
+  --border-strong: #35435F;
+  --divider: #232E44;
 
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-card: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
   --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
 }
 
@@ -167,3 +191,13 @@ body {
 .animate-fade-in  { animation: fadeIn  0.3s ease both; }
 .animate-slide-up { animation: slideUp 0.35s ease both; }
 .animate-pop-in   { animation: popIn   0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+/* 연습 화면 정답/오답 피드백 모션 */
+@keyframes fxPop   { 0% { transform: scale(1); } 40% { transform: scale(1.035); } 100% { transform: scale(1); } }
+@keyframes fxShake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-4px); } 40% { transform: translateX(4px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
+.fx-correct { animation: fxPop 0.32s ease-out; }
+.fx-wrong   { animation: fxShake 0.38s ease-out; }
+
+/* 복습 완료 화면 체크 링 모션 */
+@keyframes fxRingPop { 0% { transform: scale(.7); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+.fx-ring { animation: fxRingPop 0.5s cubic-bezier(.2,1.4,.4,1); }

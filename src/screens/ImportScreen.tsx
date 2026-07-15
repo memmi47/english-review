@@ -4,7 +4,7 @@ import type { IngestResult } from '../db'
 import type { ParsedReport } from '../db/parser'
 import { importDrillBank, totalDrillCount } from '../db/drills'
 import { TTS_VOICES, getTtsVoice, setTtsVoice } from '../shared/tts'
-import { styles, colors, radius } from '../shared/styles'
+import { styles, colors, radius, type } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
 
 type Status =
@@ -332,16 +332,16 @@ const localStyles = {
   textarea: {
     width: '100%',
     minHeight: '220px',
-    padding: '0.75rem',
-    borderRadius: '0.75rem',
+    padding: '0.875rem',
+    borderRadius: radius.md,
     border: '1.5px solid var(--border)',
-    fontSize: '0.875rem',
-    fontFamily: 'monospace',
+    fontSize: type.sm,
+    fontFamily: 'ui-monospace, monospace',
     resize: 'vertical' as const,
     boxSizing: 'border-box' as const,
     outline: 'none',
     color: 'var(--text)',
-    background: 'var(--surface)',
+    background: 'var(--surface-sunken)',
     colorScheme: 'light' as const,
     lineHeight: 1.5,
   },
@@ -403,45 +403,40 @@ function SessionHighlight({
   return (
     <div style={{
       marginTop: '1rem',
-      background: colors.surface,
+      background: colors.greenBg,
       border: `1px solid ${colors.greenBorder}`,
-      borderRadius: radius.lg,
-      padding: '1rem 1.25rem',
-      boxShadow: 'var(--shadow-card)',
+      borderRadius: radius.xl,
+      padding: '1.25rem',
     }}>
       {/* 헤더 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
-        <div>
-          <p style={{ fontSize: '0.9rem', fontWeight: 700, color: colors.text, margin: 0 }}>리포트 저장 완료</p>
-          {(date || topic) && (
-            <p style={{ fontSize: '0.72rem', color: colors.textSubtle, margin: '1px 0 0' }}>
-              {date}{topic ? ` · ${topic}` : ''}
-            </p>
-          )}
-        </div>
+      <div style={{ marginBottom: '0.875rem' }}>
+        <p style={{ fontSize: type.md, fontWeight: 700, color: colors.green, margin: 0 }}>리포트 저장 완료</p>
+        {(date || topic) && (
+          <p style={{ fontSize: type.sm, color: colors.textMuted, margin: '4px 0 0', lineHeight: 1.5 }}>
+            {date}{topic ? ` · ${topic}` : ''}
+          </p>
+        )}
       </div>
 
       {/* 새로 추가된 항목 요약 */}
-      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.875rem' }}>
-        {result.added.corrections > 0 && <Chip label={`교정 ${result.added.corrections}`} color="red" />}
-        {result.added.phrases > 0 && <Chip label={`Phrase +${result.added.phrases}`} color="blue" />}
-        {result.added.vocab > 0 && <Chip label={`어휘 +${result.added.vocab}`} color="green" />}
-        {result.added.rewrites > 0 && <Chip label={`Rewrite ${result.added.rewrites}`} color="purple" />}
-        {result.missionsClosed > 0 && <Chip label={`미션 ${result.missionsClosed}개 완료`} color="green" />}
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+        {result.added.corrections > 0 && <Chip label={`교정 ${result.added.corrections}`} color="amber" />}
+        {result.added.phrases > 0 && <Chip label={`Phrase +${result.added.phrases}`} color="neutral" />}
+        {result.added.vocab > 0 && <Chip label={`어휘 +${result.added.vocab}`} color="neutral" />}
+        {result.added.rewrites > 0 && <Chip label={`Rewrite ${result.added.rewrites}`} color="neutral" />}
+        {result.missionsClosed > 0 && <Chip label={`미션 ${result.missionsClosed}개 완료`} color="neutral" />}
       </div>
 
       {/* 하이라이트: 첫 번째 교정 */}
       {firstCorrection && (
         <div style={{
-          background: colors.surfaceAlt,
-          border: `1px solid ${colors.border}`,
+          background: colors.surface,
           borderRadius: radius.md,
-          padding: '0.7rem 0.875rem',
-          marginBottom: '0.5rem',
+          padding: '0.875rem 1rem',
         }}>
-          <p style={{ fontSize: '0.65rem', fontWeight: 700, color: colors.textSubtle, margin: '0 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>이번 세션 핵심 교정</p>
-          <p style={{ fontSize: '0.8rem', color: colors.red, margin: '0 0 2px', textDecoration: 'line-through' }}>"{firstCorrection.original}"</p>
-          <p style={{ fontSize: '0.85rem', fontWeight: 600, color: colors.green, margin: 0 }}>→ "{firstCorrection.corrected}"</p>
+          <p style={{ fontSize: type.xs, fontWeight: 700, color: colors.textSubtle, margin: '0 0 0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>이번 세션 핵심 교정</p>
+          <p style={{ fontSize: type.sm, color: colors.textSubtle, margin: '0 0 2px', textDecoration: 'line-through', lineHeight: 1.6 }}>"{firstCorrection.original}"</p>
+          <p style={{ fontSize: type.sm, fontWeight: 600, color: colors.green, margin: 0, lineHeight: 1.6 }}>→ "{firstCorrection.corrected}"</p>
         </div>
       )}
 
@@ -493,19 +488,17 @@ function SessionHighlight({
   )
 }
 
-function Chip({ label, color }: { label: string; color: 'red' | 'blue' | 'green' | 'purple' }) {
+function Chip({ label, color }: { label: string; color: 'amber' | 'neutral' }) {
   const map = {
-    red:    { bg: colors.redBg, border: colors.redBorder, text: colors.red },
-    blue:   { bg: colors.primaryLight, border: 'var(--primary)', text: colors.primary },
-    green:  { bg: colors.greenBg, border: colors.greenBorder, text: colors.green },
-    purple: { bg: colors.purpleBg, border: colors.purpleBorder, text: colors.purple },
+    amber:   { bg: colors.amberBg, border: colors.amberBorder, text: colors.amber },
+    neutral: { bg: colors.surface, border: colors.border, text: colors.textMuted },
   }
   const c = map[color]
   return (
     <span style={{
-      fontSize: '0.7rem', fontWeight: 600,
+      fontSize: type.xs, fontWeight: 700,
       background: c.bg, border: `1px solid ${c.border}`, color: c.text,
-      borderRadius: radius.pill, padding: '0.2rem 0.55rem',
+      borderRadius: radius.pill, padding: '0.3rem 0.7rem',
     }}>
       {label}
     </span>

@@ -4,13 +4,16 @@
 
 export const colors = {
   // CSS 변수 참조값 (JS inline style에서 사용)
-  primary:      'var(--primary)',
-  primaryHover: 'var(--primary-hover)',
-  primaryLight: 'var(--primary-light)',
+  primary:       'var(--primary)',
+  primaryHover:  'var(--primary-hover)',
+  primaryStrong: 'var(--primary-strong)',
+  primaryLight:  'var(--primary-light)',
+  primarySoft:   'var(--primary-soft)',
 
-  bg:          'var(--bg)',
-  surface:     'var(--surface)',
-  surfaceAlt:  'var(--surface-alt)',
+  bg:            'var(--bg)',
+  surface:       'var(--surface)',
+  surfaceAlt:    'var(--surface-alt)',
+  surfaceSunken: 'var(--surface-sunken)',
 
   text:        'var(--text)',
   textMuted:   'var(--text-muted)',
@@ -45,6 +48,27 @@ export const radius = {
 export const shadow = {
   card:      'var(--shadow-card)',
   cardHover: 'var(--shadow-card-hover)',
+}
+
+// 타이포 스케일 — 본문 최소 17px, 문제/타이틀은 md~display
+export const type = {
+  xs:      'var(--text-xs)',
+  sm:      'var(--text-sm)',
+  base:    'var(--text-base)',
+  md:      'var(--text-md)',
+  lg:      'var(--text-lg)',
+  xl:      'var(--text-xl)',
+  display: 'var(--text-display)',
+}
+
+export const space = {
+  s1: 'var(--space-1)',
+  s2: 'var(--space-2)',
+  s3: 'var(--space-3)',
+  s4: 'var(--space-4)',
+  s5: 'var(--space-5)',
+  s6: 'var(--space-6)',
+  s7: 'var(--space-7)',
 }
 
 // ── 공통 컴포넌트 스타일 ──
