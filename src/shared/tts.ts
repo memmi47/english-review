@@ -16,7 +16,9 @@ import Dexie, { type Table } from 'dexie';
 const KEY_API = 'tts_openrouter_key';
 const KEY_VOICE = 'tts_voice';
 
-export const TTS_MODEL = 'openai/gpt-4o-mini-tts';
+// OpenRouter는 날짜가 붙은 정확한 모델 슬러그를 요구한다 ('openai/gpt-4o-mini-tts'
+// 같은 짧은 별칭은 "model not found" 오류로 항상 실패함).
+export const TTS_MODEL = 'openai/gpt-4o-mini-tts-2025-12-15';
 
 // gpt-4o-mini-tts 지원 음성 중 학습용으로 추천할 만한 것들
 export const TTS_VOICES: { id: string; label: string }[] = [
