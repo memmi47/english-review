@@ -1,10 +1,17 @@
 // tts.ts — 발음 듣기 (2단 구조)
 //
-//   1) OpenRouter 신경망 TTS (설정에서 API 키 입력 시)
-//      - 모델: openai/gpt-audio 등 (TTS_MODEL_CANDIDATES 참고) — 사람 수준의 자연스러운 음성
+//   1) Google Gemini TTS (설정에서 API 키 입력 시)
+//      - 모델: gemini-2.5-flash-preview-tts — 사람 수준의 자연스러운 음성
+//      - OpenRouter 경유(openai/gpt-4o-mini-tts, gpt-audio 등)를 여러 차례
+//        시도했으나 이 계정에서 전부 "model does not exist"/"not available"로
+//        막혀 있어(계정 자체의 모델 목록에서 찾은 것도 실패), Gemini API를
+//        직접 호출하는 방식으로 전환했다.
+//      - Gemini는 원시 PCM(16bit/24kHz) 오디오를 base64로 반환하므로, 받은
+//        직후 WAV 헤더를 붙여 캐시·재생 파이프라인(Web Audio decodeAudioData)을
+//        그대로 재사용한다.
 //      - 같은 문장은 IndexedDB에 캐싱해 재생성 비용 없이 오프라인 재생
 //      - iOS 오디오 정책 대응: 버튼 탭(제스처) 시점에 AudioContext를 먼저
-//        resume하고, mp3는 Web Audio로 디코딩해 재생한다.
+//        resume하고, Web Audio로 디코딩해 재생한다.
 //   2) 브라우저 SpeechSynthesis 폴백 (키 없음/네트워크 오류 시)
 //      - iOS Safari는 웹에 저품질 기본 음성만 노출하는 한계가 있음
 //        (다운로드한 Enhanced/Premium 음성은 웹에서 보이지 않는 알려진 제약)
@@ -13,39 +20,27 @@ import Dexie, { type Table } from 'dexie';
 
 // ── 설정 (localStorage) ───────────────────────────────
 
-const KEY_API = 'tts_openrouter_key';
+const KEY_API = 'tts_gemini_key';
 const KEY_VOICE = 'tts_voice';
 
-// 어떤 모델이 "왜" 막혀 있는지 계속 알아내려 하기보다, 실제로 되는 모델을
-// 여러 제조사에 걸쳐 넉넉히 후보로 두고 되는 것을 자동으로 찾아 쓰는 쪽이
-// 더 튼튼하다. openai/gpt-4o-mini-tts(-날짜)는 이 계정에서 OpenRouter 모델
-// 페이지 기준 "not available"로 확인되어 목록에서 뺐다. 후보를 순서대로
-// 시도해서 실제로 성공하는 슬러그를 그때그때 찾아 쓴다(fetchNeuralAudio 참고).
-// voice 파라미터는 제조사마다 이름 체계가 달라서(google/xai/오픈웨이트 등),
-// openai 계열이 아닌 후보는 voice를 생략해 제조사 기본 음성으로 시도한다.
-const TTS_MODEL_CANDIDATES = [
-  'openai/gpt-audio',
-  'google/gemini-3.1-flash-tts-preview',
-  'x-ai/grok-voice-tts-1.0',
-  'hexgrad/kokoro-82m',
-] as const;
-let resolvedTtsModel: string | null = null;
+const GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts';
 
-// gpt-4o-mini-tts 지원 음성 중 학습용으로 추천할 만한 것들
+// Gemini TTS의 프리빌트 음성 중 학습용으로 추천할 만한 것들
+// (전체 목록: ai.google.dev/gemini-api/docs/speech-generation)
 export const TTS_VOICES: { id: string; label: string }[] = [
-  { id: 'nova',    label: 'Nova — 밝고 또렷한 여성 (기본)' },
-  { id: 'shimmer', label: 'Shimmer — 차분한 여성' },
-  { id: 'coral',   label: 'Coral — 따뜻한 여성' },
-  { id: 'sage',    label: 'Sage — 부드러운 여성' },
-  { id: 'alloy',   label: 'Alloy — 중성적인 톤' },
-  { id: 'echo',    label: 'Echo — 남성' },
-  { id: 'onyx',    label: 'Onyx — 저음 남성' },
-  { id: 'fable',   label: 'Fable — 영국식 억양' },
+  { id: 'Kore',    label: 'Kore — 밝고 또렷한 여성 (기본)' },
+  { id: 'Leda',    label: 'Leda — 차분한 여성' },
+  { id: 'Aoede',   label: 'Aoede — 따뜻한 여성' },
+  { id: 'Autonoe', label: 'Autonoe — 부드러운 여성' },
+  { id: 'Zephyr',  label: 'Zephyr — 중성적인 톤' },
+  { id: 'Puck',    label: 'Puck — 남성' },
+  { id: 'Charon',  label: 'Charon — 저음 남성' },
+  { id: 'Orus',    label: 'Orus — 또렷한 남성' },
 ];
 
 // 빌드 시 Vercel 환경변수로 내장된 키 (소스 코드/GitHub에는 올라가지 않음)
 const BUILTIN_KEY: string =
-  (import.meta.env.VITE_OPENROUTER_API_KEY as string | undefined) ?? '';
+  (import.meta.env.VITE_GEMINI_API_KEY as string | undefined) ?? '';
 
 export function hasBuiltinKey(): boolean {
   return BUILTIN_KEY.length > 0;
@@ -67,7 +62,7 @@ export function setTtsApiKey(key: string): void {
   } catch { /* noop */ }
 }
 export function getTtsVoice(): string {
-  try { return localStorage.getItem(KEY_VOICE) ?? 'nova' } catch { return 'nova' }
+  try { return localStorage.getItem(KEY_VOICE) ?? 'Kore' } catch { return 'Kore' }
 }
 export function setTtsVoice(voice: string): void {
   try { localStorage.setItem(KEY_VOICE, voice) } catch { /* noop */ }
@@ -79,8 +74,8 @@ export function neuralTtsEnabled(): boolean {
 // ── 오디오 캐시 (IndexedDB) ───────────────────────────
 
 interface TtsClip {
-  key: string;        // `${model}|${voice}|${text}`
-  audio: ArrayBuffer; // mp3 바이트
+  key: string;        // `tts|${voice}|${text}`
+  audio: ArrayBuffer; // WAV 바이트 (Gemini의 원시 PCM에 헤더를 붙인 것)
   bytes: number;
   created_at: string;
 }
@@ -141,9 +136,9 @@ function stopCurrentAudio(): void {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
-async function playMp3(ctx: AudioContext, mp3: ArrayBuffer): Promise<void> {
+async function playAudio(ctx: AudioContext, audio: ArrayBuffer): Promise<void> {
   // decodeAudioData는 버퍼를 소유하므로 캐시 원본 보호를 위해 복사본 사용
-  const buf = await ctx.decodeAudioData(mp3.slice(0));
+  const buf = await ctx.decodeAudioData(audio.slice(0));
   stopCurrentAudio();
   const source = ctx.createBufferSource();
   source.buffer = buf;
@@ -153,107 +148,81 @@ async function playMp3(ctx: AudioContext, mp3: ArrayBuffer): Promise<void> {
   source.onended = () => { if (currentSource === source) currentSource = null };
 }
 
-// ── OpenRouter 신경망 TTS ─────────────────────────────
+// ── Google Gemini TTS ─────────────────────────────────
 
-// 고정 후보가 전부 "존재하지 않는 모델"로 실패하면, OpenRouter의 실제 모델
-// 목록(/api/v1/models, GET)에서 그 계정이 지금 실제로 쓸 수 있는 음성 모델
-// id를 찾아본다. TTS_MODEL_CANDIDATES를 문서 기준으로 하드코딩해봐야 다음에
-// 또 만료되면 같은 문제가 반복되므로, 최후의 수단으로 계정에 실제로 열려
-// 있는 모델을 계정 스스로 확인하게 한다.
-interface TtsModelDiscovery {
-  ttsIds: string[];
-  totalModels: number; // 키 자체가 유효한지 확인용 — 0이면 목록 조회 자체가 안 된 것
-  fetchError: string | null; // 목록 조회 자체가 실패한 이유 (키 오류인지 tts 모델만 없는건지 구분)
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
 }
 
-async function discoverTtsModelIds(apiKey: string): Promise<TtsModelDiscovery> {
-  try {
-    const res = await fetch('https://openrouter.ai/api/v1/models', {
-      headers: { 'Authorization': `Bearer ${apiKey}` },
-    });
-    if (!res.ok) {
-      const body = await res.text().catch(() => '');
-      return { ttsIds: [], totalModels: 0, fetchError: `모델 목록 조회 ${res.status}: ${body.slice(0, 150)}` };
-    }
-    const data = await res.json();
-    const models: unknown[] = Array.isArray(data?.data) ? data.data : [];
-    const ttsIds = models
-      .map(m => (m as { id?: unknown })?.id)
-      .filter((id): id is string => typeof id === 'string' && /tts|speech|audio/i.test(id));
-    return { ttsIds, totalModels: models.length, fetchError: null };
-  } catch (err) {
-    return { ttsIds: [], totalModels: 0, fetchError: err instanceof Error ? err.message : String(err) };
-  }
+// Gemini는 컨테이너 없는 원시 PCM(기본 16bit/24kHz/mono)을 base64로 반환한다.
+// decodeAudioData는 mp3/wav 같은 컨테이너 포맷만 이해하므로, 캐시·재생
+// 파이프라인을 그대로 재사용하기 위해 받은 즉시 WAV 헤더(44바이트)를 붙인다.
+function pcm16ToWav(pcm: ArrayBuffer, sampleRate: number, numChannels = 1): ArrayBuffer {
+  const bytesPerSample = 2;
+  const blockAlign = numChannels * bytesPerSample;
+  const byteRate = sampleRate * blockAlign;
+  const dataSize = pcm.byteLength;
+  const buffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buffer);
+
+  const writeString = (offset: number, s: string) => {
+    for (let i = 0; i < s.length; i++) view.setUint8(offset + i, s.charCodeAt(i));
+  };
+
+  writeString(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeString(8, 'WAVE');
+  writeString(12, 'fmt ');
+  view.setUint32(16, 16, true);       // fmt 청크 크기
+  view.setUint16(20, 1, true);        // PCM 포맷
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, 16, true);       // bits per sample
+  writeString(36, 'data');
+  view.setUint32(40, dataSize, true);
+  new Uint8Array(buffer, 44).set(new Uint8Array(pcm));
+  return buffer;
 }
 
-// openai 계열이 아닌 후보는 voice를 생략한다(제조사마다 음성 이름 체계가
-// 달라 잘못된 값을 보내면 그 자체로 실패 원인이 되어버리므로).
-function voiceFor(model: string, selectedVoice: string): string | undefined {
-  return model.startsWith('openai/') ? selectedVoice : undefined;
-}
-
-async function tryModel(model: string, text: string, voice: string | undefined, apiKey: string): Promise<Response> {
-  const body: Record<string, unknown> = { model, input: text, response_format: 'mp3' };
-  if (voice) body.voice = voice;
-  return fetch('https://openrouter.ai/api/v1/audio/speech', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-}
-
-// 401/403/429는 모델이 아니라 키/계정 단위 문제라 다른 모델을 더 시도해도
-// 소용없다. 그 외(400 등)는 모델마다 사유가 다를 수 있으니 다음 후보로 넘어간다.
-function isAccountLevelError(status: number): boolean {
-  return status === 401 || status === 403 || status === 429;
+// mimeType 예: "audio/L16;codec=pcm;rate=24000" — rate 파라미터를 읽어온다.
+function sampleRateFromMimeType(mimeType: string): number {
+  const m = mimeType.match(/rate=(\d+)/);
+  return m ? parseInt(m[1], 10) : 24000;
 }
 
 async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Promise<ArrayBuffer> {
-  const candidates = resolvedTtsModel ? [resolvedTtsModel] : [...TTS_MODEL_CANDIDATES];
-  let lastError: Error = new Error('TTS 모델 후보가 없습니다.');
-  let accountError = false;
-
-  for (const model of candidates) {
-    const res = await tryModel(model, text, voiceFor(model, voice), apiKey);
-    if (res.ok) {
-      resolvedTtsModel = model;
-      return res.arrayBuffer();
-    }
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_TTS_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text }] }],
+        generationConfig: {
+          responseModalities: ['AUDIO'],
+          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } },
+        },
+      }),
+    },
+  );
+  if (!res.ok) {
     const body = await res.text().catch(() => '');
-    lastError = new Error(`TTS API ${res.status} (모델: ${model}): ${body.slice(0, 200)}`);
-    if (isAccountLevelError(res.status)) { accountError = true; break; }
+    throw new Error(`Gemini TTS API ${res.status}: ${body.slice(0, 200)}`);
   }
-
-  // 고정 후보가 전부 실패했고 키/계정 문제가 아니라면, 계정의 실제 모델
-  // 목록에서 미처 후보에 없던 음성 모델을 찾아 추가로 시도한다.
-  if (!accountError && !resolvedTtsModel) {
-    const { ttsIds, totalModels, fetchError } = await discoverTtsModelIds(apiKey);
-    const discovered = ttsIds.filter(id => !(candidates as string[]).includes(id));
-    for (const model of discovered) {
-      const res = await tryModel(model, text, voiceFor(model, voice), apiKey);
-      if (res.ok) {
-        resolvedTtsModel = model;
-        return res.arrayBuffer();
-      }
-      const body = await res.text().catch(() => '');
-      lastError = new Error(`TTS API ${res.status} (모델: ${model}, 계정 목록에서 발견): ${body.slice(0, 200)}`);
-    }
-    if (discovered.length === 0) {
-      // totalModels로 API 키 자체가 유효한지(모델 목록 조회 성공 여부)와
-      // "키는 되는데 TTS 모델만 없는지"를 구분한다.
-      const diag = fetchError
-        ? `모델 목록 조회 실패(키 오류 가능성): ${fetchError}`
-        : totalModels === 0
-          ? '모델 목록이 비어 있음(키가 유효하지 않을 가능성)'
-          : `계정에 사용 가능한 모델 ${totalModels}개 확인됐지만 그중 음성 모델은 없음`;
-      lastError = new Error(`${lastError.message} | ${diag}`);
-    }
+  const data = await res.json();
+  const part = data?.candidates?.[0]?.content?.parts?.[0];
+  const b64: unknown = part?.inlineData?.data;
+  const mimeType: string = part?.inlineData?.mimeType ?? '';
+  if (typeof b64 !== 'string' || !b64) {
+    throw new Error('Gemini TTS 응답에 오디오 데이터가 없습니다.');
   }
-
-  throw lastError;
+  const pcm = base64ToArrayBuffer(b64);
+  return pcm16ToWav(pcm, sampleRateFromMimeType(mimeType));
 }
 
 async function speakNeural(text: string, ctx: AudioContext): Promise<void> {
@@ -263,7 +232,7 @@ async function speakNeural(text: string, ctx: AudioContext): Promise<void> {
 
   const cached = await cacheDB.clips.get(key);
   if (cached) {
-    await playMp3(ctx, cached.audio);
+    await playAudio(ctx, cached.audio);
     return;
   }
 
@@ -271,7 +240,7 @@ async function speakNeural(text: string, ctx: AudioContext): Promise<void> {
   await cacheDB.clips.put({
     key, audio, bytes: audio.byteLength, created_at: new Date().toISOString(),
   }).catch(() => { /* 캐시 실패해도 재생은 진행 */ });
-  await playMp3(ctx, audio);
+  await playAudio(ctx, audio);
 }
 
 // ── 브라우저 SpeechSynthesis 폴백 ─────────────────────
@@ -392,7 +361,7 @@ export function speakEnglish(text: string): void {
         // 캐시 재생: AudioContext는 이미 unlock되어 있어 비동기여도 안전
         cacheDB.clips.get(key).then(cached => {
           if (cached) {
-            playMp3(ctx, cached.audio).catch(() => speakWithBrowser(trimmed));
+            playAudio(ctx, cached.audio).catch(() => speakWithBrowser(trimmed));
           } else {
             // 메모리 인덱스와 실제 DB가 어긋난 경우(캐시 삭제 등) 폴백
             cachedKeys.delete(key);

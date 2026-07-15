@@ -26,9 +26,9 @@
 
 ## TTS (발음 듣기)
 
-- `src/shared/tts.ts` — OpenRouter `/api/v1/audio/speech` 연동. 현재 쓰는 모델은 `openai/gpt-audio`(`openai/gpt-4o-mini-tts`류는 이 계정에서 OpenRouter 모델 페이지 기준 "not available"로 확인되어 접근 불가). OpenRouter 모델 가용성이 계정/시점에 따라 또 바뀔 수 있어서, `TTS_MODEL_CANDIDATES` 후보를 순서대로 시도하고 그래도 다 실패하면 계정의 실제 모델 목록(`/api/v1/models`)에서 음성 모델을 찾아 재시도한다 — 성공한 슬러그는 그 세션 동안 기억해 쓴다. 문장별 오디오는 IndexedDB에 캐싱되어 재과금 없음
-- API 키 우선순위: 설정 화면에서 직접 입력한 키(`localStorage`) > 빌드 시 주입된 키(`VITE_OPENROUTER_API_KEY` 환경변수)
-- 저장소가 공개이므로 **키를 소스 코드에 절대 하드코딩하지 않음**. 내장하려면 Vercel 대시보드 → Settings → Environment Variables에 `VITE_OPENROUTER_API_KEY`를 등록하고 재배포
+- `src/shared/tts.ts` — Google Gemini TTS(`gemini-2.5-flash-preview-tts`, `generateContent` API) 직접 연동. OpenRouter 경유(`openai/gpt-4o-mini-tts`, `openai/gpt-audio` 등)를 여러 차례 시도했으나 이 계정에서 전부 "model does not exist"/"not available"로 막혀 있어(계정 자체 모델 목록에서 찾은 것도 실패) Gemini API로 전환했다. Gemini는 원시 PCM(16bit/24kHz)을 base64로 반환하므로 받은 즉시 WAV 헤더를 붙여(`pcm16ToWav`) 기존 캐시·재생 파이프라인을 그대로 씀. 문장별 오디오는 IndexedDB에 캐싱되어 재과금 없음
+- API 키 우선순위: 설정 화면에서 직접 입력한 키(`localStorage`) > 빌드 시 주입된 키(`VITE_GEMINI_API_KEY` 환경변수). [Google AI Studio](https://aistudio.google.com/apikey)에서 발급
+- 저장소가 공개이므로 **키를 소스 코드에 절대 하드코딩하지 않음**. 내장하려면 Vercel 대시보드 → Settings → Environment Variables에 `VITE_GEMINI_API_KEY`를 등록하고 재배포
 - 키가 없거나 요청 실패 시 브라우저 기본 `SpeechSynthesis`로 자동 폴백
 - 현재 UI(`ImportScreen.tsx`의 `TtsSettingsCard`)는 목소리 선택만 노출 — 내장 키가 항상 있다는 전제이므로 API 키 입력/테스트/캐시 관리 UI는 의도적으로 뺐음. 다시 필요해지면 `tts.ts`에 `testNeuralTts`/`ttsCacheStats`/`clearTtsCache`/`getManualTtsApiKey` 함수가 이미 있으니 재사용
 
