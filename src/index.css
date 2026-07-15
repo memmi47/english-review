@@ -1,11 +1,40 @@
 /* ============================================================
    English Review — Global CSS
-   - Google Fonts: Inter
+   - 폰트: SUIT (한글+영문 통합, 자체 호스팅 — /public/fonts, OFL 라이선스)
    - Dark mode via [data-theme="dark"] attribute on <html>
    - Bottom tab bar layout base
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SUIT-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SUIT-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SUIT-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SUIT-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/SUIT-ExtraBold.woff2') format('woff2');
+}
 
 /* ── 라이트 모드 토큰 ── */
 :root {
@@ -123,7 +152,7 @@
 }
 
 html {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'SUIT', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color-scheme: light;

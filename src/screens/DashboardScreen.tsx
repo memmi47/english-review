@@ -394,16 +394,16 @@ function MasteryChart({ boxes, total }: { boxes: MasteryDist[]; total: number })
               />
               {b.total > 0 && (
                 <text x={x + 20} y={y - 4} textAnchor="middle"
-                  fontSize={9} fill="var(--text-muted)" fontFamily="Inter, sans-serif">
+                  fontSize={9} fill="var(--text-muted)" fontFamily="SUIT, sans-serif">
                   {pct}%
                 </text>
               )}
               <text x={x + 20} y={98} textAnchor="middle"
-                fontSize={8} fill="var(--text-subtle)" fontFamily="Inter, sans-serif">
+                fontSize={8} fill="var(--text-subtle)" fontFamily="SUIT, sans-serif">
                 {b.total}개
               </text>
               <text x={x + 20} y={110} textAnchor="middle"
-                fontSize={7.5} fill="var(--text-subtle)" fontFamily="Inter, sans-serif">
+                fontSize={7.5} fill="var(--text-subtle)" fontFamily="SUIT, sans-serif">
                 {['Box 1', 'Box 2', 'Box 3', 'Box 4', 'Box 5'][i]}
               </text>
             </g>
@@ -474,7 +474,7 @@ function TrendChart({ points }: { points: SessionTrendPoint[] }) {
         {/* Y축 라벨 */}
         {[0, Math.round(maxCorr / 2), maxCorr].map((v, i) => (
           <text key={i} x={padL - 3} y={padT + innerH - (v / maxCorr) * innerH + 3}
-            textAnchor="end" fontSize={7.5} fill="var(--text-subtle)" fontFamily="Inter, sans-serif">
+            textAnchor="end" fontSize={7.5} fill="var(--text-subtle)" fontFamily="SUIT, sans-serif">
             {v}
           </text>
         ))}
@@ -490,7 +490,7 @@ function TrendChart({ points }: { points: SessionTrendPoint[] }) {
             {/* X축 날짜 라벨 (첫, 중간, 마지막만) */}
             {(i === 0 || i === n - 1 || i === Math.floor(n / 2)) && (
               <text x={cx(i)} y={H - 2} textAnchor="middle"
-                fontSize={7} fill="var(--text-subtle)" fontFamily="Inter, sans-serif">
+                fontSize={7} fill="var(--text-subtle)" fontFamily="SUIT, sans-serif">
                 {p.date.slice(5)}
               </text>
             )}
