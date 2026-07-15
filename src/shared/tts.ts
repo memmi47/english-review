@@ -151,34 +151,81 @@ async function playMp3(ctx: AudioContext, mp3: ArrayBuffer): Promise<void> {
 
 // ── OpenRouter 신경망 TTS ─────────────────────────────
 
+// 고정 후보가 전부 "존재하지 않는 모델"로 실패하면, OpenRouter의 실제 모델
+// 목록(/api/v1/models, GET)에서 그 계정이 지금 실제로 쓸 수 있는 음성 모델
+// id를 찾아본다. TTS_MODEL_CANDIDATES를 문서 기준으로 하드코딩해봐야 다음에
+// 또 만료되면 같은 문제가 반복되므로, 최후의 수단으로 계정에 실제로 열려
+// 있는 모델을 계정 스스로 확인하게 한다.
+async function discoverTtsModelIds(apiKey: string): Promise<string[]> {
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/models', {
+      headers: { 'Authorization': `Bearer ${apiKey}` },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    const models: unknown[] = Array.isArray(data?.data) ? data.data : [];
+    return models
+      .map(m => (m as { id?: unknown })?.id)
+      .filter((id): id is string => typeof id === 'string' && /tts|speech/i.test(id));
+  } catch {
+    return [];
+  }
+}
+
+async function tryModel(model: string, text: string, voice: string, apiKey: string): Promise<Response> {
+  return fetch('https://openrouter.ai/api/v1/audio/speech', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      input: text,
+      voice,
+      response_format: 'mp3',
+    }),
+  });
+}
+
+function isModelMissing(status: number, body: string): boolean {
+  return status === 400 && /does not exist|not found/i.test(body);
+}
+
 async function fetchNeuralAudio(text: string, voice: string, apiKey: string): Promise<ArrayBuffer> {
-  const candidates = resolvedTtsModel ? [resolvedTtsModel] : TTS_MODEL_CANDIDATES;
+  const candidates = resolvedTtsModel ? [resolvedTtsModel] : [...TTS_MODEL_CANDIDATES];
   let lastError: Error = new Error('TTS 모델 후보가 없습니다.');
+  let allMissing = true;
 
   for (const model of candidates) {
-    const res = await fetch('https://openrouter.ai/api/v1/audio/speech', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        input: text,
-        voice,
-        response_format: 'mp3',
-      }),
-    });
+    const res = await tryModel(model, text, voice, apiKey);
     if (res.ok) {
       resolvedTtsModel = model;
       return res.arrayBuffer();
     }
     const body = await res.text().catch(() => '');
-    lastError = new Error(`TTS API ${res.status}: ${body.slice(0, 200)}`);
-    // "모델이 존재하지 않음" 류의 오류가 아니면(예: 키 오류, 네트워크 문제)
-    // 다른 후보를 더 시도해봐야 소용없으므로 바로 중단한다.
-    if (res.status !== 400 || !/does not exist|not found/i.test(body)) break;
+    lastError = new Error(`TTS API ${res.status} (모델: ${model}): ${body.slice(0, 200)}`);
+    if (!isModelMissing(res.status, body)) { allMissing = false; break; }
   }
+
+  // 고정 후보가 전부 "모델 없음"으로 실패한 경우에만 실제 계정의 모델
+  // 목록에서 후보를 찾아 재시도 (키 오류/네트워크 오류 등은 재시도해봐야 소용없음)
+  if (allMissing && !resolvedTtsModel) {
+    const discovered = (await discoverTtsModelIds(apiKey)).filter(id => !(candidates as string[]).includes(id));
+    for (const model of discovered) {
+      const res = await tryModel(model, text, voice, apiKey);
+      if (res.ok) {
+        resolvedTtsModel = model;
+        return res.arrayBuffer();
+      }
+      const body = await res.text().catch(() => '');
+      lastError = new Error(`TTS API ${res.status} (모델: ${model}, 계정 목록에서 발견): ${body.slice(0, 200)}`);
+    }
+    if (discovered.length === 0) {
+      lastError = new Error(`${lastError.message} | 계정에서 사용 가능한 음성 모델을 찾지 못했습니다.`);
+    }
+  }
+
   throw lastError;
 }
 
