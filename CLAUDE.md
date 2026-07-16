@@ -16,7 +16,6 @@
 | `EnglishReviewDB` | 세션/phrase/vocab/correction/rewrite 등 원본 데이터 | schema.ts (검증됨) |
 | `EnglishReviewStudyMarksDB` | 원본 correction/rewrite의 SRS 진행 상태 | study.ts |
 | `EnglishReviewDrillsDB` | 정제된 문제은행 + SRS 진행 상태 | drills.ts |
-| `EnglishReviewTtsCacheDB` | 신경망 TTS 오디오 캐시 | tts.ts |
 
 ## 문제은행(Drill Bank) 시스템
 
@@ -26,11 +25,8 @@
 
 ## TTS (발음 듣기)
 
-- `src/shared/tts.ts` — Google Gemini TTS(`gemini-2.5-flash-preview-tts`, `generateContent` API) 직접 연동. OpenRouter 경유(`openai/gpt-4o-mini-tts`, `openai/gpt-audio` 등)를 여러 차례 시도했으나 이 계정에서 전부 "model does not exist"/"not available"로 막혀 있어(계정 자체 모델 목록에서 찾은 것도 실패) Gemini API로 전환했다. Gemini는 원시 PCM(16bit/24kHz)을 base64로 반환하므로 받은 즉시 WAV 헤더를 붙여(`pcm16ToWav`) 기존 캐시·재생 파이프라인을 그대로 씀. 문장별 오디오는 IndexedDB에 캐싱되어 재과금 없음
-- API 키 우선순위: 설정 화면에서 직접 입력한 키(`localStorage`) > 빌드 시 주입된 키(`VITE_GEMINI_API_KEY` 환경변수). [Google AI Studio](https://aistudio.google.com/apikey)에서 발급
-- 저장소가 공개이므로 **키를 소스 코드에 절대 하드코딩하지 않음**. 내장하려면 Vercel 대시보드 → Settings → Environment Variables에 `VITE_GEMINI_API_KEY`를 등록하고 재배포
-- 키가 없거나 요청 실패 시 브라우저 기본 `SpeechSynthesis`로 자동 폴백
-- 현재 UI(`ImportScreen.tsx`의 `TtsSettingsCard`)는 목소리 선택만 노출 — 내장 키가 항상 있다는 전제이므로 API 키 입력/테스트/캐시 관리 UI는 의도적으로 뺐음. 다시 필요해지면 `tts.ts`에 `testNeuralTts`/`ttsCacheStats`/`clearTtsCache`/`getManualTtsApiKey` 함수가 이미 있으니 재사용
+- `src/shared/tts.ts` — 브라우저 내장 `SpeechSynthesis`만 사용. OpenRouter 경유(`openai/gpt-4o-mini-tts`, `openai/gpt-audio` 등)와 Google Gemini API(`gemini-2.5-flash-preview-tts`) 신경망 음성을 둘 다 시도했으나, 계정/설정 문제로 실 기기에서 안정적으로 재생되지 않아 **포기하고 브라우저 기본 음성으로 확정함** (2026-07-16). API 키·오디오 캐싱·비용 없이 항상 동작하는 대신, iOS Safari는 웹에 저품질 기본 음성만 노출하는 한계가 있음(다운로드한 Enhanced/Premium 음성은 웹에서 안 보이는 알려진 제약).
+- 신경망 TTS를 다시 시도하려면: 이 결정에 이르기까지 여러 라운드의 디버깅(모델 슬러그 오류, 계정 권한 문제 등)이 있었으므로, git log에서 "TTS" 관련 커밋들을 먼저 살펴볼 것 — 같은 시행착오를 반복하지 않기 위함.
 
 ## 작업 방식
 

@@ -3,7 +3,6 @@ import { parseReport, ingestReport, downloadBackup, importAll, db } from '../db'
 import type { IngestResult } from '../db'
 import type { ParsedReport } from '../db/parser'
 import { importDrillBank, totalDrillCount } from '../db/drills'
-import { TTS_VOICES, getTtsVoice, setTtsVoice } from '../shared/tts'
 import { styles, colors, radius, type } from '../shared/styles'
 import { CountBadge } from '../shared/CountBadge'
 
@@ -222,8 +221,6 @@ export default function ImportScreen({ onGoReview }: Props) {
       </div>
 
       <DrillBankCard />
-
-      <TtsSettingsCard />
     </>
   )
 }
@@ -300,34 +297,6 @@ function DrillBankCard() {
   )
 }
 
-// ── 발음 목소리 선택 ──
-
-function TtsSettingsCard() {
-  const [voice, setVoice] = useState(() => getTtsVoice())
-
-  function handleVoiceChange(v: string) {
-    setVoice(v)
-    setTtsVoice(v)
-  }
-
-  return (
-    <div style={{ ...styles.card, marginTop: '1rem' }}>
-      <h2 style={styles.sectionTitle}>발음 목소리</h2>
-      <p style={styles.subtitle}>AI 음성이 자동으로 적용됩니다. 원하는 목소리를 선택하세요.</p>
-
-      <select
-        style={localStyles.voiceSelect}
-        value={voice}
-        onChange={e => handleVoiceChange(e.target.value)}
-      >
-        {TTS_VOICES.map(v => (
-          <option key={v.id} value={v.id}>{v.label}</option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
 const localStyles = {
   textarea: {
     width: '100%',
@@ -369,18 +338,6 @@ const localStyles = {
     gap: '0.5rem',
     fontSize: '0.825rem',
     color: '#555',
-  },
-  voiceSelect: {
-    width: '100%',
-    padding: '0.65rem 0.75rem',
-    borderRadius: '0.625rem',
-    border: '1.5px solid var(--border)',
-    fontSize: '0.875rem',
-    fontFamily: 'inherit',
-    boxSizing: 'border-box' as const,
-    outline: 'none',
-    color: 'var(--text)',
-    background: 'var(--surface)',
   },
 } as const
 

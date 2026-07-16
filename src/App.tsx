@@ -4,7 +4,6 @@ import ImportScreen from './screens/ImportScreen'
 import DashboardScreen from './screens/DashboardScreen'
 import ReviewScreen from './screens/ReviewScreen'
 import PracticeScreen from './screens/PracticeScreen'
-import { TtsErrorToast } from './shared/TtsErrorToast'
 import { colors, radius } from './shared/styles'
 
 type Tab = 'home' | 'review' | 'practice' | 'dashboard' | 'import'
@@ -156,8 +155,6 @@ export default function App() {
           />
         ))}
       </nav>
-
-      <TtsErrorToast />
     </div>
   )
 }
